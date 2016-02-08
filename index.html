@@ -38,16 +38,18 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="overpass.js"></script>
+    <script src="osmtogeojson/osmtogeojson.js"></script>
 
     <script type="text/javascript">
         /*jslint node: true */
         "use strict";
 
-       var lon = 4.46905;
-       var lat = 50.97513;
-       var zoom = 17;
+       var lon = 4.46795;
+       var lat = 50.97485;
+       var zoom = 18;
        var map;
        var vector_layer;
+       var overpass_layer;
 
        function init(){
 
@@ -118,7 +120,7 @@
          vector_layer = new OpenLayers.Layer.Vector("GRB", {
             strategies: [new OpenLayers.Strategy.BBOX()],
             protocol: new OpenLayers.Protocol.HTTP({
-                     url: "http://grbtiles.byteless.net/postgis_geojson.php?",
+                   url: "http://grbtiles.byteless.net/postgis_geojson.php?",
                    format: new OpenLayers.Format.GeoJSON({ 
               extractAttributes: true
          })
@@ -221,25 +223,10 @@
       map.addControl(highlightvector);
       highlightvector.activate();
 
-
-
-
-   //console.log(vector_layer);
-
       var lonLat = new OpenLayers.LonLat(lon, lat).transform(geodetic, map.getProjectionObject());
       map.setCenter (lonLat, zoom);
-          //map.addLayer(vector_layer);
-          map.addLayer(vector_layer);
-
-           //var geojson_format = new OpenLayers.Format.GeoJSON();
-           //var vector_layer = new OpenLayers.Layer.Vector(); 
-           //vector_layer.addFeatures(geojson_format.read(featurecollection));
-                            //map.zoomToExtent(map.getDataExtent());
-// 6614203.14614&lon=497414.44032
-   //console.log(map.getProjectionObject());
-   //console.log(map.getProjectionObject());
-      //lonLat = new OpenLayers.LonLat(6614203.14614, 497414.44032).transform(mercator, map.getProjectionObject());
-        }
+      map.addLayer(vector_layer);
+     }
 
 function encodeURIComp (str) {
   return encodeURIComponent(str).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
