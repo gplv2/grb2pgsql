@@ -9,65 +9,60 @@ var streets = []; // list of streets with the addresses divided in several categ
  * Get the data from osm, ret should be an empty array
  */
 function getOsmInfo() {
-	finished[streets.length] = false;
-	var streetsFilter = getStreetsFilter();
-	var tagSet = '[~"^addr:(official_)?housenumber$"~".*"]';
-	if (streetsFilter)
-		tagSet += '["addr:street"~"^' + streetsFilter + '$"]';
-	else
-		tagSet += '["addr:street"]';
-	var pcode = getPcode();
+	 $('#msg').removeClass().addClass("notice warning");
 
-	var pcodeQuery =  '["addr:postcode"="' + pcode + '"]';
-	var noPcodeQuery = '["addr:postcode"!~"."]';
+	var tagSet = '[~"^source:geometry:oidn$"~".*"]';
+	    tagSet += '[~"^building$"~".*"]';
 
 	var query = 
 		'[out:json];'+
-		'area["boundary"="postal_code"]["postal_code"="' + pcode + '"]->.area;'+
+		'[bbox:south,west,north,east];'+
 		'('+
-			'node' + tagSet + noPcodeQuery + '(area.area);'+
-			'way' + tagSet + noPcodeQuery + '(area.area);'+
-			'relation' + tagSet + noPcodeQuery + '(area.area);'+
-			'node' + tagSet + pcodeQuery + '(area.area);'+
-			'way' + tagSet + pcodeQuery + '(area.area);'+
-			'relation' + tagSet + pcodeQuery + '(area.area);'+
+			'node' + tagSet + '(area.area);'+
+			'way' + tagSet + '(area.area);'+
+			'relation' + tagSet + '(area.area);'+
 		');'+
 		'out center;'
 
 	var req = new XMLHttpRequest();
+	var overpasserror = "";
 	req.onreadystatechange = function()
 	{
 		switch(req.readyState) {
 			case 0:
 				// 0: request not initialized 
-					overpasserror.innerHTML = 'Overpass request not initialized';
+					overpasserror = 'Overpass request not initialized';
 					break;
 			case 1:
 				// 1: server connection established
-					overpasserror.innerHTML = 'Overpass server connection established';
+					overpasserror = 'Overpass server connection established';
 					break;
 			case 2:
 				// 2: request received 
-					overpasserror.innerHTML = 'Overpass request received';
+					overpasserror = 'Overpass request received';
 					break;
 			case 3:
 				// 3: processing request 
-					overpasserror.innerHTML = 'Overpass processing request';
+					overpasserror = 'Overpass processing request';
 					break;
 			case 4:
 				// 4: request finished and response is ready
-					overpasserror.innerHTML = 'Overpass request finished and response is ready';
+					overpasserror = 'Overpass request finished and response is ready';
 					break;
 			default:
-					overpasserror.innerHTML = 'Overpass Unknown status';
+					overpasserror = 'Overpass Unknown status';
 				// unknown status
 		}
+		$("#msg").html("Info : "+ overpasserror);
+
 		if (req.readyState != 4)
 			return;
 		if (req.status != 200) {
-	        overpasserror.innerHTML = 'non "HTTP 200 OK" status: ' + req.status ;
+	        	overpasserror = 'non "HTTP 200 OK" status: ' + req.status ;
+			$("#msg").switchClass( "info", "error", 200, "easeInOutQuad" ).html("Error : "+ overpasserror).switchClass( "info", "error", 1000, "easeInOutQuad" );
 			return;
-        }
+        	}
+
 		var data = JSON.parse(req.responseText).elements;
 		for (var i = 0; i < data.length; i++)
 		{
@@ -76,15 +71,13 @@ function getOsmInfo() {
 			addr.lat = d.lat || (d.center && d.center.lat);
 			addr.lon = d.lon || (d.center && d.center.lon);
 
-			addr.housenumber = d.tags["addr:housenumber"];
-			addr.official_housenumber = d.tags["addr:official_housenumber"];
-			addr.street = d.tags["addr:street"];
-			osmInfo.push(addr);
+			// addr.housenumber = d.tags["addr:housenumber"];
+			// addr.official_housenumber = d.tags["addr:official_housenumber"];
+			// addr.street = d.tags["addr:street"];
+			osmInfo.push(d.tabs);
 		}
-		finished[streets.length] = true;
-		//finishLoading();
 	}
-	console.log("Overpass query:\n" + query);
+	// console.log("Overpass query:\n" + query);
 	req.open("GET", overpassapi + encodeURIComponent(query), true);
 	req.send(null);
 }

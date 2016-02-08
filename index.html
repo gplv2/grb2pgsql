@@ -34,7 +34,9 @@
   }
     </style>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/openlayers/2.12/theme/default/style.css" media="all" />
+    <link rel="stylesheet" href="style.css" media="all" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="overpass.js"></script>
 
     <script type="text/javascript">
@@ -87,6 +89,23 @@
                 })
             ]
         });
+
+	var boxcontrol = new OpenLayers.Control();
+	OpenLayers.Util.extend(boxcontrol, {
+    	draw: function () {
+        	// this Handler.Box will intercept the shift-mousedown
+        	// before Control.MouseDefault gets to see it
+        	this.box = new OpenLayers.Handler.Box( boxcontrol,
+            	{"done": this.notice},
+            	{keyMask: OpenLayers.Handler.MOD_SHIFT});
+        	this.box.activate();
+    	},
+    	notice: function (bounds) {
+        	OpenLayers.Console.userError(bounds);
+    	}
+	});
+
+	map.addControl(boxcontrol);
 
          // refresh = new OpenLayers.Strategy.Refresh({force: true, active: true});
 
@@ -284,12 +303,38 @@ function getdetails(attributes) {
             //$('#selgroupid').append(option);
             if ( strcmp ('way', i) !== 0 && item.length != 0 && strcmp ('z_order', i) !== 0 && strcmp ('way_area', i) !== 0) {
                response += "<dt>" + i +"</dt><dd>" + item + "</dd>";
-               console.log(response);
+               //console.log(response);
             }
         });
      response += "</dl>";
      return response;
 }
+
+
+  $(function() {
+    $('#msg').removeClass().addClass("notice info");
+    $("#msg").html("Action: Init buttons");
+
+    $( "#opass" ).button().click(function( event ) {
+    	$('#msg').removeClass().addClass("notice info").html("Action: Loading overpass data");
+	getOsmInfo();
+        event.preventDefault();
+    });
+
+    $( "#clrpopups" ).button().click(function( event ) {
+	 $('#msg').removeClass().addClass("notice info");
+         while( map.popups.length ) {
+            map.removePopup(map.popups[0]);
+         }
+        $("#msg").html("Action: Popups cleared")
+        event.preventDefault();
+      });
+  });
+
+$( document ).ready(function() {
+   $("#msg").html("Action: Ready");
+   // console.log( "ready!" );
+});
 
     </script>
   </head>
@@ -299,6 +344,9 @@ function getdetails(attributes) {
       <p id="shortdesc">
         GRB data vector overlay
     </p>
-    <div id="map" class="smallmap"></div>
+     <button id="opass" >Check Overpass</button>
+     <button id="clrpopups">Clear popups</button>
+     <div id="msg" class="notice info"><p>...</p></div>
+     <div id="map" class="smallmap"></div>
   </body>
 </html>
