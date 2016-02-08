@@ -335,6 +335,12 @@ function getdetails(attributes) {
         $("#msg").html("Action: Popups cleared")
         event.preventDefault();
       });
+
+    $( "#vrfyjosm" ).button().click(function( event ) {
+	$('#msg').removeClass().addClass("notice info");
+	testJosmVersion();
+        event.preventDefault();
+      });
   });
 
 $( document ).ready(function() {
@@ -352,6 +358,7 @@ $( document ).ready(function() {
     </p>
      <button id="opass" >Check Overpass</button>
      <button id="clrpopups">Clear popups</button>
+     <button id="vrfyjosm">Check JOSM version</button>
      <div id="msg" class="notice info"><p>...</p></div>
      <div id="map" class="smallmap"></div>
   </body>

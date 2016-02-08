@@ -2,13 +2,14 @@
 
 var overpassapi = "http://overpass-api.de/api/interpreter?data=";
 
-var osmInfo = []; // list of all addresses returned by overpass
+var osmInfo = [];
 var streets = []; // list of streets with the addresses divided in several categories + extra info
 	
 /**
  * Get the data from osm, ret should be an empty array
  */
 function getOsmInfo() {
+       var osmInfo = []; 
        var webmercator  = new OpenLayers.Projection("EPSG:3857");
        var geodetic     = new OpenLayers.Projection("EPSG:4326");
        var mercator     = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
@@ -73,7 +74,7 @@ function getOsmInfo() {
 			return;
         	}
 
-		console.log(req.responseText);
+		//console.log(req.responseText);
 		var data = JSON.parse(req.responseText).elements;
 		for (var i = 0; i < data.length; i++)
 		{
@@ -127,17 +128,23 @@ function openStreetInJosm(streetNumber)
 }
 
 function testJosmVersion() {
-	var req = new XMLHttpRequest();
-	req.open("GET", "http://localhost:8111/version", true);
-	req.send(null);
-	req.onreadystatechange = function()
-	{
-		if (req.readyState != 4)
-			return;
-		var version = JSON.parse(req.responseText).protocolversion;
-		if (version.minor < 6)
-			alert("Your JOSM installation does not yet support load_data requests. Please update JOSM to version 7643 or newer");
-	}
+	$.ajax({
+		url: "//localhost:8111/version",
+		dataType: "json",
+		timeout: 5000 // 5 second wait
+        }).done(function (data) {
+		//console.log(data);
+		var version = data.protocolversion;
+		if (version.minor < 6) {
+	 		$('#msg').removeClass().addClass("notice error").html("Your JOSM installation does not yet support load_data requests. Please update JOSM to version 7643 or newer");
+		} else {
+	 		$('#msg').removeClass().addClass("notice success").html("JOSM minor version " + version.minor);
+		}
+	}).fail(function (jqXHR, textStatus, errorThrown) {
+	        $('#msg').removeClass().addClass("notice error").html("Fail to get JOSM version using remote control, is it running ?");
+		//console.log(errorThrown);
+         });
+
 }
 
 function escapeXML(str)
