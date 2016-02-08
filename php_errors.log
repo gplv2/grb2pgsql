@@ -1,0 +1,207 @@
+[04-Feb-2016 14:32:19 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 51
+[04-Feb-2016 14:32:19 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 53
+[04-Feb-2016 14:32:19 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 60
+[04-Feb-2016 14:32:19 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 62
+[04-Feb-2016 14:32:19 Europe/Brussels] PHP Warning:  pg_query(): Query failed: ERROR:  function transform(geometry, integer) does not exist
+LINE 1: SELECT *, st_asgeojson(transform(way,900913)) AS geojson FRO...
+                               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts. in /var/www/geo/postgis_geojson.php on line 88
+[04-Feb-2016 14:32:41 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 51
+[04-Feb-2016 14:32:41 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 53
+[04-Feb-2016 14:32:41 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 60
+[04-Feb-2016 14:32:41 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 62
+[04-Feb-2016 14:32:41 Europe/Brussels] PHP Warning:  pg_query(): Query failed: ERROR:  function transform(geometry, integer) does not exist
+LINE 1: SELECT *, st_asgeojson(transform(way,900913)) AS geojson FRO...
+                               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts. in /var/www/geo/postgis_geojson.php on line 88
+[04-Feb-2016 14:43:20 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 14:43:20 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 14:43:20 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 14:43:20 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 63
+[04-Feb-2016 14:43:20 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 72
+[04-Feb-2016 14:43:31 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 14:43:31 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 14:43:31 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 14:43:31 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 63
+[04-Feb-2016 14:43:31 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 72
+[04-Feb-2016 14:43:44 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 14:43:44 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 14:43:44 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 14:43:44 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 63
+[04-Feb-2016 14:43:44 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 72
+[04-Feb-2016 14:43:44 Europe/Brussels] PHP Notice:  Undefined offset: 3 in /var/www/geo/postgis_geojson.php on line 78
+[04-Feb-2016 14:43:44 Europe/Brussels] PHP Notice:  Undefined offset: 2 in /var/www/geo/postgis_geojson.php on line 78
+[04-Feb-2016 14:43:44 Europe/Brussels] PHP Notice:  Undefined offset: 1 in /var/www/geo/postgis_geojson.php on line 78
+[04-Feb-2016 14:43:57 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 14:43:57 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 14:43:57 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 14:43:57 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 64
+[04-Feb-2016 14:43:57 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 73
+[04-Feb-2016 14:43:57 Europe/Brussels] PHP Notice:  Undefined offset: 3 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 14:43:57 Europe/Brussels] PHP Notice:  Undefined offset: 2 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 14:43:57 Europe/Brussels] PHP Notice:  Undefined offset: 1 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:47:35 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 19:47:35 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 19:47:35 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 19:47:35 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 64
+[04-Feb-2016 19:47:35 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 73
+[04-Feb-2016 19:47:35 Europe/Brussels] PHP Notice:  Undefined offset: 3 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:47:35 Europe/Brussels] PHP Notice:  Undefined offset: 2 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:47:35 Europe/Brussels] PHP Notice:  Undefined offset: 1 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:47:54 Europe/Brussels] PHP Fatal error:  Can't use function return value in write context in /var/www/geo/postgis_geojson.php on line 84
+[04-Feb-2016 19:48:03 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 19:48:03 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 19:48:03 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 19:48:03 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 64
+[04-Feb-2016 19:48:03 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 73
+[04-Feb-2016 19:48:03 Europe/Brussels] PHP Notice:  Undefined offset: 3 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:48:03 Europe/Brussels] PHP Notice:  Undefined offset: 2 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:48:03 Europe/Brussels] PHP Notice:  Undefined offset: 1 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:48:03 Europe/Brussels] PHP Warning:  pg_query(): Query failed: ERROR:  syntax error at or near "WHERE"
+LINE 1: ...00913)) AS geojson FROM planet_osm_polygon WHERE  WHERE (box...
+                                                             ^ in /var/www/geo/postgis_geojson.php on line 103
+[04-Feb-2016 19:48:19 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 19:48:19 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 19:48:19 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 19:48:19 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 64
+[04-Feb-2016 19:48:19 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 73
+[04-Feb-2016 19:48:19 Europe/Brussels] PHP Notice:  Undefined offset: 3 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:48:19 Europe/Brussels] PHP Notice:  Undefined offset: 2 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:48:19 Europe/Brussels] PHP Notice:  Undefined offset: 1 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:48:19 Europe/Brussels] PHP Warning:  pg_query(): Query failed: ERROR:  syntax error at or near "AND"
+LINE 1: ...900913)) AS geojson FROM planet_osm_polygon WHERE AND 'way' ...
+                                                             ^ in /var/www/geo/postgis_geojson.php on line 103
+[04-Feb-2016 19:48:32 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 19:48:32 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 19:48:32 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 19:48:32 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 64
+[04-Feb-2016 19:48:32 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 73
+[04-Feb-2016 19:48:32 Europe/Brussels] PHP Notice:  Undefined offset: 3 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:48:32 Europe/Brussels] PHP Notice:  Undefined offset: 2 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:48:32 Europe/Brussels] PHP Notice:  Undefined offset: 1 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:48:32 Europe/Brussels] PHP Warning:  pg_query(): Query failed: ERROR:  operator does not exist: && unknown
+LINE 1: ...00913)) AS geojson FROM planet_osm_polygon WHERE  && 'way' &...
+                                                             ^
+HINT:  No operator matches the given name and argument type(s). You might need to add explicit type casts. in /var/www/geo/postgis_geojson.php on line 103
+[04-Feb-2016 19:48:40 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 19:48:40 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 19:48:40 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 19:48:40 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 64
+[04-Feb-2016 19:48:40 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 73
+[04-Feb-2016 19:48:40 Europe/Brussels] PHP Notice:  Undefined offset: 3 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:48:40 Europe/Brussels] PHP Notice:  Undefined offset: 2 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:48:40 Europe/Brussels] PHP Notice:  Undefined offset: 1 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:48:40 Europe/Brussels] PHP Warning:  pg_query(): Query failed: ERROR:  parse error - invalid geometry
+LINE 1: ...900913)) AS geojson FROM planet_osm_polygon WHERE 'way' && S...
+                                                             ^
+HINT:  "wa" <-- parse error at position 2 within geometry in /var/www/geo/postgis_geojson.php on line 103
+[04-Feb-2016 19:50:48 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 19:50:48 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 19:50:48 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 19:50:48 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 64
+[04-Feb-2016 19:50:48 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 73
+[04-Feb-2016 19:50:48 Europe/Brussels] PHP Notice:  Undefined offset: 3 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:50:48 Europe/Brussels] PHP Notice:  Undefined offset: 2 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:50:48 Europe/Brussels] PHP Notice:  Undefined offset: 1 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:50:48 Europe/Brussels] PHP Warning:  pg_query(): Query failed: ERROR:  syntax error at or near "AND"
+LINE 1: ...00913)) AS geojson FROM planet_osm_polygon WHERE  AND ST_Set...
+                                                             ^ in /var/www/geo/postgis_geojson.php on line 103
+[04-Feb-2016 19:51:12 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 19:51:12 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 19:51:12 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 19:51:12 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 64
+[04-Feb-2016 19:51:12 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 73
+[04-Feb-2016 19:51:12 Europe/Brussels] PHP Notice:  Undefined offset: 3 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:51:12 Europe/Brussels] PHP Notice:  Undefined offset: 2 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:51:12 Europe/Brussels] PHP Notice:  Undefined offset: 1 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:51:12 Europe/Brussels] PHP Warning:  pg_query(): Query failed: ERROR:  syntax error at or near "AND"
+LINE 1: ...m(way,900913)) AS geojson FROM planet_osm_polygon AND ST_Set...
+                                                             ^ in /var/www/geo/postgis_geojson.php on line 103
+[04-Feb-2016 19:51:20 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 19:51:20 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 19:51:20 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 19:51:20 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 64
+[04-Feb-2016 19:51:20 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 73
+[04-Feb-2016 19:51:20 Europe/Brussels] PHP Notice:  Undefined offset: 3 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:51:20 Europe/Brussels] PHP Notice:  Undefined offset: 2 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:51:20 Europe/Brussels] PHP Notice:  Undefined offset: 1 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 19:51:20 Europe/Brussels] PHP Warning:  pg_query(): Query failed: ERROR:  argument of WHERE must be type boolean, not type geometry
+LINE 1: ...900913)) AS geojson FROM planet_osm_polygon WHERE ST_SetSRID...
+                                                             ^ in /var/www/geo/postgis_geojson.php on line 103
+[04-Feb-2016 20:13:47 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 20:13:47 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 20:13:47 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 20:13:47 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 64
+[04-Feb-2016 20:13:47 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 73
+[04-Feb-2016 20:13:47 Europe/Brussels] PHP Notice:  Undefined offset: 3 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 20:13:47 Europe/Brussels] PHP Notice:  Undefined offset: 2 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 20:13:47 Europe/Brussels] PHP Notice:  Undefined offset: 1 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 20:13:47 Europe/Brussels] PHP Warning:  pg_query(): Query failed: ERROR:  parse error - invalid geometry
+LINE 1: ...900913)) AS geojson FROM planet_osm_polygon WHERE 'way' && S...
+                                                             ^
+HINT:  "wa" <-- parse error at position 2 within geometry in /var/www/geo/postgis_geojson.php on line 106
+[04-Feb-2016 20:14:37 Europe/Brussels] PHP Parse error:  syntax error, unexpected 'BOX3D' (T_STRING) in /var/www/geo/postgis_geojson.php on line 91
+[04-Feb-2016 20:14:51 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 20:14:51 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 20:14:51 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 20:14:51 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 64
+[04-Feb-2016 20:14:51 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 73
+[04-Feb-2016 20:14:51 Europe/Brussels] PHP Notice:  Undefined offset: 3 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 20:14:51 Europe/Brussels] PHP Notice:  Undefined offset: 2 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 20:14:51 Europe/Brussels] PHP Notice:  Undefined offset: 1 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 20:15:11 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 20:15:11 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 20:15:11 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 20:15:11 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 64
+[04-Feb-2016 20:15:11 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 73
+[04-Feb-2016 20:15:11 Europe/Brussels] PHP Notice:  Undefined offset: 3 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 20:15:11 Europe/Brussels] PHP Notice:  Undefined offset: 2 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 20:15:11 Europe/Brussels] PHP Notice:  Undefined offset: 1 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 21:06:24 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 21:06:24 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 21:06:24 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 21:06:24 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 64
+[04-Feb-2016 21:06:24 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 73
+[04-Feb-2016 21:06:24 Europe/Brussels] PHP Notice:  Undefined offset: 3 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 21:06:24 Europe/Brussels] PHP Notice:  Undefined offset: 2 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 21:06:24 Europe/Brussels] PHP Notice:  Undefined offset: 1 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 21:07:07 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 21:07:07 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 21:07:07 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 21:07:07 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 64
+[04-Feb-2016 21:07:07 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 73
+[04-Feb-2016 21:07:07 Europe/Brussels] PHP Notice:  Undefined offset: 3 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 21:07:07 Europe/Brussels] PHP Notice:  Undefined offset: 2 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 21:07:07 Europe/Brussels] PHP Notice:  Undefined offset: 1 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 21:07:25 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 21:07:25 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 21:07:25 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 21:07:25 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 64
+[04-Feb-2016 21:07:25 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 73
+[04-Feb-2016 21:07:25 Europe/Brussels] PHP Notice:  Undefined offset: 3 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 21:07:25 Europe/Brussels] PHP Notice:  Undefined offset: 2 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 21:07:25 Europe/Brussels] PHP Notice:  Undefined offset: 1 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 21:20:38 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 21:20:38 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 21:20:38 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 21:20:38 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 64
+[04-Feb-2016 21:20:38 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 73
+[04-Feb-2016 21:20:38 Europe/Brussels] PHP Notice:  Undefined offset: 3 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 21:20:38 Europe/Brussels] PHP Notice:  Undefined offset: 2 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 21:20:38 Europe/Brussels] PHP Notice:  Undefined offset: 1 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 21:21:00 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 21:21:00 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 21:21:00 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 21:21:00 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 64
+[04-Feb-2016 21:21:00 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 73
+[04-Feb-2016 21:21:00 Europe/Brussels] PHP Notice:  Undefined offset: 3 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 21:21:00 Europe/Brussels] PHP Notice:  Undefined offset: 2 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 21:21:00 Europe/Brussels] PHP Notice:  Undefined offset: 1 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 23:29:31 Europe/Brussels] PHP Notice:  Undefined index: parameters in /var/www/geo/postgis_geojson.php on line 52
+[04-Feb-2016 23:29:31 Europe/Brussels] PHP Notice:  Undefined index: orderby in /var/www/geo/postgis_geojson.php on line 54
+[04-Feb-2016 23:29:31 Europe/Brussels] PHP Notice:  Undefined index: limit in /var/www/geo/postgis_geojson.php on line 61
+[04-Feb-2016 23:29:31 Europe/Brussels] PHP Notice:  Undefined index: offset in /var/www/geo/postgis_geojson.php on line 64
+[04-Feb-2016 23:29:31 Europe/Brussels] PHP Notice:  Undefined index: bbox in /var/www/geo/postgis_geojson.php on line 73
+[04-Feb-2016 23:29:31 Europe/Brussels] PHP Notice:  Undefined offset: 3 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 23:29:31 Europe/Brussels] PHP Notice:  Undefined offset: 2 in /var/www/geo/postgis_geojson.php on line 79
+[04-Feb-2016 23:29:31 Europe/Brussels] PHP Notice:  Undefined offset: 1 in /var/www/geo/postgis_geojson.php on line 79
