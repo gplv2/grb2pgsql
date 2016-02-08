@@ -9,20 +9,30 @@ var streets = []; // list of streets with the addresses divided in several categ
  * Get the data from osm, ret should be an empty array
  */
 function getOsmInfo() {
-	 $('#msg').removeClass().addClass("notice warning");
+       var webmercator  = new OpenLayers.Projection("EPSG:3857");
+       var geodetic     = new OpenLayers.Projection("EPSG:4326");
+       var mercator     = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 
-	var tagSet = '[~"^source:geometry:oidn$"~".*"]';
-	    tagSet += '[~"^building$"~".*"]';
+	 $('#msg').removeClass().addClass("notice info");
 
-	var query = 
-		'[out:json];'+
-		'[bbox:south,west,north,east];'+
-		'('+
-			'node' + tagSet + '(area.area);'+
-			'way' + tagSet + '(area.area);'+
-			'relation' + tagSet + '(area.area);'+
-		');'+
-		'out center;'
+        var bounds = map.getExtent();
+	bounds.transform(map.getProjectionObject(), geodetic);
+	//bounds.toBBOX(); 
+        console.log(bounds.toBBOX());
+
+	var query = "<osm-script output=\"json\" timeout=\"250\">" +
+                    "  <union>" +
+                    "    <query type=\"way\">" +
+                    "      <has-kv k=\"source:geometry:oidn\"/>" +
+                    "      <bbox-query e=\"" + bounds.right + "\" n=\"" + bounds.top + "\" s=\"" + bounds.bottom + "\" w=\"" + bounds.left + "\"/>" +
+                    "    </query>" +
+                    "  </union>" +
+                    "  <union>" +
+                    "    <item/>" +
+                    "    <recurse type=\"down\"/>" +
+                    "  </union>" +
+                    "  <print mode=\"meta\"/>" +
+                    "</osm-script>";
 
 	var req = new XMLHttpRequest();
 	var overpasserror = "";
@@ -63,6 +73,7 @@ function getOsmInfo() {
 			return;
         	}
 
+		console.log(req.responseText);
 		var data = JSON.parse(req.responseText).elements;
 		for (var i = 0; i < data.length; i++)
 		{
@@ -77,7 +88,7 @@ function getOsmInfo() {
 			osmInfo.push(d.tabs);
 		}
 	}
-	// console.log("Overpass query:\n" + query);
+	console.log("Overpass query:\n" + query);
 	req.open("GET", overpassapi + encodeURIComponent(query), true);
 	req.send(null);
 }
