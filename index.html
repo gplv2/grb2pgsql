@@ -157,12 +157,11 @@
        highlightvector.activate();
        selectCtrl.activate();
 
-      /*
+      // Make sure the popup close box works even when not selected
       vector_layer.events.on({
          "featureselected": onFeatureSelect,
          "featureunselected": onFeatureUnselect
       });
-      */
 
       /* popup handling functions */
       function onPopupClose(evt) {
