@@ -20,31 +20,13 @@
  */
 ini_set('zlib.output_compression', 1);
 
+// http://jibbering.com/blog/?p=514
+
+header('Content-Type: application/json');
+
 //@mb_internal_encoding('UTF-8');
 //setlocale(LC_ALL, 'en_US.UTF-8');
 
-$redis = new Redis();
-$redis->connect('127.0.0.1'); // port 6379 by default
-
-// $redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);  // use built-in serialize/unserialize
-$redis->setOption(Redis::OPT_PREFIX, 'grb:');   // use custom prefix on all keys
-
-$cachekey=md5(json_encode($_REQUEST)); // easy serialize of REQUEST params
-
-if (count($_REQUEST)) {
-   if($redis->exists($cachekey)) {
-      header("X-Redis-Cached: true");
-      $result = $redis->get($cachekey);
-      $uncompressed = @gzuncompress($result);
-      if ($uncompressed !== false) {
-         echo $uncompressed;
-         exit;
-      } else {
-         echo $result;
-         exit;
-      }
-   }
-}
 
 function escapeJsonString($value) { # list from www.json.org: (\b backspace, \f formfeed)
   $escapers = array("\\", "/", "\"", "\n", "\r", "\t", "\x08", "\x0c");
@@ -92,13 +74,6 @@ if (!empty($_REQUEST['offset'])) {
    $offset     = $_REQUEST['offset'];
 }
 
-# Connect to PostgreSQL database
-$conn = pg_connect("dbname='grb' user='grb-data' password='snowball11..' host='localhost'");
-if (!$conn) {
-    echo "Not connected : " . pg_error();
-    exit;
-}
-
 if (!empty($_REQUEST['bbox'])) {
    $bbox = $_REQUEST['bbox'];
    list($bbox_west, $bbox_south, $bbox_east, $bbox_north) = split(",", $bbox);
@@ -106,7 +81,7 @@ if (!empty($_REQUEST['bbox'])) {
 
 # Build SQL SELECT statement and return the geometry as a GeoJSON element in EPSG: 4326
 $sql  = "SELECT " . pg_escape_string($fields) . ", st_asgeojson(ST_Transform(" . pg_escape_string($geomfield) . ",$srid)) AS geojson FROM " . pg_escape_string($geotable);
-$sql .= sprintf(" WHERE \"way\" && ST_SetSRID('BOX3D(%s %s, %s %s)'::box3d, %s)", $bbox_west, $bbox_south, $bbox_east, $bbox_north, $srid);
+$sql .= sprintf(" WHERE " . pg_escape_string("way") . " && ST_SetSRID('BOX3D(%s %s, %s %s)'::box3d, %s)", $bbox_west, $bbox_south, $bbox_east, $bbox_north, $srid);
 
 //if (strlen(trim($parameters)) == 0) {
 //$sql .= " WHERE " . pg_escape_string($parameters); }
@@ -121,16 +96,53 @@ if (!empty($offset)){
     $sql .= " OFFSET " . pg_escape_string($offset);
 }
 
+$redis = new Redis();
+$redis->connect('127.0.0.1'); // port 6379 by default
+
+// Sometimes a layer doesn't refresh in openlayers, I noticed that the only difference is that the difference between a good
+// and a bad request is the header 'Vary: Accept-Encoding'
+// http://stackoverflow.com/questions/14540490/is-vary-accept-encoding-overkill
+// http://stackoverflow.com/questions/7848796/what-does-varyaccept-encoding-mean
+
+// $redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);  // use built-in serialize/unserialize
+
+$redis->setOption(Redis::OPT_PREFIX, 'grb:');   // use custom prefix on all keys
+
+$cachekey=md5($sql);
+
+if($redis->exists($cachekey)) {
+   header("X-Redis-Cached: true");
+   $result = $redis->get($cachekey);
+   $uncompressed = @gzuncompress($result);
+   if ($uncompressed !== false) {
+      echo $uncompressed;
+   } else {
+      echo $result;
+   }
+   exit;
+}
+
+# Connect to PostgreSQL database
+$conn = pg_pconnect("dbname='grb' user='grb-data' password='snowball11..' host='localhost'");
+if (!$conn) {
+    echo json_encode(pg_last_error());
+    //echo "Not connected : " . pg_error();
+    exit;
+}
+
 # Try query or error
 $rs = pg_query($conn, $sql);
 if (!$rs) {
-    echo "An SQL error occured.\n";
+    echo json_encode(pg_last_error());
+    // echo json_encode($sql); exit;
     exit;
 }
 
 # Build GeoJSON
 $output    = '';
 $rowOutput = '';
+
+$rec_count = pg_num_rows ( $rs );
 
 while ($row = pg_fetch_assoc($rs)) {
     $rowOutput = (strlen($rowOutput) > 0 ? ',' : '') . '{"type": "Feature", "geometry": ' . $row['geojson'] . ', "properties": {';
@@ -151,12 +163,10 @@ while ($row = pg_fetch_assoc($rs)) {
     $output .= $rowOutput;
 }
 
-$length=strlen($output);
 
 $output = '{ "type": "FeatureCollection", "features": [ ' . $output . ' ]}';
-$compressed = gzcompress($output, 9);
-
-if ($length) {
+if ($rec_count) {
+   $compressed = gzcompress($output, 9);
    $redis->set($cachekey, $compressed);
 }
 echo $output;

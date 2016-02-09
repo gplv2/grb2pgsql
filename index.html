@@ -80,6 +80,8 @@
             ],
             units: 'm',
             allOverlays: false,
+            //fractionalZoom: true,
+            numZoomLevels: 20,
 /*
             eventListeners: {
                "featuresadded": function() {
@@ -94,40 +96,43 @@
         });
 
         // Easily get bbox string (screen relative)
-	var boxcontrol = new OpenLayers.Control();
-	OpenLayers.Util.extend(boxcontrol, {
-    	   draw: function () {
-        	// this Handler.Box will intercept the shift-mousedown
-        	// before Control.MouseDefault gets to see it
-        	this.box = new OpenLayers.Handler.Box( boxcontrol,
-            	   {"done": this.notice},
-            	   {keyMask: OpenLayers.Handler.MOD_SHIFT}
+   var boxcontrol = new OpenLayers.Control();
+   OpenLayers.Util.extend(boxcontrol, {
+         draw: function () {
+         // this Handler.Box will intercept the shift-mousedown
+         // before Control.MouseDefault gets to see it
+         this.box = new OpenLayers.Handler.Box( boxcontrol,
+                  {"done": this.notice},
+                  {keyMask: OpenLayers.Handler.MOD_SHIFT}
                 );
-        	this.box.activate();
-    	   },
-    	   notice: function (bounds) {
-        	// OpenLayers.Console.userError(bounds);
-		// bounds.transform(map.getProjectionObject(), new OpenLayers.Projection(mercator));
-		console.log(bounds);
-    		$('#msg').removeClass().addClass("notice info").html("Bounding box: " + bounds.toBBOX() );
-    	   }
-	});
+         this.box.activate();
+         },
+         notice: function (bounds) {
+         // OpenLayers.Console.userError(bounds);
+      // bounds.transform(map.getProjectionObject(), new OpenLayers.Projection(mercator));
+      console.log(bounds);
+         $('#msg').removeClass().addClass("notice info").html("Bounding box: " + bounds.toBBOX() );
+         }
+   });
 
-	map.addControl(boxcontrol);
+   map.addControl(boxcontrol);
 
-         // refresh = new OpenLayers.Strategy.Refresh({force: true, active: true});
+         var refresh = new OpenLayers.Strategy.Refresh({force: true, active: true});
 
          vector_layer = new OpenLayers.Layer.Vector("GRB", {
-            strategies: [new OpenLayers.Strategy.BBOX()],
+            strategies: [new OpenLayers.Strategy.BBOX({ratio:2, resFactor: 3}), refresh], 
+            //maxResolution: map.getResolutionForZoom(15),
+            //zoomOffset: 9, resolutions: [152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
+            //zoomOffset: 10, resolutions: [76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
             protocol: new OpenLayers.Protocol.HTTP({
                    url: "http://grbtiles.byteless.net/postgis_geojson.php?",
                    format: new OpenLayers.Format.GeoJSON({ 
-              extractAttributes: true
-         })
-                }),
-         projection: mercator,
-                //displayProjection: mercator
-         isBaseLayer: false
+                     extractAttributes: true
+                })
+            }),
+            projection: mercator,
+            //displayProjection: mercator
+            isBaseLayer: false
          });
 
       var selectCtrl = new OpenLayers.Control.SelectFeature(vector_layer,
@@ -310,12 +315,12 @@ function getdetails(attributes) {
 
     $( "#opass" ).button().click(function( event ) {
     $('#msg').removeClass().addClass("notice info").html("Action: Loading overpass data");
-	getOsmInfo();
+   getOsmInfo();
         event.preventDefault();
     });
 
     $( "#clrpopups" ).button().click(function( event ) {
-	 $('#msg').removeClass().addClass("notice info");
+    $('#msg').removeClass().addClass("notice info");
          while( map.popups.length ) {
             map.removePopup(map.popups[0]);
          }
@@ -324,9 +329,15 @@ function getdetails(attributes) {
       });
 
     $( "#vrfyjosm" ).button().click(function( event ) {
-	$('#msg').removeClass().addClass("notice info");
-	testJosmVersion();
+         $('#msg').removeClass().addClass("notice info");
+         testJosmVersion();
         event.preventDefault();
+      });
+    $( "#refreshgrb" ).button().click(function( event ) {
+         $('#msg').removeClass().addClass("notice info");
+         vector_layer.setVisibility(true);
+         vector_layer.refresh();
+         event.preventDefault();
       });
   });
 
@@ -343,9 +354,10 @@ $( document ).ready(function() {
       <p id="shortdesc">
         GRB data vector overlay
     </p>
-     <button id="opass" >Check Overpass</button>
+     <button id="opass" >Load Overpass layer</button>
      <button id="clrpopups">Clear popups</button>
      <button id="vrfyjosm">Check JOSM version</button>
+     <button id="refreshgrb">Refresh GRB layer</button>
      <div id="msg" class="notice info"><p>...</p></div>
      <div id="map" class="smallmap"></div>
   </body>
