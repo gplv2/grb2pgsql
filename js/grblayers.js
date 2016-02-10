@@ -27,12 +27,12 @@ function initmap() {
 
     });
 
+/*
     $( document ).ready(function() {
        $("#msg").html("Action: Ready");
        // console.log( "ready!" );
     });
-
-
+*/
        map = new OpenLayers.Map({
             div: "map",
        // projection: mercator,
@@ -69,11 +69,12 @@ function initmap() {
                 })
                 ]
         });
+        $('body').css('cursor', 'default');
 
- // Make Belgium WMSlayers
+       // Make Belgium WMSlayers
        // http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?request=getcapabilities&service=wms
 
-      var refresh = new OpenLayers.Strategy.Refresh({force: true, active: true});
+        var refresh = new OpenLayers.Strategy.Refresh({force: true, active: true});
    
          // strategies: [new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
 
@@ -400,36 +401,45 @@ function getOsmInfo() {
    req.send(null);
 }
 
+$( document ).ready(function() {
+    $("#msg").html("Action: DocReady");
+    console.log( "docready!" );
 
-$(function() {
-    $('#msg').removeClass().addClass("notice info");
-    $("#msg").html("Action: Init buttons");
+    $(function() {
+        $('#msg').removeClass().addClass("notice info");
+        $("#msg").html("Action: Init buttons");
 
-    $( "#opass" ).button().click(function( event ) {
-    $('#msg').removeClass().addClass("notice info").html("Action: Loading overpass data");
-   getOsmInfo();
-        event.preventDefault();
+        $( "#opass" ).button().click(function( event ) {
+            $('#msg').removeClass().addClass("notice info").html("Action: Loading overpass data");
+            $('body').css('cursor', 'wait');
+            getOsmInfo();
+            $('body').css('cursor', 'default');
+            event.preventDefault();
+            return false; 
+        });
+
+        $( "#clrpopups" ).button().click(function( event ) {
+            $('#msg').removeClass().addClass("notice info");
+            while( map.popups.length ) {
+                map.removePopup(map.popups[0]);
+            }
+            $("#msg").html("Action: Popups cleared");
+            event.preventDefault();
+            return false; 
+        });
+
+        $( "#vrfyjosm" ).button().click(function( event ) {
+            $('#msg').removeClass().addClass("notice info");
+            testJosmVersion();
+            event.preventDefault();
+            return false; 
+        });
+        $( "#refreshgrb" ).button().click(function( event ) {
+            $('#msg').removeClass().addClass("notice info");
+            vector_layer.setVisibility(true);
+            vector_layer.refresh();
+            event.preventDefault();
+            return false; 
+        });
     });
-
-    $( "#clrpopups" ).button().click(function( event ) {
-    $('#msg').removeClass().addClass("notice info");
-         while( map.popups.length ) {
-            map.removePopup(map.popups[0]);
-         }
-        $("#msg").html("Action: Popups cleared");
-        event.preventDefault();
-      });
-
-    $( "#vrfyjosm" ).button().click(function( event ) {
-         $('#msg').removeClass().addClass("notice info");
-         testJosmVersion();
-        event.preventDefault();
-      });
-    $( "#refreshgrb" ).button().click(function( event ) {
-         $('#msg').removeClass().addClass("notice info");
-         vector_layer.setVisibility(true);
-         vector_layer.refresh();
-         event.preventDefault();
-      });
 });
-
