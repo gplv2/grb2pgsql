@@ -84,15 +84,27 @@ function init() {
             isBaseLayer: false
          });
 
-      var BEGRB = new OpenLayers.Layer.WMS("BE GRB basiskaart",
-         "http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB-basiskaart/wmsgr?",
-         {'layers': 'GRB_BASISKAART', transparent: false, format: 'image/png'},
-         {isBaseLayer: true, visibility: true}
-         
-         );
-         map.addLayer(BEGRB);
+    var grb_wms = new OpenLayers.Layer.WMS(
+        "BE GRB basiskaart",
+        "http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB-basiskaart/wmsgr?",
+        {
+            LAYERS: 'GRB_BASISKAART',
+            //layers: "Ortho"
+            transparent: "false",
+            format: "image/png"
+        },
+        {
+            strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
+            tiled: true,
+            isBaseLayer: true,
+            projection: mercator,
+            visibility: true
+        }
+    );
 
-        // Easily get bbox string (screen relative)
+    map.addLayer(grb_wms);
+
+   // Easily get bbox string (screen relative)
    var boxcontrol = new OpenLayers.Control();
    OpenLayers.Util.extend(boxcontrol, {
          draw: function () {
