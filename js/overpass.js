@@ -9,8 +9,11 @@ var streets = []; // list of streets with the addresses divided in several categ
 function openInJosm(layerName)
 {
    var url =  "http://localhost:8111/load_data?new_layer=true&layer_name="+layerName+"&data=";
-   var xml =  osm_geojson.geojson2osm(osmInfo)
-   console.log(xml);
+   var geoJSON = new OpenLayers.Format.GeoJSON();
+   var mylayers = map.getLayersByName('GRB - Vector Source');
+   var json = geoJSON.write( mylayers[0].features );
+   var xml =  osm_geojson.geojson2osm(json);
+   //console.log(xml);
 
    var req = new XMLHttpRequest();
    req.onreadystatechange = function()

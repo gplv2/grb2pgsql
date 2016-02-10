@@ -670,6 +670,7 @@ $( document ).ready(function() {
             $('#msg').removeClass().addClass("notice info");
             vector_layer.setVisibility(true);
             vector_layer.refresh();
+            vector_layer.reload();
             event.preventDefault();
             return false; 
         });
