@@ -67,6 +67,7 @@ function escapeXML(str)
 }
 
 function addOverpassLayer() {
+    var geodetic     = new OpenLayers.Projection("EPSG:4326");
    // map.removeLayer('OverPass').
    overpass_layer.destroyFeatures();
    var geojson_format = new OpenLayers.Format.GeoJSON({

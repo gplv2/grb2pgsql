@@ -27,7 +27,7 @@ function initmap() {
 
     });
 
-     $("#msg").append("start init()");
+     $("#msg").append("\t,start init()");
        var layerswitcher = new OpenLayers.Control.LayerSwitcher();
 
        map = new OpenLayers.Map({
@@ -101,7 +101,7 @@ function initmap() {
                 LAYERS: 'GRB_BASISKAART',
                 //layers: "Ortho"
                 transparent: "false",
-                format: "image/png"
+                //format: "image/png"
             },
             {
                 strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
@@ -458,6 +458,7 @@ function initmap() {
  * Get the data from osm, ret should be an empty array
  */
 function getOsmInfo() {
+    var geodetic     = new OpenLayers.Projection("EPSG:4326");
     $('#msg').removeClass().addClass("notice info");
 
    var bounds = map.getExtent();
@@ -599,7 +600,7 @@ $( document ).ready(function() {
     });
       $("#msg").html("Action: docReadydone");
       console.log( "docreadydone!" );
-};
+});
 
 jQuery.fn.encHTML = function () {
 return this.each(function(){
