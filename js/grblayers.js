@@ -8,6 +8,9 @@ var map;
 var vector_layer;
 var overpass_layer;
 var agiv_layer;
+var osmInfo;
+
+var overpassapi = "http://overpass-api.de/api/interpreter?data=";
 
 function init() {
     var webmercator  = new OpenLayers.Projection("EPSG:3857");
@@ -293,6 +296,98 @@ function getdetails(attributes) {
         });
      response += "</dl>";
      return response;
+}
+   
+/**
+ * Get the data from osm, ret should be an empty array
+ */
+function getOsmInfo() {
+
+    var webmercator  = new OpenLayers.Projection("EPSG:3857");
+    var geodetic     = new OpenLayers.Projection("EPSG:4326");
+    var mercator     = new OpenLayers.Projection("EPSG:900913"); 
+
+    $('#msg').removeClass().addClass("notice info");
+
+   var bounds = map.getExtent();
+   bounds.transform(map.getProjectionObject(), geodetic);
+   //bounds.toBBOX(); 
+        console.log(bounds.toBBOX());
+
+   var query = "<osm-script output=\"json\" timeout=\"250\">" +
+                    "  <union>" +
+                    "    <query type=\"way\">" +
+                    "      <has-kv k=\"source:geometry:oidn\"/>" +
+                    "      <bbox-query e=\"" + bounds.right + "\" n=\"" + bounds.top + "\" s=\"" + bounds.bottom + "\" w=\"" + bounds.left + "\"/>" +
+                    "    </query>" +
+                    "  </union>" +
+                    "  <union>" +
+                    "    <item/>" +
+                    "    <recurse type=\"down\"/>" +
+                    "  </union>" +
+                    "  <print mode=\"meta\"/>" +
+                    "</osm-script>";
+
+   var req = new XMLHttpRequest();
+   var overpasserror = "";
+   req.onreadystatechange = function()
+   {
+      switch(req.readyState) {
+         case 0:
+            // 0: request not initialized 
+               overpasserror = 'Overpass request not initialized';
+               break;
+         case 1:
+            // 1: server connection established
+               overpasserror = 'Overpass server connection established';
+               break;
+         case 2:
+            // 2: request received 
+               overpasserror = 'Overpass request received';
+               break;
+         case 3:
+            // 3: processing request 
+               overpasserror = 'Overpass processing request';
+               break;
+         case 4:
+            // 4: request finished and response is ready
+               overpasserror = 'Overpass request finished and response is ready';
+               break;
+         default:
+               overpasserror = 'Overpass Unknown status';
+            // unknown status
+      }
+      $("#msg").html("Info : "+ overpasserror).removeClass().addClass("notice info");
+
+      if (req.readyState != 4)
+         return;
+      if (req.status != 200) {
+            overpasserror = 'non "HTTP 200 OK" status: ' + req.status ;
+            $("#msg").switchClass( "info", "error", 200, "easeInOutQuad" ).html("Error : "+ overpasserror).switchClass( "info", "error", 1000, "easeInOutQuad" );
+         return;
+      }
+
+      var data ="";
+
+      try {
+         $("#msg").html("Info : " + "Parsing JSON").removeClass().addClass("notice info");
+         data = JSON.parse(req.responseText);
+         //osmInfo = req.responseText;
+      } catch(e) {
+         $('#msg').removeClass().addClass("notice error").html("Problem parsing Overpass JSON data" + e);
+         return false;
+      }
+      $("#msg").html("Info : " + "Parsing OK").removeClass().addClass("notice success");
+      //$("#msg").html("Info : " + "Parsing JSON").removeClass().addClass("notice info");
+      osmInfo=osmtogeojson(data);
+      console.log(osmInfo);
+      // console.log(test);
+      $("#msg").html("Info : " + "Adding GEOJSON to map").removeClass().addClass("notice info");
+      addOverpassLayer();
+   };
+   //console.log("Overpass query:\n" + query);
+   req.open("GET", overpassapi + encodeURIComponent(query), true);
+   req.send(null);
 }
 
 
