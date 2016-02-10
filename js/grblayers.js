@@ -12,10 +12,11 @@ var osmInfo;
 
 var overpassapi = "http://overpass-api.de/api/interpreter?data=";
 
+var webmercator  = new OpenLayers.Projection("EPSG:3857");
+var geodetic     = new OpenLayers.Projection("EPSG:4326");
+var mercator     = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+
 function init() {
-    var webmercator  = new OpenLayers.Projection("EPSG:3857");
-    var geodetic     = new OpenLayers.Projection("EPSG:4326");
-    var mercator     = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 
     $( document ).ready(function() {
        $("#msg").html("Action: Ready");
@@ -225,6 +226,187 @@ function init() {
       var lonLat = new OpenLayers.LonLat(lon, lat).transform(geodetic, map.getProjectionObject());
       map.setCenter (lonLat, zoom);
       map.addLayer(vector_layer);
+
+	  /* prepare overpass  layer 
+      var layers = map.getLayersByName('OverPass');
+      for(var layerIndex = 0; layerIndex < layers.length; layerIndex++)
+         {
+         map.removeLayer(layers[layerIndex]);
+      }
+     // map.removeLayer('OverPass').
+     // overpass_layer.destroyFeatures();
+    */
+
+      /* Overpass style */
+      var overpass_styled = new OpenLayers.Style({
+        fillColor: "red",
+        fillOpacity: 0.6,
+        fontColor: "#000000",
+        fontWeight: "light",
+        pointRadius: 8,
+        fontSize: "11px",
+        strokeColor: "#ff9963",
+        strokeWidth: 3,
+        //externalGraphic: "${image_url}",
+        // externalGraphic: "images/entrs.png",
+        //externalGraphic: "http://www2.synctrace.com/images/entrs.png",
+        pointerEvents: "all",
+        //graphicName: 'star',
+        labelOutlineColor: "white",
+        labelOutlineWidth: 8,
+        labelAlign: "cm",
+        cursor: "pointer",
+        fontFamily: "sans-serif"
+        //fontFamily: "Courier New, monospace"
+     });
+
+     /* Overpass select hover style */
+     var overpass_temp_styled = new OpenLayers.Style({
+      fillColor: "red",
+      fontColor: "#000000",
+      fontWeight: "normal",
+      pointRadius: 8,
+      fontSize: "11px",
+      strokeColor: "#ff9933",
+      strokeWidth: 2,
+      // externalGraphic: null,
+      pointerEvents: "all",
+      fillOpacity: 0.3,
+      //label : "${getNumber}",
+      labelOutlineColor: "white",
+      labelAlign: "rb",
+      labelOutlineWidth: 8,
+      cursor: "pointer",
+      fontFamily: "sans-serif"
+      //fontFamily: "Courier New, monospace"
+       } 
+    /*
+    , {
+        context: {
+          getLabel: function(feature) {
+            return feature.properties.tags.source;
+          },
+          getNumber: function(feature) {
+            return feature.properties.tags.building;
+          }
+        }
+      }
+    */
+    );
+
+   var overpass_style = new OpenLayers.StyleMap({
+      'default' : overpass_styled,
+      'temporary' : overpass_temp_styled
+   });
+
+     /* Style the halte layer acc to res */
+   overpass_style.styles['default'].addRules([
+      new OpenLayers.Rule({
+         maxScaleDenominator: 60000000,
+         minScaleDenominator: 215000,
+         symbolizer: {
+            fillColor: "red",
+            fillOpacity: 0.6,
+            fontColor: "#000000",
+            fontWeight: "light",
+            pointRadius: 2,
+            fontSize: "11px",
+            strokeColor: "#ff9963",
+            strokeWidth: 1,
+            pointerEvents: "all",
+            labelOutlineColor: "white",
+            labelOutlineWidth: 8,
+            labelAlign: "cm",
+            cursor: "pointer",
+            fontFamily: "sans-serif"
+            }
+         }),
+      new OpenLayers.Rule({
+         maxScaleDenominator: 215000,
+         minScaleDenominator: 27000,
+         symbolizer: {
+            fillColor: "red",
+            fillOpacity: 0.6,
+            fontColor: "#000000",
+            fontWeight: "light",
+            pointRadius: 4,
+            fontSize: "11px",
+            strokeColor: "#ff9963",
+            strokeWidth: 2,
+            pointerEvents: "all",
+            labelOutlineColor: "white",
+            labelOutlineWidth: 8,
+            labelAlign: "cm",
+            cursor: "pointer",
+            fontFamily: "sans-serif"
+
+            }
+         }),
+      new OpenLayers.Rule({
+         maxScaleDenominator: 27000,
+         minScaleDenominator: 3384,
+         symbolizer: {
+            fillColor: "red",
+            fillOpacity: 0.6,
+            fontColor: "#000000",
+            fontWeight: "light",
+            pointRadius: 10,
+            fontSize: "11px",
+            strokeColor: "#ff9963",
+            strokeWidth: 3,
+            pointerEvents: "all",
+            labelOutlineColor: "white",
+            labelOutlineWidth: 8,
+            labelAlign: "cm",
+            cursor: "pointer",
+            fontFamily: "sans-serif"
+
+            }
+         }),
+      new OpenLayers.Rule({
+         maxScaleDenominator: 3384,
+         minScaleDenominator: 1,
+         symbolizer: {
+            fillColor: "red",
+            fillOpacity: 0.6,
+            fontColor: "#000000",
+            fontWeight: "light",
+            pointRadius: 10,
+            fontSize: "11px",
+            strokeColor: "#ff9963",
+            strokeWidth: 3,
+            //label : "${source}",
+            labelAlign: "cm",
+            //labelAlign: "cm",
+            pointerEvents: "all",
+            labelOutlineColor: "white",
+            labelOutlineWidth: 8,
+            cursor: "pointer",
+            fontFamily: "sans-serif"
+            }
+         })
+      ]);
+
+   var geojson_format = new OpenLayers.Format.GeoJSON({
+         internalProjection: map.getProjectionObject(),
+         externalProjection: geodetic
+   });
+
+   overpass_layer = new OpenLayers.Layer.Vector("OverPass", {
+         styleMap: overpass_style,
+         maxResolution: map.getResolutionForZoom(15),
+         //minScale: 54168.1,
+         strategies: [new OpenLayers.Strategy.Fixed()],
+         //zoomOffset: 9, resolutions: [152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
+         zoomOffset: 10, resolutions: [76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
+         format: geojson_format,
+         isBaseLayer: false,
+         visibility: false,
+         extractStyles: true,
+         extractAttributes: true
+   }); 
+
+   map.addLayer(overpass_layer);
 }
 
 jQuery.fn.encHTML = function () {
@@ -302,11 +484,6 @@ function getdetails(attributes) {
  * Get the data from osm, ret should be an empty array
  */
 function getOsmInfo() {
-
-    var webmercator  = new OpenLayers.Projection("EPSG:3857");
-    var geodetic     = new OpenLayers.Projection("EPSG:4326");
-    var mercator     = new OpenLayers.Projection("EPSG:900913"); 
-
     $('#msg').removeClass().addClass("notice info");
 
    var bounds = map.getExtent();
