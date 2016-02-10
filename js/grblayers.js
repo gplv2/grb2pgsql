@@ -1,28 +1,12 @@
 /*jslint node: true, maxerr: 50, indent: 4 */
 "use strict";
 
-var lon = 4.46795;
-var lat = 50.97485;
-var zoom = 18;
-var map;
-var vector_layer;
-var overpass_layer;
-var agiv_layer;
-var osmInfo;
-
-var overpassapi = "http://overpass-api.de/api/interpreter?data=";
-
-var webmercator  = new OpenLayers.Projection("EPSG:3857");
-var geodetic     = new OpenLayers.Projection("EPSG:4326");
-var mercator     = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
-
 function init() {
 
     $( document ).ready(function() {
        $("#msg").html("Action: Ready");
        // console.log( "ready!" );
     });
-
 
        var layerswitcher = new OpenLayers.Control.LayerSwitcher(),
        map = new OpenLayers.Map({
@@ -115,7 +99,7 @@ function init() {
 
 
     var grb_ortho = new OpenLayers.Layer.WMS(
-        "GRB Ortho",
+        "Agiv Ortho",
         //"http://geo.agiv.be/ogc/wms/omkl?VERSION=1.1.1&",
         "http://geoservices.informatievlaanderen.be/raadpleegdiensten/OMW/wms?",
         {
@@ -130,7 +114,7 @@ function init() {
             tiled: true,
             isBaseLayer: true,
             projection: 'EPSG:3857',
-            visibility: true
+            visibility: false
         }
     );
 
@@ -610,37 +594,4 @@ function getOsmInfo() {
    req.open("GET", overpassapi + encodeURIComponent(query), true);
    req.send(null);
 }
-
-
-$(function() {
-    $('#msg').removeClass().addClass("notice info");
-    $("#msg").html("Action: Init buttons");
-
-    $( "#opass" ).button().click(function( event ) {
-    $('#msg').removeClass().addClass("notice info").html("Action: Loading overpass data");
-   getOsmInfo();
-        event.preventDefault();
-    });
-
-    $( "#clrpopups" ).button().click(function( event ) {
-    $('#msg').removeClass().addClass("notice info");
-         while( map.popups.length ) {
-            map.removePopup(map.popups[0]);
-         }
-        $("#msg").html("Action: Popups cleared");
-        event.preventDefault();
-      });
-
-    $( "#vrfyjosm" ).button().click(function( event ) {
-         $('#msg').removeClass().addClass("notice info");
-         testJosmVersion();
-        event.preventDefault();
-      });
-    $( "#refreshgrb" ).button().click(function( event ) {
-         $('#msg').removeClass().addClass("notice info");
-         vector_layer.setVisibility(true);
-         vector_layer.refresh();
-         event.preventDefault();
-      });
-});
 
