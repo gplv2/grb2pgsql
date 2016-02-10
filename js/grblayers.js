@@ -1,24 +1,23 @@
-        /*jslint node: true */
-        "use strict";
+/*jslint node: true, maxerr: 50, indent: 4 */
+"use strict";
 
-       var lon = 4.46795;
-       var lat = 50.97485;
-       var zoom = 18;
-       var map;
-       var vector_layer;
-       var overpass_layer;
-       var agiv_layer;
+var lon = 4.46795;
+var lat = 50.97485;
+var zoom = 18;
+var map;
+var vector_layer;
+var overpass_layer;
+var agiv_layer;
 
-       function init(){
+function init() {
+    var webmercator  = new OpenLayers.Projection("EPSG:3857");
+    var geodetic     = new OpenLayers.Projection("EPSG:4326");
+    var mercator     = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 
-       var webmercator  = new OpenLayers.Projection("EPSG:3857");
-       var geodetic     = new OpenLayers.Projection("EPSG:4326");
-       var mercator     = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
-
-	$( document ).ready(function() {
-   		$("#msg").html("Action: Ready");
-   		// console.log( "ready!" );
-	});
+    $( document ).ready(function() {
+       $("#msg").html("Action: Ready");
+       // console.log( "ready!" );
+    });
 
 
        map = new OpenLayers.Map({
@@ -63,10 +62,10 @@
 
       var refresh = new OpenLayers.Strategy.Refresh({force: true, active: true});
    
-         // strategies: [new OpenLayers.Strategy.BBOX({ratio:2, resFactor: 3}), refresh], 
+         // strategies: [new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
 
          vector_layer = new OpenLayers.Layer.Vector("GRB", {
-            strategies: [new OpenLayers.Strategy.BBOX({ratio:2, resFactor: 3}), refresh], 
+            strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
             //maxResolution: map.getResolutionForZoom(15),
             //zoomOffset: 9, resolutions: [152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
             //zoomOffset: 10, resolutions: [76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
@@ -113,7 +112,7 @@
 
 
          vector_layer = new OpenLayers.Layer.Vector("GRB", {
-            strategies: [new OpenLayers.Strategy.BBOX({ratio:2, resFactor: 3}), refresh], 
+            strategies: [new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
             //maxResolution: map.getResolutionForZoom(15),
             //zoomOffset: 9, resolutions: [152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
             //zoomOffset: 10, resolutions: [76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
@@ -178,13 +177,13 @@
 
          // console.log(feature);
          // var content = "<h2>"+encHTML(feature.attributes.building) + "</h2>" + encHTML(feature.attributes.source);
-         var content = '<div id="plopper"><fieldset>' + "<legend>"+encHTML(feature.attributes.building) + '</legend><ul id="atlist">'
+         var content = '<div id="plopper"><fieldset>' + "<legend>"+encHTML(feature.attributes.building) + '</legend><ul id="atlist">' +
             // '<li>' + encHTML(feature.attributes.description) 
             //+ "<li>Building : "+ feature.attributes.building +"</li>"
             //+ "<li>Source    : "+ feature.attributes.source +"</li>"
-            + getdetails(feature.attributes);
+            getdetails(feature.attributes) +
             // + "<li>Tijd server : "+ feature.attributes.server_time +"</li>"
-            + "</ul></fieldset></div>";
+            "</ul></fieldset></div>";
 
          var popup = new OpenLayers.Popup.FramedCloud("chicken",
             feature.geometry.getBounds().getCenterLonLat(),
@@ -223,10 +222,6 @@
       var lonLat = new OpenLayers.LonLat(lon, lat).transform(geodetic, map.getProjectionObject());
       map.setCenter (lonLat, zoom);
       map.addLayer(vector_layer);
-     }
-
-function encodeURIComp (str) {
-  return encodeURIComponent(str).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
 }
 
 jQuery.fn.encHTML = function () {
@@ -291,7 +286,7 @@ function getdetails(attributes) {
             //var option = '<option value="'+ item.groupid +'">'+ imag + item.groupdesc +'</option>';
             // item.groupdesc, item.groupid));
             //$('#selgroupid').append(option);
-            if ( strcmp ('way', i) !== 0 && item.length != 0 && strcmp ('z_order', i) !== 0 && strcmp ('way_area', i) !== 0) {
+            if ( strcmp ('way', i) !== 0 && item.length !== 0 && strcmp ('z_order', i) !== 0 && strcmp ('way_area', i) !== 0) {
                response += "<dt>" + i +"</dt><dd>" + item + "</dd>";
                //console.log(response);
             }
@@ -301,7 +296,7 @@ function getdetails(attributes) {
 }
 
 
-  $(function() {
+$(function() {
     $('#msg').removeClass().addClass("notice info");
     $("#msg").html("Action: Init buttons");
 
@@ -316,7 +311,7 @@ function getdetails(attributes) {
          while( map.popups.length ) {
             map.removePopup(map.popups[0]);
          }
-        $("#msg").html("Action: Popups cleared")
+        $("#msg").html("Action: Popups cleared");
         event.preventDefault();
       });
 
@@ -331,5 +326,5 @@ function getdetails(attributes) {
          vector_layer.refresh();
          event.preventDefault();
       });
-  });
+});
 

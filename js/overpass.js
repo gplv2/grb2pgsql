@@ -1,4 +1,4 @@
-/*jslint node: true */
+/*jslint node: true, maxerr: 50, indent: 4 */
 "use strict";
 
 // vim: tabstop=3:softtabstop=3:shiftwidth=3:expandtab
@@ -94,7 +94,7 @@ function getOsmInfo() {
       // console.log(test);
       $("#msg").html("Info : " + "Adding GEOJSON to map").removeClass().addClass("notice info");
       addOverpassLayer();
-   }
+   };
    //console.log("Overpass query:\n" + query);
    req.open("GET", overpassapi + encodeURIComponent(query), true);
    req.send(null);
@@ -113,7 +113,7 @@ function openInJosm(type, streetData, layerName)
       if (req.readyState == 4 && req.status == 400)
          // something went wrong. Alert the user with appropriate messages
          testJosmVersion();
-   }
+   };
    req.open("GET", url + encodeURIComponent(xml), true);
    req.send(null);
 }
