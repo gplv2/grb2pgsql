@@ -1,5 +1,7 @@
 wms:http://geo.agiv.be/ogc/wms/omkl?FORMAT=image/png&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetMap&LAYERS=Ortho&STYLES=&SRS={proj}&WIDTH={width}&HEIGHT={height}&BBOX={bbox}
 
+wms:http://geo.agiv.be/ogc/wms/omkl?FORMAT=image%2Fpng&VERSION=1.1.1&LAYERS=Ortho&TRANSPARENT=false&&SERVICE=WMS&REQUEST=GetMap&STYLES=&SRS=EPSG%3A900913&BBOX=497605.05406723,6616389.1674438,497757.92812378,6616542.0415004&WIDTH=256&HEIGHT=256
+
 
 var wms = new OpenLayers.Layer.WMS("NASA Global Mosaic",
                                    "http://geo.agiv.be/ogc/wms/omkl?FORMAT=image/png&VERSION=1.1.1",
@@ -10,3 +12,50 @@ var wms = new OpenLayers.Layer.WMS("NASA Global Mosaic",
                                        opacity: 0.5,
                                        singleTile: true
                                    });
+
+
+
+AGIV
+
+INFO: GET http://geo.agiv.be/ogc/wms/omkl?FORMAT=image/png&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetMap&LAYERS=Ortho&STYLES=&SRS=EPSG:4326&WIDTH=512&HEIGHT=512&BBOX=4.4673077,50.9744300,4.4679944,50.9748623 -> 200
+INFO: GET http://geo.agiv.be/ogc/wms/omkl?FORMAT=image/png&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetMap&LAYERS=Ortho&STYLES=&SRS=EPSG:4326&WIDTH=512&HEIGHT=512&BBOX=4.4673077,50.9748623,4.4679944,50.9752947 -> 200
+INFO: GET http://geo.agiv.be/ogc/wms/omkl?FORMAT=image/png&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetMap&LAYERS=Ortho&STYLES=&SRS=EPSG:4326&WIDTH=512&HEIGHT=512&BBOX=4.4679944,50.9744300,4.4686810,50.9748623 -> 200
+INFO: GET http://geo.agiv.be/ogc/wms/omkl?FORMAT=image/png&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetMap&LAYERS=Ortho&STYLES=&SRS=EPSG:4326&WIDTH=512&HEIGHT=512&BBOX=4.4679944,50.9748623,4.4686810,50.9752947 -> 200
+
+
+BASISKAART
+
+
+7374.8604858,6616771.9303142 -> 200
+INFO: GET http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB-basiskaart/wms?FORMAT=image/png&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetMap&LAYERS=GRB_BASISKAART&STYLES=&SRS=EPSG:3857&WIDTH=512&HEIGHT=512&BBOX=497374.8604858,6616695.4932892,497451.2975108,6616771.9303142 -> 200
+INFO: GET http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB-basiskaart/wms?FORMAT=image/png&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetMap&LAYERS=GRB_BASISKAART&STYLES=&SRS=EPSG:3857&WIDTH=512&HEIGHT=512&BBOX=497298.4234608,6616771.9303142,497374.8604858,6616848.3673392 -> 200
+
+
+New BK WMTS
+
+
+INFO: GET http://grb.agiv.be/geodiensten/raadpleegdiensten/geocache/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=grb_bsk&STYLE=default&FORMAT=image/png&tileMatrixSet=GoogleMapsVL&tileMatrix=17&tileRow=43894&tileCol=67163 -> 200
+INFO: GET http://grb.agiv.be/geodiensten/raadpleegdiensten/geocache/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=grb_bsk&STYLE=default&FORMAT=image/png&tileMatrixSet=GoogleMapsVL&tileMatrix=17&tileRow=43894&tileCol=67162 -> 200
+INFO: GET http://grb.agiv.be/geodiensten/raadpleegdiensten/geocache/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=grb_bsk&STYLE=default&FORMAT=image/png&tileMatrixSet=GoogleMapsVL&tileMatrix=17&tileRow=43895&tileCol=67163 -> 200
+INFO: GET http://grb.agiv.be/geodiensten/raadpleegdiensten/geocache/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=grb_bsk&STYLE=default&FORMAT=image/png&tileMatrixSet=GoogleMapsVL&tileMatrix=17&tileRow=43895&tileCol=67161 -> 200
+INFO: GET http://grb.agiv.be/geodiensten/raadpleegdiensten/geocache/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=grb_bsk&STYLE=default&FORMAT=image/png&tileMatrixSet=GoogleMapsVL&tileMatrix=17&tileRow=43895&tileCol=67162 -> 200
+
+
+winteropnamen 25c 
+
+http://geoservices.informatievlaanderen.be/raadpleegdiensten/omw/wms?REQUEST=GetCapabilities&SERVICE=WMS&VERSION=1.3.0
+
+
+
+
+11.0608108,6615701.8119642 -> 200
+INFO: GET http://geoservices.informatievlaanderen.be/raadpleegdiensten/OMW/wms?FORMAT=image/jpeg&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetMap&LAYERS=OMWRGB15VL&STYLES=&SRS=EPSG:3857&WIDTH=512&HEIGHT=512&BBOX=495158.1867608,6615625.3749392,495234.6237858,6615701.8119642 -> 200
+INFO: GET http://geoservices.informatievlaanderen.be/raadpleegdiensten/OMW/wms?FORMAT=image/jpeg&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetMap&LAYERS=OMWRGB15VL&STYLES=&SRS=EPSG:3857&WIDTH=512&HEIGHT=512&BBOX=495081.7497358,6615701.8119642,495158.1867608,6615778.2489892 -> 200
+INFO: GET http://geoservices.informatievlaanderen.be/raadpleegdiensten/OMW/wms?FORMAT=image/jpeg&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetMap&LAYERS=OMWRGB15VL&STYLES=&SRS=EPSG:3857&WIDTH=512&HEIGHT=512&BBOX=495081.7497358,6615854.6860142,495158.1867608,6615931.1230392 -> 200
+INFO: GET http://geoservices.informatievlaanderen.be/raadpleegdiensten/OMW/wms?FORMAT=image/jpeg&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetMap&LAYERS=OMWRGB15VL&STYLES=&SRS=EPSG:3857&WIDTH=512&HEIGHT=512&BBOX=495081.7497358,6615778.2489892,495158.1867608,6615854.6860142 -> 200
+INFO: GET http://geoservices.informatievlaanderen.be/raadpleegdiensten/OMW/wms?FORMAT=image/jpeg&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetMap&LAYERS=OMWRGB15VL&STYLES=&SRS=EPSG:3857&WIDTH=512&HEIGHT=512&BBOX=495311.0608108,6615625.3749392,495387.4978358,6615701.8119642 -> 200
+INFO: GET http://geoservices.informatievlaanderen.be/raadpleegdiensten/OMW/wms?FORMAT=image/jpeg&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetMap&LAYERS=OMWRGB15VL&STYLES=&SRS=EPSG:3857&WIDTH=512&HEIGHT=512&BBOX=495081.7497358,6615625.3749392,495158.1867608,6615701.8119642 -> 200
+INFO: GET http://geoservices.informatievlaanderen.be/raadpleegdiensten/OMW/wms?FORMAT=image/jpeg&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetMap&LAYERS=OMWRGB15VL&STYLES=&SRS=EPSG:3857&WIDTH=512&HEIGHT=512&BBOX=495387.4978358,6615625.3749392,495463.9348608,6615701.8119642 -> 200
+
+
+http://grbtiles.byteless.net/GET%20http://geoservices.informatievlaanderen.be/raadpleegdiensten/OMW/wms?WIDTH=256&HEIGHT=256&VERSION=1.1.1&LAYERS=OMWRGB15VL&FORMAT=image%2Fpng&SERVICE=WMS&REQUEST=GetMap&STYLES=&SRS=EPSG%3A900913&BBOX=498216.55029343,6616694.9155569,498369.42434998,6616847.7896135

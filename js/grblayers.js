@@ -108,6 +108,34 @@ function init() {
 
     map.addLayer(grb_wms);
 
+   var geojson_format = new OpenLayers.Format.GeoJSON({
+         internalProjection: map.getProjectionObject(),
+         externalProjection: geodetic
+   });
+
+
+    var grb_ortho = new OpenLayers.Layer.WMS(
+        "GRB Ortho",
+        //"http://geo.agiv.be/ogc/wms/omkl?VERSION=1.1.1&",
+        "http://geoservices.informatievlaanderen.be/raadpleegdiensten/OMW/wms?",
+        {
+	    WIDTH: 512,
+            HEIGHT: 512,
+	    VERSION: '1.1.1',
+            LAYERS: 'OMWRGB15VL',
+            FORMAT: "image/png"
+        },
+        {
+            strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3})], 
+            tiled: true,
+            isBaseLayer: true,
+            projection: 'EPSG:3857',
+            visibility: true
+        }
+    );
+
+    map.addLayer(grb_ortho);
+
    // Easily get bbox string (screen relative)
    var boxcontrol = new OpenLayers.Control();
    OpenLayers.Util.extend(boxcontrol, {
