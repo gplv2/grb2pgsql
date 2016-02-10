@@ -12,10 +12,20 @@ var osmInfo;
 
 var overpassapi = "http://overpass-api.de/api/interpreter?data=";
 
-function init() {
+function initmap() {
+    $('body').css('cursor', 'wait');
     var webmercator  = new OpenLayers.Projection("EPSG:3857");
     var geodetic     = new OpenLayers.Projection("EPSG:4326");
     var mercator     = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+
+    $(window).resize(function() {
+        //$('#log').append('<div>Handler for .resize() called.</div>');
+        var canvasheight=$('#map').parent().css('height');
+        var canvaswidth=$('#map').parent().css('width');
+        $('#map').css("height",canvasheight);
+        $('#map').css("width",canvaswidth);
+
+    });
 
     $( document ).ready(function() {
        $("#msg").html("Action: Ready");
