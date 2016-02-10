@@ -22,7 +22,7 @@ error_reporting(E_ALL);
  * @param      string      $offset     Offset used in conjunction with limit *OPTIONAL*
  * @return     string                  geojson string
  */
-//ini_set('zlib.output_compression', 1);
+ini_set('zlib.output_compression', 1);
 
 // http://jibbering.com/blog/?p=514
 
