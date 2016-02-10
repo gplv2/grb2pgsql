@@ -24,7 +24,6 @@ function initmap() {
         var canvaswidth=$('#map').parent().css('width');
         $('#map').css("height",canvasheight);
         $('#map').css("width",canvaswidth);
-
     });
 
      $("#msg").append("\t,start init()");
@@ -78,7 +77,7 @@ function initmap() {
    
          // strategies: [new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
 
-         vector_layer = new OpenLayers.Layer.Vector("GRB", {
+         vector_layer = new OpenLayers.Layer.Vector('GRB - Vector Source', {
             strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
             //maxResolution: map.getResolutionForZoom(15),
             //zoomOffset: 9, resolutions: [152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
@@ -93,13 +92,13 @@ function initmap() {
             //displayProjection: mercator
             isBaseLayer: false
          });
+        map.addLayer(vector_layer);
 
         var grb_wms = new OpenLayers.Layer.WMS(
-            "BE GRB basiskaart",
+            "GRB Basiskaart",
             "http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB-basiskaart/wmsgr?",
             {
                 LAYERS: 'GRB_BASISKAART',
-                //layers: "Ortho"
                 transparent: "false",
                 //format: "image/png"
             },
@@ -113,6 +112,100 @@ function initmap() {
         );
 
         map.addLayer(grb_wms);
+
+        var grb_wbn = new OpenLayers.Layer.WMS(
+            "GRB - WBN+ Weg/water/..",
+            "http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?",
+            {
+                LAYERS: 'GRB_WBN,GRB_WVB,GRB_SBN,GRB_WTZ,GRB_WLAS,GRB_WGR,GRB_WGO,GRB_WRL,GRB_WKN,GRB_SNM,GRB_SNM_Links,GRB_SNM_Rechts',
+                transparent: "true",
+                //format: "image/png"
+            },
+            {
+                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
+                tiled: true,
+                isBaseLayer: false,
+                projection: mercator,
+                visibility: false
+            }
+        );
+
+        map.addLayer(grb_wbn);
+
+        var grb_gem = new OpenLayers.Layer.WMS(
+            "GRB - Gemeentegrenzen",
+            "http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?",
+            {
+                LAYERS: 'GEM_Grens',
+                transparent: "true",
+                //format: "image/png"
+            },
+            {
+                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
+                tiled: true,
+                isBaseLayer: false,
+                projection: mercator,
+                visibility: false
+            }
+        );
+
+        map.addLayer(grb_gem);
+
+        var grb_knw = new OpenLayers.Layer.WMS(
+            "GRB - KNW",
+            "http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?",
+            {
+                LAYERS: 'GRB_KNW',
+                transparent: "true",
+                //format: "image/png"
+            },
+            {
+                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
+                tiled: true,
+                isBaseLayer: false,
+                projection: mercator,
+                visibility: false
+            }
+        );
+
+        map.addLayer(grb_knw);
+
+        var grb_gbg = new OpenLayers.Layer.WMS(
+            "GRB - GBG Gebouw a/d grond",
+            "http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?",
+            {
+                LAYERS: 'GRB_GBG',
+                transparent: "true",
+                //format: "image/png"
+            },
+            {
+                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
+                tiled: true,
+                isBaseLayer: false,
+                projection: mercator,
+                visibility: false
+            }
+        );
+        map.addLayer(grb_gbg);
+
+        var grb_gba = new OpenLayers.Layer.WMS(
+            "GRB - GBA Gebouwaanhorigheid",
+            "http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?",
+            {
+                LAYERS: 'GRB_GBA',
+                transparent: "true",
+                //format: "image/png"
+            },
+            {
+                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
+                tiled: true,
+                isBaseLayer: false,
+                projection: mercator,
+                visibility: false
+            }
+        );
+        map.addLayer(grb_gba);
+
 
         var geojson_format = new OpenLayers.Format.GeoJSON({
             internalProjection: map.getProjectionObject(),
@@ -164,23 +257,6 @@ function initmap() {
 
    map.addControl(boxcontrol);
 
-   /* GRB vector layers */ 
-   vector_layer = new OpenLayers.Layer.Vector("GRB", {
-            strategies: [new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
-            //maxResolution: map.getResolutionForZoom(15),
-            //zoomOffset: 9, resolutions: [152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
-            //zoomOffset: 10, resolutions: [76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
-            protocol: new OpenLayers.Protocol.HTTP({
-                   url: "http://grbtiles.byteless.net/postgis_geojson.php?",
-                   format: new OpenLayers.Format.GeoJSON({ 
-                     extractAttributes: true
-                })
-            }),
-            projection: mercator,
-            //displayProjection: mercator
-            isBaseLayer: false
-    });
-
       var selectCtrl = new OpenLayers.Control.SelectFeature(vector_layer,
         { clickout: true }
       );
@@ -217,7 +293,7 @@ function initmap() {
       function onFeatureSelect(event) {
          destroyPopups(event);
          var feature = event.feature;
-         if ( strcmp ('GRB', feature.layer.name) !== 0 ) {
+         if ( strcmp ('GRB - Vector Source', feature.layer.name) !== 0 ) {
            // Don't work on other layers
            return true;
          }
@@ -271,7 +347,6 @@ function initmap() {
 
       var lonLat = new OpenLayers.LonLat(lon, lat).transform(geodetic, map.getProjectionObject());
       map.setCenter (lonLat, zoom);
-      map.addLayer(vector_layer);
 
       /* remove existing overpass layer 
       var layers = map.getLayersByName('OverPass');
@@ -437,7 +512,7 @@ function initmap() {
          externalProjection: geodetic
    });
 
-   overpass_layer = new OpenLayers.Layer.Vector("OverPass", {
+   overpass_layer = new OpenLayers.Layer.Vector("Overpass - GRB Data in OSM", {
          styleMap: overpass_style,
          //maxResolution: map.getResolutionForZoom(15),
          //minScale: 54168.1,
@@ -452,6 +527,7 @@ function initmap() {
    }); 
 
    map.addLayer(overpass_layer);
+   map.setLayerIndex(overpass_layer, 0);
 }
 
 /**

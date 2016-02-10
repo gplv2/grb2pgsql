@@ -59,3 +59,7 @@ INFO: GET http://geoservices.informatievlaanderen.be/raadpleegdiensten/OMW/wms?F
 
 
 http://grbtiles.byteless.net/GET%20http://geoservices.informatievlaanderen.be/raadpleegdiensten/OMW/wms?WIDTH=256&HEIGHT=256&VERSION=1.1.1&LAYERS=OMWRGB15VL&FORMAT=image%2Fpng&SERVICE=WMS&REQUEST=GetMap&STYLES=&SRS=EPSG%3A900913&BBOX=498216.55029343,6616694.9155569,498369.42434998,6616847.7896135
+
+
+
+http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?request=getcapabilities&service=wms
