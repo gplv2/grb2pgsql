@@ -1,0 +1,12 @@
+wms:http://geo.agiv.be/ogc/wms/omkl?FORMAT=image/png&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetMap&LAYERS=Ortho&STYLES=&SRS={proj}&WIDTH={width}&HEIGHT={height}&BBOX={bbox}
+
+
+var wms = new OpenLayers.Layer.WMS("NASA Global Mosaic",
+                                   "http://geo.agiv.be/ogc/wms/omkl?FORMAT=image/png&VERSION=1.1.1",
+                                   {
+                                       layers: "Ortho",
+                                       transparent: true
+                                   }, {
+                                       opacity: 0.5,
+                                       singleTile: true
+                                   });
