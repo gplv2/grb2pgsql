@@ -1,13 +1,23 @@
 /*jslint node: true, maxerr: 50, indent: 4 */
 "use strict";
 
+var lon = 4.46795;
+var lat = 50.97485;
+var zoom = 18;
+var map;
+var vector_layer;
+var overpass_layer;
+var agiv_layer;
+var osmInfo;
+
+var overpassapi = "http://overpass-api.de/api/interpreter?data=";
+
+var webmercator  = new OpenLayers.Projection("EPSG:3857");
+var geodetic     = new OpenLayers.Projection("EPSG:4326");
+var mercator     = new OpenLayers.Projection("EPSG:900913");
+
 function init() {
-
-    $( document ).ready(function() {
-       $("#msg").html("Action: Ready");
-       // console.log( "ready!" );
-    });
-
+       $("#msg").append("star init()");
        var layerswitcher = new OpenLayers.Control.LayerSwitcher(),
        map = new OpenLayers.Map({
             div: "map",
@@ -97,7 +107,7 @@ function init() {
          externalProjection: geodetic
    });
 
-
+/*
     var grb_ortho = new OpenLayers.Layer.WMS(
         "Agiv Ortho",
         //"http://geo.agiv.be/ogc/wms/omkl?VERSION=1.1.1&",
@@ -119,6 +129,7 @@ function init() {
     );
 
     map.addLayer(grb_ortho);
+*/
 
    // Easily get bbox string (screen relative)
    var boxcontrol = new OpenLayers.Control();
@@ -435,79 +446,7 @@ function init() {
    }); 
 
    map.addLayer(overpass_layer);
-}
 
-jQuery.fn.encHTML = function () {
-return this.each(function(){
-   var me   = jQuery(this);
-   var html = me.html();
-   me.html(html.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'));
-   });
-};
-
-jQuery.fn.decHTML = function () {
-return this.each(function(){
-   var me   = jQuery(this);
-   var html = me.html();
-   me.html(html.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>'));
-   });
-};
-
-jQuery.fn.isEncHTML = function (str) {
-   if(str.search(/&amp;/g) != -1 || str.search(/&lt;/g) != -1 || str.search(/&gt;/g) != -1) {
-      return true;
-   } else {
-      return false;
-   }
-};
-
-function isEncHTML(str) {
-   if(str.search(/&amp;/g) != -1 || str.search(/&lt;/g) != -1 || str.search(/&gt;/g) != -1) {
-      return true;
-   } else {
-      return false;
-   }
-}
-
-function decHTMLifEnc(str){
-   if(isEncHTML(str)) {
-      return str.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-   }
-   return str;
-}
-
-function encHTML(str) {
-   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-function strcmp (str1, str2) {
-   // http://kevin.vanzonneveld.net
-   // +   original by: Waldo Malqui Silva
-   // +      input by: Steve Hilder
-   // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-   // +    revised by: gorthaur
-   // *     example 1: strcmp( 'waldo', 'owald' );
-   // *     returns 1: 1
-   // *     example 2: strcmp( 'owald', 'waldo' );
-   // *     returns 2: -1
-   return ((str1 == str2) ? 0 : ((str1 > str2) ? 1 : -1));
-}
-
-function getdetails(attributes) {
-   var response = "<dl>";
-       $.each(attributes, function(i, item) {
-            //var option = '<option value="'+ item.groupid +'">'+ imag + item.groupdesc +'</option>';
-            // item.groupdesc, item.groupid));
-            //$('#selgroupid').append(option);
-            if ( strcmp ('way', i) !== 0 && item.length !== 0 && strcmp ('z_order', i) !== 0 && strcmp ('way_area', i) !== 0) {
-               response += "<dt>" + i +"</dt><dd>" + item + "</dd>";
-               //console.log(response);
-            }
-        });
-     response += "</dl>";
-     return response;
-}
-   
 /**
  * Get the data from osm, ret should be an empty array
  */
@@ -517,7 +456,7 @@ function getOsmInfo() {
    var bounds = map.getExtent();
    bounds.transform(map.getProjectionObject(), geodetic);
    //bounds.toBBOX(); 
-        console.log(bounds.toBBOX());
+   //console.log(bounds.toBBOX());
 
    var query = "<osm-script output=\"json\" timeout=\"250\">" +
                     "  <union>" +
@@ -594,4 +533,115 @@ function getOsmInfo() {
    req.open("GET", overpassapi + encodeURIComponent(query), true);
    req.send(null);
 }
+function getdetails(attributes) {
+   var response = "<dl>";
+       $.each(attributes, function(i, item) {
+            //var option = '<option value="'+ item.groupid +'">'+ imag + item.groupdesc +'</option>';
+            // item.groupdesc, item.groupid));
+            //$('#selgroupid').append(option);
+            if ( strcmp ('way', i) !== 0 && item.length !== 0 && strcmp ('z_order', i) !== 0 && strcmp ('way_area', i) !== 0) {
+               response += "<dt>" + i +"</dt><dd>" + item + "</dd>";
+               //console.log(response);
+            }
+        });
+     response += "</dl>";
+     return response;
+}
+
+        $(function() {
+            $('#msg').removeClass().addClass("notice info");
+            $("#msg").html("Action: Init buttons");
+
+            $( "#opass" ).button().click(function( event ) {
+               $('#msg').removeClass().addClass("notice info").html("Action: Loading overpass data");
+               getOsmInfo();
+               event.preventDefault();
+            });
+
+        $( "#clrpopups" ).button().click(function( event ) {
+            $('#msg').removeClass().addClass("notice info");
+            while( map.popups.length ) {
+               map.removePopup(map.popups[0]);
+            }
+           $("#msg").html("Action: Popups cleared");
+           event.preventDefault();
+        });
+
+        $( "#vrfyjosm" ).button().click(function( event ) {
+            $('#msg').removeClass().addClass("notice info");
+            testJosmVersion();
+           event.preventDefault();
+        });
+        $( "#refreshgrb" ).button().click(function( event ) {
+            $('#msg').removeClass().addClass("notice info");
+            vector_layer.setVisibility(true);
+            vector_layer.refresh();
+            event.preventDefault();
+        });
+      });
+      $("#msg").html("Action: Ready");
+      // console.log( "ready!" );
+}
+
+jQuery.fn.encHTML = function () {
+return this.each(function(){
+   var me   = jQuery(this);
+   var html = me.html();
+   me.html(html.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'));
+   });
+};
+
+jQuery.fn.decHTML = function () {
+return this.each(function(){
+   var me   = jQuery(this);
+   var html = me.html();
+   me.html(html.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>'));
+   });
+};
+
+jQuery.fn.isEncHTML = function (str) {
+   if(str.search(/&amp;/g) != -1 || str.search(/&lt;/g) != -1 || str.search(/&gt;/g) != -1) {
+      return true;
+   } else {
+      return false;
+   }
+};
+
+function isEncHTML(str) {
+   if(str.search(/&amp;/g) != -1 || str.search(/&lt;/g) != -1 || str.search(/&gt;/g) != -1) {
+      return true;
+   } else {
+      return false;
+   }
+}
+
+function decHTMLifEnc(str){
+   if(isEncHTML(str)) {
+      return str.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+   }
+   return str;
+}
+
+function encHTML(str) {
+   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function strcmp (str1, str2) {
+   // http://kevin.vanzonneveld.net
+   // +   original by: Waldo Malqui Silva
+   // +      input by: Steve Hilder
+   // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+   // +    revised by: gorthaur
+   // *     example 1: strcmp( 'waldo', 'owald' );
+   // *     returns 1: 1
+   // *     example 2: strcmp( 'owald', 'waldo' );
+   // *     returns 2: -1
+   return ((str1 == str2) ? 0 : ((str1 > str2) ? 1 : -1));
+}
+
+$( document ).ready(function() {
+  $("#msg").append("load init()");
+  init();
+  console.log( "load init" );
+});
 

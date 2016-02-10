@@ -11,61 +11,14 @@
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/openlayers/2.12/OpenLayers.js"></script>
     <script src="osmtogeojson/osmtogeojson.js"></script>
-    <script type="text/javascript">
-        var lon = 4.46795;
-        var lat = 50.97485;
-        var zoom = 18;
-        var map;
-        var vector_layer;
-        var overpass_layer;
-        var agiv_layer;
-        var osmInfo;
-        
-        var overpassapi = "http://overpass-api.de/api/interpreter?data=";
-        
-        var webmercator  = new OpenLayers.Projection("EPSG:3857");
-        var geodetic     = new OpenLayers.Projection("EPSG:4326");
-        var mercator     = new OpenLayers.Projection("EPSG:900913");
-
-        $(function() {
-            $('#msg').removeClass().addClass("notice info");
-            $("#msg").html("Action: Init buttons");
-
-            $( "#opass" ).button().click(function( event ) {
-               $('#msg').removeClass().addClass("notice info").html("Action: Loading overpass data");
-               getOsmInfo();
-               event.preventDefault();
-            });
-
-        $( "#clrpopups" ).button().click(function( event ) {
-            $('#msg').removeClass().addClass("notice info");
-            while( map.popups.length ) {
-               map.removePopup(map.popups[0]);
-            }
-           $("#msg").html("Action: Popups cleared");
-           event.preventDefault();
-        });
-
-        $( "#vrfyjosm" ).button().click(function( event ) {
-            $('#msg').removeClass().addClass("notice info");
-            testJosmVersion();
-           event.preventDefault();
-        });
-        $( "#refreshgrb" ).button().click(function( event ) {
-            $('#msg').removeClass().addClass("notice info");
-            vector_layer.setVisibility(true);
-            vector_layer.refresh();
-            event.preventDefault();
-        });
-      });
-    </script>
     <script src="js/grblayers.js"></script>
-    <script src="js/overpass.js"></script>
+    <script type="text/javascript">
+    </script>
   </head>
-  <body onload="init()">
-    <h1 id="title">GeoJSON GRB</h1>
+  <body>
+    <h1 id="title">GeoJSON GRB - Offline - running tests</h1>
       <p id="shortdesc">
-        GRB data vector overlay
+        GRB data vector overlay (Offline - running tests)
     </p>
      <button id="opass" >Load Overpass layer</button>
      <button id="clrpopups">Clear popups</button>
@@ -73,5 +26,6 @@
      <button id="refreshgrb">Refresh GRB layer</button>
      <div id="msg" class="notice info"><p>...</p></div>
      <div id="map" class="smallmap"></div>
+    <script src="js/overpass.js"></script>
   </body>
 </html>
