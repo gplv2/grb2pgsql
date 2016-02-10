@@ -6,11 +6,11 @@
 var streets = []; // list of streets with the addresses divided in several categories + extra info
 
 // REMOTECONTROL BINDINGS
-function openInJosm(type, streetData, layerName)
+function openInJosm(layerName)
 {
-
    var url =  "http://localhost:8111/load_data?new_layer=true&layer_name="+layerName+"&data=";
-   var xml = getOsmXml(type, streetData);
+   var xml =  osm_geojson.geojson2osm(osmInfo)
+   console.log(xml);
 
    var req = new XMLHttpRequest();
    req.onreadystatechange = function()

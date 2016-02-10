@@ -673,6 +673,14 @@ $( document ).ready(function() {
             event.preventDefault();
             return false; 
         });
+        $( "#loadgrb" ).button().click(function( event ) {
+            $('#msg').removeClass().addClass("notice info").html("Action: Loading GRB data in new JOSM layer");
+            $('body').css('cursor', 'wait');
+            openInJosm('sourcelayer');
+            $('body').css('cursor', 'default');
+            event.preventDefault();
+            return false; 
+        });
     });
       $("#msg").html("Action: docReadydone");
       console.log( "docreadydone!" );
