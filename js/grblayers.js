@@ -24,6 +24,7 @@ function init() {
     });
 
 
+       var layerswitcher = new OpenLayers.Control.LayerSwitcher(),
        map = new OpenLayers.Map({
             div: "map",
        // projection: mercator,
@@ -35,6 +36,7 @@ function init() {
                 new OpenLayers.Control.MousePosition(),
                 new OpenLayers.Control.LayerSwitcher(),
                 new OpenLayers.Control.ScaleLine(),
+		layerswitcher,
                 //new OpenLayers.Control.PanZoomBar({ panIcons: false }),
                 new OpenLayers.Control.Permalink(),                    
                 new OpenLayers.Control.TouchNavigation({
@@ -60,6 +62,8 @@ function init() {
                 })
                 ]
         });
+
+	layerswitcher.maximizeControl();
 
  // Make Belgium WMSlayers
        // http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?request=getcapabilities&service=wms
@@ -406,11 +410,11 @@ function init() {
 
    overpass_layer = new OpenLayers.Layer.Vector("OverPass", {
          styleMap: overpass_style,
-         maxResolution: map.getResolutionForZoom(15),
+         //maxResolution: map.getResolutionForZoom(15),
          //minScale: 54168.1,
          // strategies: [new OpenLayers.Strategy.Fixed()], // This throws an error when setting visibility to true , strange.
          //zoomOffset: 9, resolutions: [152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
-         zoomOffset: 10, resolutions: [76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
+         //zoomOffset: 10, resolutions: [76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
          format: geojson_format,
          isBaseLayer: false,
          visibility: false,
