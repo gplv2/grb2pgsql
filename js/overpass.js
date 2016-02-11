@@ -28,7 +28,7 @@ function openInJosm(layerName) {
         projection: "EPSG:4326",
         type: OpenLayers.Filter.Comparison.LIKE,
         property: "source:geometry:oidn",
-        value: trackeddev
+        value: trackeddev,
         evaluate: function(feature) {
             return false;
         }
