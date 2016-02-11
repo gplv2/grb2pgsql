@@ -18,65 +18,58 @@ function openInJosm(layerName) {
       type: OpenLayers.Filter.Spatial.BBOX,
       value: bounds
    });
-/*
-   var filter2  = new OpenLayers.Filter.Comparison({
+   filterStrategy.setFilter(filter1);
+
+   /* Filter out all buildings that come back via overpass from source vector layer */
+   var overpassfilter  = new OpenLayers.Filter.Comparison({
         projection: "EPSG:4326",
         type: OpenLayers.Filter.Comparison.LIKE,
         property: "source:geometry:oidn",
-        value: trackeddev,
         evaluate: function(feature) {
-            return false;
+               var ret = true;
+               $.each(overpass_layer.features, function(i, item) {
+                  //console.log("testing " + feature.attributes['source:geometry:oidn']);
+                  //console.log(item);
+                  //console.log(feature.attributes);
+                  if(item.attributes.tags['source:geometry:oidn'] === feature.attributes['source:geometry:oidn']) {
+                     // console.log("found match: " + item.attributes.tags['source:geometry:oidn']);
+                     ret = false;
+                  }
+               });
+            return ret;
         }
     });
-
-   var filter_function = new OpenLayers.Filter.Function(
-      function(feature) {
-            $.each(overpass_layer.features, function(i, item) {
-            //console.log(item);
-            //console.log("match: " + item.attributes['source:geometry:oidn']);
-               if(item.attributes.tags['source:geometry:oidn'] == feature.attributes['source:geometry:oidn']) {
-                  //console.log("found match: " + item.attributes.tags['source:geometry:oidn']);
-                  return false;
-               }
-               //console.log(item.attributes);
-            });
-            return true;
-        }
-   );
-*/
-
-    var my_filter = new OpenLayers.Filter.Comparison({
-            evaluate: function(feature) {
-            //console.log("testing " + feature.attributes['source:geometry:oidn']);
-            $.each(overpass_layer.features, function(i, item) {
-            //console.log(item);
-            //if ( strcmp ('way', i) !== 0 && item.length !== 0 && strcmp ('z_order', i) !== 0 && strcmp ('way_area', i) !== 0) 
-               //console.log("match: " + item.attributes['source:geometry:oidn']);
-               if(item.attributes.tags['source:geometry:oidn'] == feature.attributes['source:geometry:oidn']) {
-                  //console.log("found match: " + item.attributes.tags['source:geometry:oidn']);
-                  return false;
-               }
-               //console.log(item.attributes);
-            });
-            return true;
-        }
-    });
+   mergeStrategy.setFilter(overpassfilter);
 
 /*
+    var filter2 = new OpenLayers.Filter.Function(
+         function(feature)  {
+               var ret = false;
+               $.each(overpass_layer.features, function(i, item) {
+                  //console.log("testing " + feature.attributes['source:geometry:oidn']);
+                  //console.log(item);
+                  //console.log(feature.attributes);
+                  if(item.attributes.tags['source:geometry:oidn'] === feature.attributes['source:geometry:oidn']) {
+                     console.log("found match: " + item.attributes.tags['source:geometry:oidn']);
+                        ret = true;
+                  }
+               });
+               return ret;
+    });
+
     var filter_null = new OpenLayers.Filter.Comparison({
         type: OpenLayers.Filter.Comparison.IS_NULL,
         property: "source"
     });
-*/
 
    var parent_filter = new OpenLayers.Filter.Logical({
         type: OpenLayers.Filter.Logical.AND,
-        filters: [filter1, my_filter]
+        filters: [my_filter, filter1]
    });
+*/
 
-   filterStrategy.setFilter(parent_filter);
    //filterStrategy.filter.activate(); 
-   //vector_layer.refresh({force: true});
+   // vector_layer.refresh({force: true});
 
    //var webmercator  = new OpenLayers.Projection("EPSG:3857");
    var geodetic     = new OpenLayers.Projection("EPSG:4326");
@@ -104,7 +97,6 @@ function openInJosm(layerName) {
    };
    req.open("GET", url + encodeURIComponent(xml), true);
    req.send(null);
-   // filterStrategy.setFilter(null);
 }
 
 function openStreetInJosm(streetNumber)
