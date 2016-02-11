@@ -47,11 +47,11 @@ function escapeJsonString($value) { # list from www.json.org: (\b backspace, \f 
 
 $geotable = 'planet_osm_polygon';
 $geomfield = 'way';
+$srid = '900913';
 
 
 /* test if we are called from the CLI */
 if (!defined('STDIN')) {
-
    if (empty($_REQUEST['srid'])) {
       $srid = '900913';
       //$srid = '3857';
@@ -181,12 +181,12 @@ while ($row = pg_fetch_assoc($rs)) {
     $id    = '';
 	//print_r($row);exit;
     foreach ($row as $key => $val) {
-        if ($key != "geojson") {
+        if ($key !== 'geojson') {
             if (strlen($val)>0) {
               $props .= (strlen($props) > 0 ? ',' : '') . '"' . $key . '":"' . escapeJsonString($val) . '"';
             }
         }
-        if ($key == "id") {
+        if ($key == 'id') {
             $id .= ',"id":"' . escapeJsonString($val) . '"';
         }
     }
