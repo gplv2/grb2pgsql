@@ -13,16 +13,40 @@ function openInJosm(layerName) {
    // console.log(bounds);
    $("#msg").html("Info : "+ bounds.toBBOX()).removeClass().addClass("notice success");
 
-   var filter = new OpenLayers.Filter.Spatial({
+    var parent_filter = new OpenLayers.Filter.Logical({
+        type: OpenLayers.Filter.Logical.AND,
+        filters: [filter1, filter2]
+    });
+
+   var filter1 = new OpenLayers.Filter.Spatial({
       projection: "EPSG:4326",
       type: OpenLayers.Filter.Spatial.BBOX,
       value: bounds
    });
 
-   filterStrategy.setFilter(filter);
-   //vector_layer.filter.activate(); 
-   //vector_layer.redraw();
-   // vector_layer.refresh({force: true});
+   var filter2  = new OpenLayers.Filter.Comparison({
+        projection: "EPSG:4326",
+        type: OpenLayers.Filter.Comparison.LIKE,
+        property: "source:geometry:oidn",
+        value: trackeddev
+        evaluate: function(feature) {
+            return false;
+        }
+    });
+
+    var filter_null = new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Comparison.IS_NULL,
+        property: "source"
+    });
+
+   var parent_filter = new OpenLayers.Filter.Logical({
+        type: OpenLayers.Filter.Logical.AND,
+        filters: [filter1, filter2]
+   });
+
+   filterStrategy.setFilter(parent_filter);
+   // vector_layer.filter.activate(); 
+   // vector_layer.refresh({force: true}); -> this throws a weird error, not really needed
 
    //var webmercator  = new OpenLayers.Projection("EPSG:3857");
    var geodetic     = new OpenLayers.Projection("EPSG:4326");

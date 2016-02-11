@@ -9,7 +9,8 @@ var vector_layer;
 var overpass_layer;
 var agiv_layer;
 var osmInfo;
-var filterStrategy;;
+var filterStrategy;
+var parentFilter;
 
 var overpassapi = "http://overpass-api.de/api/interpreter?data=";
 
@@ -76,12 +77,11 @@ function initmap() {
        // http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?request=getcapabilities&service=wms
 
         var refresh = new OpenLayers.Strategy.Refresh({force: true, active: true});
+        var boxStrategy = new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 2});
         filterStrategy = new OpenLayers.Strategy.Filter();
-   
-         // strategies: [new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
 
          vector_layer = new OpenLayers.Layer.Vector('GRB - Vector Source', {
-            strategies: [ filterStrategy, new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 2}), refresh ], 
+            strategies: [ filterStrategy, boxStrategy, refresh ], 
             //maxResolution: map.getResolutionForZoom(15),
             //zoomOffset: 9, resolutions: [152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
             //zoomOffset: 10, resolutions: [76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
