@@ -12,6 +12,17 @@ $(document).ready(function () {
    });
     $('#mapcontrols').css("margin-bottom" , "5px");
     $('#mapcontrols').append('<input class="ui-button ui-state-default ColVis_Button" type="button" name="zoom" value="Zoom to vector" id="zoompoi" title=""/>');
+    $('#mapcontrols').append('<input class="ui-button ui-state-default ColVis_Button" type="button" name="zoom" value="Clear popups" id="clrpopups" title=""/>');
+
+    $( "#clrpopups" ).click(function( event ) {
+       $('#msg').removeClass().addClass("notice info");
+       while( map.popups.length ) {
+         map.removePopup(map.popups[0]);
+       }
+       $("#msg").html("Action: Popups cleared");
+       event.preventDefault();
+       return false;
+    });
 
     $('#address').focus(function() {
         $('#address').val('');
