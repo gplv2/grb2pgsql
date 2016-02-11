@@ -14,7 +14,6 @@ error_reporting(E_ALL);
  * @param      string      $geotable   The PostGIS layer name *REQUIRED*
  * @param      string      $geomfield  The PostGIS geometry field *OPTIONAL*  defaults to 900913 in serverside
  * @param      string      $srid       The SRID of the returned GeoJSON *OPTIONAL (If omitted, EPSG: 4326 will be used)*
- * @param      string      $fields     Fields to be returned *OPTIONAL (If omitted, all fields will be returned)* NOTE- Uppercase field names should be wrapped in double quotes
  * @param      string      $parameters SQL WHERE clause parameters *OPTIONAL*
  * @param      string      $orderby    SQL ORDER BY constraint *OPTIONAL*
  * @param      string      $sort       SQL ORDER BY sort order (ASC or DESC) *OPTIONAL*
@@ -60,13 +59,6 @@ if (!defined('STDIN')) {
    } else {
       $srid = $_REQUEST['srid'];
    }
-
-   if (empty($_REQUEST['fields'])) {
-      $fields = '*';
-   } else {
-      $fields = $_REQUEST['fields'];
-   }
-
    if (!empty($_REQUEST['parameters'])) {
       $parameters = $_REQUEST['parameters'];
    }
@@ -94,12 +86,27 @@ if (!defined('STDIN')) {
       list($bbox_west, $bbox_south, $bbox_east, $bbox_north) = preg_split("/,/", $bbox);
    }
 } else {
-   $fields = '*';
+/*
+    [osm_id] => -14968
+    [addr:housename] => 
+    [addr:housenumber] => 
+    [addr:interpolation] => 
+    [addr:street] => 
+    [addr:flats] => 
+    [building] => shed
+    [source:geometry:date] => 2008-06-10
+    [source:geometry:oidn] => 629316
+    [source:geometry] => GRB
+    [source] => GRB
+*/
+   //$fields="*";
    $srid = '900913';
    $bbox="382234.25632491,6566593.3158132,669484.60858063,6697453.5082192";
    list($bbox_west, $bbox_south, $bbox_east, $bbox_north) = preg_split("/,/", $bbox);
-   list($bbox['south'], $bbox['west'], $bbox['east'], $bbox['north']) = preg_split("/,/", $bbox['full']); // west, south, east, north
+   //list($bbox['south'], $bbox['west'], $bbox['east'], $bbox['north']) = preg_split("/,/", $bbox['full']); // west, south, east, north
 }
+$fields = "osm_id, \"addr:housename\", \"addr:housenumber\", \"addr:interpolation\", \"addr:street\", \"addr:flats\", building, \"source:geometry:date\", \"source:geometry:oidn\", \"source:geometry\", source";
+
 # Build SQL SELECT statement and return the geometry as a GeoJSON element in EPSG: 4326
 $sql  = "SELECT " . pg_escape_string($fields) . ", st_asgeojson(ST_Transform(" . pg_escape_string($geomfield) . ",$srid)) AS geojson FROM " . pg_escape_string($geotable);
 $sql .= sprintf(" WHERE " . pg_escape_string("way") . " && ST_SetSRID('BOX3D(%s %s, %s %s)'::box3d, %s)", $bbox_west, $bbox_south, $bbox_east, $bbox_north, $srid);
@@ -113,6 +120,7 @@ if (!empty($orderby)){
 if (!empty($limit)){
     $sql .= " LIMIT " . pg_escape_string($limit);
 }
+    // $sql .= " LIMIT 20";
 if (!empty($offset)){
     $sql .= " OFFSET " . pg_escape_string($offset);
 }
@@ -171,9 +179,12 @@ while ($row = pg_fetch_assoc($rs)) {
     $rowOutput = (strlen($rowOutput) > 0 ? ',' : '') . '{"type": "Feature", "geometry": ' . $row['geojson'] . ', "properties": {';
     $props = '';
     $id    = '';
+	//print_r($row);exit;
     foreach ($row as $key => $val) {
         if ($key != "geojson") {
-            $props .= (strlen($props) > 0 ? ',' : '') . '"' . $key . '":"' . escapeJsonString($val) . '"';
+            if (strlen($val)>0) {
+              $props .= (strlen($props) > 0 ? ',' : '') . '"' . $key . '":"' . escapeJsonString($val) . '"';
+            }
         }
         if ($key == "id") {
             $id .= ',"id":"' . escapeJsonString($val) . '"';

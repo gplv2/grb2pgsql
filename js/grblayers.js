@@ -94,6 +94,11 @@ function initmap() {
          });
         map.addLayer(vector_layer);
 
+        vector_layer.events.register('loadend', vector_layer, function(){
+            var extent = vector_layer.getDataExtent().toBBOX().replace(/,/g,", ");
+            $("#msg").html("GRB source dataExtent:"+ extent).removeClass().addClass("notice info");
+        });
+
         var grb_wms = new OpenLayers.Layer.WMS(
             "GRB Basiskaart",
             "http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB-basiskaart/wmsgr?",
