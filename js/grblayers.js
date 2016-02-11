@@ -1,6 +1,5 @@
 /*jslint node: true, maxerr: 50, indent: 4 */
-"use strict";
-
+"seseu strict";
 var lon = 4.46795;
 var lat = 50.97485;
 var zoom = 18;
@@ -16,6 +15,9 @@ var overpassapi = "http://overpass-api.de/api/interpreter?data=";
 
 function initmap() {
     $('body').css('cursor', 'wait');
+    // pink tile avoidance
+    OpenLayers.IMAGE_RELOAD_ATTEMPTS = 2;
+
     var webmercator  = new OpenLayers.Projection("EPSG:3857");
     var geodetic     = new OpenLayers.Projection("EPSG:4326");
     var mercator     = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
@@ -28,7 +30,7 @@ function initmap() {
         $('#map').css("width",canvaswidth);
     });
 
-     $("#msg").append("\t,start init()");
+     $("#msg").html("\t,start init()");
        var layerswitcher = new OpenLayers.Control.LayerSwitcher();
 
        map = new OpenLayers.Map({
@@ -69,6 +71,17 @@ function initmap() {
                 })
                 ]
         });
+
+      map.events.register('zoomend', this, function (event) {
+         $('#msg').html("Scale: " + map.getScale() + " / ZoomLevel: " + map.getZoom() + " / Resolution: " + map.getResolution());
+    /*
+    var x = map.getZoom();
+
+    if( x < 15) {
+         //map.zoomTo(15);
+    }*/
+      });
+
         $('body').css('cursor', 'default');
 
         layerswitcher.maximizeControl();

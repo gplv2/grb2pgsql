@@ -13,17 +13,12 @@ function openInJosm(layerName) {
    // console.log(bounds);
    $("#msg").html("Info : "+ bounds.toBBOX()).removeClass().addClass("notice success");
 
-    var parent_filter = new OpenLayers.Filter.Logical({
-        type: OpenLayers.Filter.Logical.AND,
-        filters: [filter1, filter2]
-    });
-
    var filter1 = new OpenLayers.Filter.Spatial({
       projection: "EPSG:4326",
       type: OpenLayers.Filter.Spatial.BBOX,
       value: bounds
    });
-
+/*
    var filter2  = new OpenLayers.Filter.Comparison({
         projection: "EPSG:4326",
         type: OpenLayers.Filter.Comparison.LIKE,
@@ -31,6 +26,25 @@ function openInJosm(layerName) {
         value: trackeddev,
         evaluate: function(feature) {
             return false;
+        }
+    });
+*/
+
+    var my_filter = new OpenLayers.Filter.Comparison({
+      // type: OpenLayers.Filter.Function,
+      type: OpenLayers.Filter.Comparison.IS_NULL,
+      evaluate: function(feature) {
+            console.log("testing " + feature.attributes['source:geometry:oidn']);
+            $.each(vector_layer.features, function(i, item) {
+            //if ( strcmp ('way', i) !== 0 && item.length !== 0 && strcmp ('z_order', i) !== 0 && strcmp ('way_area', i) !== 0) 
+               console.log("match: " + item.attributes['source:geometry:oidn']);
+               if(item.attributes['source:geometry:oidn'] == feature.attributes['source:geometry:oidn'] ) {
+                  console.log("found match: " + item.attributes['source:geometry:oidn']);
+                  return true;
+               }
+               //console.log(item.attributes);
+            });
+            return null;
         }
     });
 
@@ -41,7 +55,7 @@ function openInJosm(layerName) {
 
    var parent_filter = new OpenLayers.Filter.Logical({
         type: OpenLayers.Filter.Logical.AND,
-        filters: [filter1, filter2]
+        filters: [filter1, my_filter]
    });
 
    filterStrategy.setFilter(parent_filter);

@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/openlayers/2.12/theme/default/style.css" media="all" />
+    <link rel="stylesheet" type="text/css" media="screen" href="themes/snowball/jquery-ui-custom_dt.css" />
     <link rel="stylesheet" href="style.css" media="all" />
+    <script src="//maps.google.com/maps/api/js?v=3.5&amp;sensor=false"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/openlayers/2.12/OpenLayers.js"></script>
@@ -16,16 +18,31 @@
     <script src="js/osm_geojson.js" charset="utf-8"></script>
   </head>
   <body onload="initmap();">
-    <h1 id="title">GeoJSON GRB</h1>
-      <p id="shortdesc">
-        GRB data vector overlay
-    </p>
+    <h1 id="title" >GRB/OSM Merge</h1>
+      <p id="shortdesc">GRB geojson vector data toolset</p>
+   <div id="search" style="margin-top: 10px;">
+   <fieldset>
+      <legend>Zoeken</legend>
+      <div id="geosearch" class="filterclass ui-widget">
+         <label for="address" style="padding-right: 7px;">Op straatnaam/gemeente</label>
+         <input id="address" type="text" style="width : 550px;" class="ui-autocomplete-input" autocomplete="off">
+         <div id="radio">
+            <input type="radio" name="radio" id="sosm" checked><label for="sosm">OSM</label>
+            <input type="radio" name="radio" id="sgoogle"><label for="sgoogle">Google</label>
+         </div>
+      </div>
+   </fieldset>
+   </div>
+   <div id="mapcontrols">
      <button id="opass" >Load Overpass layer</button>
      <button id="clrpopups">Clear popups</button>
      <button id="vrfyjosm">Check JOSM version</button>
      <button id="loadgrb">Load GRB layer in JOSM</button>
      <div id="msg" class="notice info"><p>...</p></div>
-     <div id="map" class="smallmap"></div>
+     <div id="idtag"></div>
+    </div>
+    <div id="map" class="smallmap"></div>
     <script src="js/overpass.js"></script>
+    <script src="js/search.js"></script>
   </body>
 </html>
