@@ -6,11 +6,27 @@
 var streets = []; // list of streets with the addresses divided in several categories + extra info
 
 // REMOTECONTROL BINDINGS
-function openInJosm(layerName)
-{
-    //var webmercator  = new OpenLayers.Projection("EPSG:3857");
-    var geodetic     = new OpenLayers.Projection("EPSG:4326");
-    //var mercator     = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+function openInJosm(layerName) {
+   var bounds = map.getExtent();
+   bounds.transform(map.getProjectionObject(), geodetic);
+   // console.log(bounds.toBBOX());
+   // console.log(bounds);
+   $("#msg").html("Info : "+ bounds.toBBOX()).removeClass().addClass("notice success");
+
+   var filter = new OpenLayers.Filter.Spatial({
+      projection: "EPSG:4326",
+      type: OpenLayers.Filter.Spatial.BBOX,
+      value: bounds
+   });
+
+   filterStrategy.setFilter(filter);
+   //vector_layer.filter.activate(); 
+   //vector_layer.redraw();
+   // vector_layer.refresh({force: true});
+
+   //var webmercator  = new OpenLayers.Projection("EPSG:3857");
+   var geodetic     = new OpenLayers.Projection("EPSG:4326");
+   //var mercator     = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 
    var url =  "http://localhost:8111/load_data?new_layer=true&layer_name="+layerName+"&data=";
    var geoJSON = new OpenLayers.Format.GeoJSON({
@@ -34,6 +50,7 @@ function openInJosm(layerName)
    };
    req.open("GET", url + encodeURIComponent(xml), true);
    req.send(null);
+   filterStrategy.setFilter(null);
 }
 
 function openStreetInJosm(streetNumber)
@@ -79,7 +96,7 @@ function escapeXML(str)
 }
 
 function addOverpassLayer() {
-    var geodetic     = new OpenLayers.Projection("EPSG:4326");
+   var geodetic     = new OpenLayers.Projection("EPSG:4326");
    // map.removeLayer('OverPass').
    overpass_layer.destroyFeatures();
    var geojson_format = new OpenLayers.Format.GeoJSON({

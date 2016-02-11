@@ -9,6 +9,7 @@ var vector_layer;
 var overpass_layer;
 var agiv_layer;
 var osmInfo;
+var filterStrategy;;
 
 var overpassapi = "http://overpass-api.de/api/interpreter?data=";
 
@@ -63,6 +64,7 @@ function initmap() {
 */
             layers: [
                 new OpenLayers.Layer.OSM("OpenStreetMap", null, {
+                  numZoomLevels: 20
                 })
                 ]
         });
@@ -74,11 +76,12 @@ function initmap() {
        // http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?request=getcapabilities&service=wms
 
         var refresh = new OpenLayers.Strategy.Refresh({force: true, active: true});
+        filterStrategy = new OpenLayers.Strategy.Filter();
    
          // strategies: [new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
 
          vector_layer = new OpenLayers.Layer.Vector('GRB - Vector Source', {
-            strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
+            strategies: [ filterStrategy, new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 2}), refresh ], 
             //maxResolution: map.getResolutionForZoom(15),
             //zoomOffset: 9, resolutions: [152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
             //zoomOffset: 10, resolutions: [76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
@@ -92,12 +95,16 @@ function initmap() {
             //displayProjection: mercator
             isBaseLayer: false
          });
-        map.addLayer(vector_layer);
 
+/*
+	var draw = new OpenLayers.Control.DrawFeature(vector_layer, OpenLayers.Handler.Polygon);
+	map.addControl(draw);
+	draw.activate();
         vector_layer.events.register('loadend', vector_layer, function(){
             var extent = vector_layer.getDataExtent().toBBOX().replace(/,/g,", ");
             $("#msg").html("GRB source dataExtent:"+ extent).removeClass().addClass("notice info");
         });
+*/
 
         var grb_wms = new OpenLayers.Layer.WMS(
             "GRB Basiskaart",
@@ -336,16 +343,23 @@ function initmap() {
          }
       }
 
-      // Make sure the popup close box works even when not selected
-      vector_layer.events.on({
-         "featureselected": onFeatureSelect,
-         "featureunselected": onFeatureUnselect
-      });
-
       //lonLat = new OpenLayers.LonLat(lon, lat).transform(geodetic, map.getProjectionObject());
       //map.setCenter (lonLat, zoom);
-      vector_layer.setVisibility(true);
 
+      // Make sure the popup close box works even when not selected
+      //vector_layer.events.on({
+      //});
+
+	   vector_layer.events.on({
+         "featureselected": onFeatureSelect,
+         "featureunselected": onFeatureUnselect,
+         "featuresadded": function() {
+            $("#msg").html("Info : "+ "Loaded GRB import layer").removeClass().addClass("notice success");
+         }
+      });
+
+      map.addLayer(vector_layer);
+      vector_layer.setVisibility(true);
       /* Enable highlighting  */
       map.addControl(highlightvector);
       highlightvector.activate();
@@ -605,7 +619,6 @@ function getOsmInfo() {
       try {
          $("#msg").html("Info : " + "Parsing JSON").removeClass().addClass("notice info");
          data = JSON.parse(req.responseText);
-         //osmInfo = req.responseText;
       } catch(e) {
          $('#msg').removeClass().addClass("notice error").html("Problem parsing Overpass JSON data" + e);
          return false;
@@ -671,14 +684,15 @@ $( document ).ready(function() {
             event.preventDefault();
             return false; 
         });
+/*
         $( "#refreshgrb" ).button().click(function( event ) {
             $('#msg').removeClass().addClass("notice info");
             vector_layer.setVisibility(true);
             vector_layer.refresh();
-            vector_layer.reload();
             event.preventDefault();
             return false; 
         });
+*/
         $( "#loadgrb" ).button().click(function( event ) {
             $('#msg').removeClass().addClass("notice info").html("Action: Loading GRB data in new JOSM layer");
             $('body').css('cursor', 'wait');
