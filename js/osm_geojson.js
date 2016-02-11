@@ -11,7 +11,8 @@ osm_geojson.geojson2osm = function(geo, changeset, osmChange) {
             case 'Point':
                 var coord = roundCoords([geo.coordinates]);
                 nodes += '<node id="' + count + '" lat="' + coord[0][1] +
-                '" lon="' + coord[0][0] + '" changeset="' + changeset + '">';
+                '" lon="' + coord[0][0] + '">';
+                //'" lon="' + coord[0][0] + '" changeset="' + changeset + '">';
                 nodes += propertiesToTags(properties);
                 nodes += '</node>';
                 count--;
@@ -28,7 +29,8 @@ osm_geojson.geojson2osm = function(geo, changeset, osmChange) {
                 break;
 
             case 'MultiPolygon':
-                relations += '<relation id="' + count + '" changeset="' + changeset + '">';
+                relations += '<relation id="' + count + '">';
+                //relations += '<relation id="' + count + '" changeset="' + changeset + '">';
                 properties.type = 'multipolygon';
                 count--;
 
@@ -80,7 +82,7 @@ osm_geojson.geojson2osm = function(geo, changeset, osmChange) {
         var coords = [];
         if (geo.coordinates.length > 1) {
             // polygon with holes -> multipolygon
-            if (!multipolygon) relations += '<relation id="' + count + '" changeset="' + changeset +'">';
+            if (!multipolygon) relations += '<relation id="' + count + '">';
             count--;
             properties.type = 'multipolygon';
 
@@ -89,7 +91,7 @@ osm_geojson.geojson2osm = function(geo, changeset, osmChange) {
                 role = ((i === 0) ? 'outer' : 'inner');
 
                 relations += '<member type="way" ref="' + count + '" role="' + role + '"/>';
-                ways += '<way id="' + count + '" changeset="' + changeset + '">';
+                ways += '<way id="' + count + '">';
                 count--;
                 for (var a = 0; a < geo.coordinates[i].length-1; a++) {
                     coords.push([geo.coordinates[i][a][1], geo.coordinates[i][a][0]]);
@@ -107,7 +109,7 @@ osm_geojson.geojson2osm = function(geo, changeset, osmChange) {
             }
         } else {
             // polygon -> way
-            ways += '<way id="' + count + '" changeset="' + changeset + '">';
+            ways += '<way id="' + count + '">';
             if (multipolygon) relations += '<member type="way" ref="' + count + '" role="outer"/>';
             count--;
             for (var j = 0; j < geo.coordinates[0].length-1; j++) {
@@ -159,7 +161,7 @@ osm_geojson.geojson2osm = function(geo, changeset, osmChange) {
 
             nds += '<nd ref="' + count + '"/>';
             nodes += '<node id="' + count + '" lat="' + coords[a][0] +'" lon="' + coords[a][1] +
-            '" changeset="' + changeset + '"/>';
+            '"/>';
 
             if (repeatLastND && a === length-1) nds += '<nd ref="' + repeatLastND + '"/>';
             count--;
@@ -278,7 +280,7 @@ osm_geojson.osm2geojson = function(osm, metaProperties) {
             setIf(element, 'id', props, 'osm_id');
             setIf(element, 'user', props, 'osm_lastEditor');
             setIf(element, 'version', props, 'osm_version', true);
-            setIf(element, 'changeset', props, 'osm_lastChangeset', true);
+            //setIf(element, 'changeset', props, 'osm_lastChangeset', true);
             setIf(element, 'timestamp', props, 'osm_lastEdited');
         }
 

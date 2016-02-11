@@ -28,30 +28,46 @@ function openInJosm(layerName) {
             return false;
         }
     });
-*/
 
-    var my_filter = new OpenLayers.Filter.Comparison({
-      // type: OpenLayers.Filter.Function,
-      type: OpenLayers.Filter.Comparison.IS_NULL,
-      evaluate: function(feature) {
-            console.log("testing " + feature.attributes['source:geometry:oidn']);
-            $.each(vector_layer.features, function(i, item) {
-            //if ( strcmp ('way', i) !== 0 && item.length !== 0 && strcmp ('z_order', i) !== 0 && strcmp ('way_area', i) !== 0) 
-               console.log("match: " + item.attributes['source:geometry:oidn']);
-               if(item.attributes['source:geometry:oidn'] == feature.attributes['source:geometry:oidn'] ) {
-                  console.log("found match: " + item.attributes['source:geometry:oidn']);
-                  return true;
+   var filter_function = new OpenLayers.Filter.Function(
+      function(feature) {
+            $.each(overpass_layer.features, function(i, item) {
+            //console.log(item);
+            //console.log("match: " + item.attributes['source:geometry:oidn']);
+               if(item.attributes.tags['source:geometry:oidn'] == feature.attributes['source:geometry:oidn']) {
+                  //console.log("found match: " + item.attributes.tags['source:geometry:oidn']);
+                  return false;
                }
                //console.log(item.attributes);
             });
-            return null;
+            return true;
+        }
+   );
+*/
+
+    var my_filter = new OpenLayers.Filter.Comparison({
+            evaluate: function(feature) {
+            //console.log("testing " + feature.attributes['source:geometry:oidn']);
+            $.each(overpass_layer.features, function(i, item) {
+            //console.log(item);
+            //if ( strcmp ('way', i) !== 0 && item.length !== 0 && strcmp ('z_order', i) !== 0 && strcmp ('way_area', i) !== 0) 
+               //console.log("match: " + item.attributes['source:geometry:oidn']);
+               if(item.attributes.tags['source:geometry:oidn'] == feature.attributes['source:geometry:oidn']) {
+                  //console.log("found match: " + item.attributes.tags['source:geometry:oidn']);
+                  return false;
+               }
+               //console.log(item.attributes);
+            });
+            return true;
         }
     });
 
+/*
     var filter_null = new OpenLayers.Filter.Comparison({
         type: OpenLayers.Filter.Comparison.IS_NULL,
         property: "source"
     });
+*/
 
    var parent_filter = new OpenLayers.Filter.Logical({
         type: OpenLayers.Filter.Logical.AND,
@@ -59,8 +75,8 @@ function openInJosm(layerName) {
    });
 
    filterStrategy.setFilter(parent_filter);
-   // vector_layer.filter.activate(); 
-   // vector_layer.refresh({force: true}); -> this throws a weird error, not really needed
+   //filterStrategy.filter.activate(); 
+   //vector_layer.refresh({force: true});
 
    //var webmercator  = new OpenLayers.Projection("EPSG:3857");
    var geodetic     = new OpenLayers.Projection("EPSG:4326");
@@ -88,7 +104,7 @@ function openInJosm(layerName) {
    };
    req.open("GET", url + encodeURIComponent(xml), true);
    req.send(null);
-   filterStrategy.setFilter(null);
+   // filterStrategy.setFilter(null);
 }
 
 function openStreetInJosm(streetNumber)
