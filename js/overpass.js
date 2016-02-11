@@ -1,20 +1,24 @@
 /*jslint node: true, maxerr: 50, indent: 4 */
 "use strict";
 
-// vim: tabstop=3:softtabstop=3:shiftwidth=3:expandtab
+// vim: tabstop=3;softtabstop=3;shiftwidth=3;expandtab
 
 var streets = []; // list of streets with the addresses divided in several categories + extra info
 
 // REMOTECONTROL BINDINGS
-function openInJosm(layerName) {
+function filterForJosm() {
+   // var webmercator  = new OpenLayers.Projection("EPSG:3857");
+   var geodetic     = new OpenLayers.Projection("EPSG:4326");
+   // var mercator     = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+
+   newlayername='filtered-sourcelayer';
+
    var bounds = map.getExtent();
    bounds.transform(map.getProjectionObject(), geodetic);
-   // console.log(bounds.toBBOX());
-   // console.log(bounds);
-   $("#msg").html("Info : "+ bounds.toBBOX()).removeClass().addClass("notice success");
+   // $("#msg").html("Info : "+ bounds.toBBOX()).removeClass().addClass("notice success");
 
    var filter1 = new OpenLayers.Filter.Spatial({
-      projection: "EPSG:4326",
+      projection: geodetic,
       type: OpenLayers.Filter.Spatial.BBOX,
       value: bounds
    });
@@ -22,7 +26,7 @@ function openInJosm(layerName) {
 
    /* Filter out all buildings that come back via overpass from source vector layer */
    var overpassfilter  = new OpenLayers.Filter.Comparison({
-        projection: "EPSG:4326",
+        projection: geodetic,
         type: OpenLayers.Filter.Comparison.LIKE,
         property: "source:geometry:oidn",
         evaluate: function(feature) {
@@ -39,50 +43,22 @@ function openInJosm(layerName) {
             return ret;
         }
     });
-   mergeStrategy.setFilter(overpassfilter);
+    mergeStrategy.setFilter(overpassfilter);
+   $("#msg").html("Info : "+ "Filtered vector layer GRB with overpass data").removeClass().addClass("notice success");
+   return true;
+}
 
-/*
-    var filter2 = new OpenLayers.Filter.Function(
-         function(feature)  {
-               var ret = false;
-               $.each(overpass_layer.features, function(i, item) {
-                  //console.log("testing " + feature.attributes['source:geometry:oidn']);
-                  //console.log(item);
-                  //console.log(feature.attributes);
-                  if(item.attributes.tags['source:geometry:oidn'] === feature.attributes['source:geometry:oidn']) {
-                     console.log("found match: " + item.attributes.tags['source:geometry:oidn']);
-                        ret = true;
-                  }
-               });
-               return ret;
-    });
-
-    var filter_null = new OpenLayers.Filter.Comparison({
-        type: OpenLayers.Filter.Comparison.IS_NULL,
-        property: "source"
-    });
-
-   var parent_filter = new OpenLayers.Filter.Logical({
-        type: OpenLayers.Filter.Logical.AND,
-        filters: [my_filter, filter1]
-   });
-*/
-
-   //filterStrategy.filter.activate(); 
-   // vector_layer.refresh({force: true});
-
-   //var webmercator  = new OpenLayers.Projection("EPSG:3857");
+function openInJosm() {
    var geodetic     = new OpenLayers.Projection("EPSG:4326");
-   //var mercator     = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 
-   var url =  "http://localhost:8111/load_data?new_layer=true&layer_name="+layerName+"&data=";
+   var url =  "http://localhost:8111/load_data?new_layer=true&layer_name="+newlayername+"&data=";
+
    var geoJSON = new OpenLayers.Format.GeoJSON({
       internalProjection: map.getProjectionObject(),
       externalProjection: geodetic
    });
 
    var mylayers = map.getLayersByName('GRB - Vector Source');
-   //console.log(mylayers[0].features);
    var json = geoJSON.write( mylayers[0].features );
    var mylayers = null;
    var xml =  osm_geojson.geojson2osm(json);

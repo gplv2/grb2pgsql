@@ -1,5 +1,5 @@
 /*jslint node: true, maxerr: 50, indent: 4 */
-"seseu strict";
+"use strict";
 var lon = 4.46795;
 var lat = 50.97485;
 var zoom = 18;
@@ -11,6 +11,7 @@ var osmInfo;
 var filterStrategy;
 var mergeStrategy;
 var parentFilter;
+var newlayername='source-layer';
 
 var overpassapi = "http://overpass-api.de/api/interpreter?data=";
 
@@ -131,7 +132,7 @@ function initmap() {
                 //format: "image/png"
             },
             {
-                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
+                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 2}), refresh], 
                 tiled: true,
                 isBaseLayer: true,
                 projection: mercator,
@@ -150,7 +151,7 @@ function initmap() {
                 //format: "image/png"
             },
             {
-                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
+                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 2}), refresh], 
                 tiled: true,
                 isBaseLayer: false,
                 projection: mercator,
@@ -169,7 +170,7 @@ function initmap() {
                 //format: "image/png"
             },
             {
-                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
+                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 2}), refresh], 
                 tiled: true,
                 isBaseLayer: false,
                 projection: mercator,
@@ -188,7 +189,7 @@ function initmap() {
                 //format: "image/png"
             },
             {
-                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
+                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 2}), refresh], 
                 tiled: true,
                 isBaseLayer: false,
                 projection: mercator,
@@ -207,7 +208,7 @@ function initmap() {
                 //format: "image/png"
             },
             {
-                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
+                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 2}), refresh], 
                 tiled: true,
                 isBaseLayer: false,
                 projection: mercator,
@@ -225,7 +226,7 @@ function initmap() {
                 //format: "image/png"
             },
             {
-                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3}), refresh], 
+                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 2}), refresh], 
                 tiled: true,
                 isBaseLayer: false,
                 projection: mercator,
@@ -252,7 +253,7 @@ function initmap() {
                 FORMAT: "image/png"
             },
             {
-                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 3})], 
+                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 2})], 
                 tiled: true,
                 isBaseLayer: true,
                 projection: 'EPSG:3857',
@@ -684,22 +685,15 @@ $( document ).ready(function() {
             return false; 
         });
 
-        $( "#clrpopups" ).button().click(function( event ) {
-            $('#msg').removeClass().addClass("notice info");
-            while( map.popups.length ) {
-                map.removePopup(map.popups[0]);
-            }
-            $("#msg").html("Action: Popups cleared");
+        $( "#fpass" ).button().click(function( event ) {
+            $('#msg').removeClass().addClass("notice info").html("Action: Filtering GRV vector layer (overpass data / BBOX)");
+            $('body').css('cursor', 'wait');
+            filterForJosm();
+            $('body').css('cursor', 'default');
             event.preventDefault();
             return false; 
         });
 
-        $( "#vrfyjosm" ).button().click(function( event ) {
-            $('#msg').removeClass().addClass("notice info");
-            testJosmVersion();
-            event.preventDefault();
-            return false; 
-        });
 /*
         $( "#refreshgrb" ).button().click(function( event ) {
             $('#msg').removeClass().addClass("notice info");
@@ -712,7 +706,7 @@ $( document ).ready(function() {
         $( "#loadgrb" ).button().click(function( event ) {
             $('#msg').removeClass().addClass("notice info").html("Action: Loading GRB data in new JOSM layer");
             $('body').css('cursor', 'wait');
-            openInJosm('sourcelayer');
+            openInJosm();
             $('body').css('cursor', 'default');
             event.preventDefault();
             return false; 

@@ -3,7 +3,6 @@
 
 var geocoder = null;
 var refresh_poi = null;
-var filterStrategy = null;
 
 $(document).ready(function () {
    $.ajaxSetup({
@@ -12,14 +11,31 @@ $(document).ready(function () {
    });
     $('#mapcontrols').css("margin-bottom" , "5px");
     $('#mapcontrols').append('<input class="ui-button ui-state-default ColVis_Button" type="button" name="zoom" value="Zoom to vector" id="zoompoi" title=""/>');
-    $('#mapcontrols').append('<input class="ui-button ui-state-default ColVis_Button" type="button" name="zoom" value="Clear popups" id="clrpopups" title=""/>');
+    $('#mapcontrols').append('<input class="ui-button ui-state-default ColVis_Button" type="button" name="clearpopups" value="Clear popups" id="clrpopups" title=""/>');
+    $('#mapcontrols').append('<input class="ui-button ui-state-default ColVis_Button" type="button" name="vrfyjosm" value="Check JOSM" id="vrfyjosm" title=""/>');
+    $('#mapcontrols').append('<input class="ui-button ui-state-default ColVis_Button" type="button" name="rstfilter" value="Reset filter" id="rstfilter" title=""/>');
 
     $( "#clrpopups" ).click(function( event ) {
        $('#msg').removeClass().addClass("notice info");
        while( map.popups.length ) {
          map.removePopup(map.popups[0]);
        }
-       $("#msg").html("Action: Popups cleared");
+       $("#msg").html("Action: Popups cleared").removeClass().addClass("notice success");
+       event.preventDefault();
+       return false;
+    });
+
+    $( "#vrfyjosm" ).click(function( event ) {
+       $('#msg').removeClass().addClass("notice info");
+       testJosmVersion();
+       event.preventDefault();
+       return false;
+    });
+
+    $( "#rstfilter" ).click(function( event ) {
+       $('#msg').removeClass().addClass("notice success").html("Action: Reset filter");
+       filterStrategy.setFilter(null);
+       mergeStrategy.setFilter(null);
        event.preventDefault();
        return false;
     });
