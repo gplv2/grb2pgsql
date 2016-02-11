@@ -14,8 +14,6 @@ function filterForJosm() {
    newlayername='filtered-sourcelayer';
 
    var bounds = map.getExtent();
-   bounds.transform(map.getProjectionObject(), geodetic);
-   // $("#msg").html("Info : "+ bounds.toBBOX()).removeClass().addClass("notice success");
 
    var filter1 = new OpenLayers.Filter.Spatial({
       projection: geodetic,
@@ -26,7 +24,6 @@ function filterForJosm() {
 
    /* Filter out all buildings that come back via overpass from source vector layer */
    var overpassfilter  = new OpenLayers.Filter.Comparison({
-        projection: geodetic,
         type: OpenLayers.Filter.Comparison.LIKE,
         property: "source:geometry:oidn",
         evaluate: function(feature) {
@@ -36,7 +33,7 @@ function filterForJosm() {
                   //console.log(item);
                   //console.log(feature.attributes);
                   if(item.attributes.tags['source:geometry:oidn'] === feature.attributes['source:geometry:oidn']) {
-                     // console.log("found match: " + item.attributes.tags['source:geometry:oidn']);
+                     console.log("found match: " + item.attributes.tags['source:geometry:oidn']);
                      ret = false;
                   }
                });
@@ -45,7 +42,7 @@ function filterForJosm() {
     });
     mergeStrategy.setFilter(overpassfilter);
    $("#msg").html("Info : "+ "Filtered vector layer GRB with overpass data").removeClass().addClass("notice success");
-   return true;
+   //return true;
 }
 
 function openInJosm() {
