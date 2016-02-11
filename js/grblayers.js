@@ -613,7 +613,7 @@ function getOsmInfo() {
       $("#msg").html("Info : " + "Parsing OK").removeClass().addClass("notice success");
       //$("#msg").html("Info : " + "Parsing JSON").removeClass().addClass("notice info");
       osmInfo=osmtogeojson(data);
-      console.log(osmInfo);
+      //console.log(osmInfo);
       // console.log(test);
       $("#msg").html("Info : " + "Adding GEOJSON to map").removeClass().addClass("notice info");
       addOverpassLayer();

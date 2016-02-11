@@ -8,10 +8,18 @@ var streets = []; // list of streets with the addresses divided in several categ
 // REMOTECONTROL BINDINGS
 function openInJosm(layerName)
 {
+    //var webmercator  = new OpenLayers.Projection("EPSG:3857");
+    var geodetic     = new OpenLayers.Projection("EPSG:4326");
+    //var mercator     = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+
    var url =  "http://localhost:8111/load_data?new_layer=true&layer_name="+layerName+"&data=";
-   var geoJSON = new OpenLayers.Format.GeoJSON();
+   var geoJSON = new OpenLayers.Format.GeoJSON({
+      internalProjection: map.getProjectionObject(),
+      externalProjection: geodetic
+   });
+
    var mylayers = map.getLayersByName('GRB - Vector Source');
-   console.log(mylayers[0].features);
+   //console.log(mylayers[0].features);
    var json = geoJSON.write( mylayers[0].features );
    var mylayers = null;
    var xml =  osm_geojson.geojson2osm(json);
@@ -59,8 +67,7 @@ function testJosmVersion() {
    }).fail(function (jqXHR, textStatus, errorThrown) {
            $('#msg').removeClass().addClass("notice error").html("Fail to get JOSM version using remote control, is it running ?");
       //console.log(errorThrown);
-         });
-
+   });
 }
 
 function escapeXML(str)
@@ -78,11 +85,10 @@ function addOverpassLayer() {
    var geojson_format = new OpenLayers.Format.GeoJSON({
       internalProjection: map.getProjectionObject(),
       externalProjection: geodetic
-    });
+   });
    overpass_layer.addFeatures(geojson_format.read(osmInfo));
    //map.addLayer(overpass_layer);
    overpass_layer.setVisibility(true);
    overpass_layer.refresh();
    //console.log(overpass_layer);
-   //console.log(vector_layer);
 }
