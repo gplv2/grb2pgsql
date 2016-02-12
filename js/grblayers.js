@@ -319,6 +319,21 @@ function initmap() {
          }
       }
 
+      function getdetails(attributes) {
+         var response = "<dl>";
+             $.each(attributes, function(i, item) {
+                  //var option = '<option value="'+ item.groupid +'">'+ imag + item.groupdesc +'</option>';
+                  // item.groupdesc, item.groupid));
+                  //$('#selgroupid').append(option);
+                  if ( strcmp ('way', i) !== 0 && item.length !== 0 && strcmp ('z_order', i) !== 0 && strcmp ('way_area', i) !== 0) {
+                     response += "<dt>" + i +"</dt><dd>" + item + "</dd>";
+                     //console.log(response);
+                  }
+              });
+           response += "</dl>";
+     	return response;
+      }
+
       function onFeatureSelect(event) {
          destroyPopups(event);
          var feature = event.feature;
@@ -327,16 +342,15 @@ function initmap() {
            return true;
          }
 
-
-         // console.log(feature);
          // var content = "<h2>"+encHTML(feature.attributes.building) + "</h2>" + encHTML(feature.attributes.source);
-         var content = '<div id="plopper"><fieldset>' + "<legend>"+encHTML(feature.attributes.building) + '</legend><ul id="atlist">' +
+         var content = '<div id="plopper"><fieldset>' + "<legend>"+encHTML(feature.attributes.building) + '</legend>' +
             // '<li>' + encHTML(feature.attributes.description) 
             //+ "<li>Building : "+ feature.attributes.building +"</li>"
             //+ "<li>Source    : "+ feature.attributes.source +"</li>"
             getdetails(feature.attributes) +
             // + "<li>Tijd server : "+ feature.attributes.server_time +"</li>"
             "</ul></fieldset></div>";
+         //console.log(content);
 
          var popup = new OpenLayers.Popup.FramedCloud("chicken",
             feature.geometry.getBounds().getCenterLonLat(),
@@ -645,27 +659,12 @@ function getOsmInfo() {
       osmInfo=osmtogeojson(data);
       //console.log(osmInfo);
       // console.log(test);
-      $("#msg").html("Info : " + "Adding GEOJSON to map").removeClass().addClass("notice info");
       addOverpassLayer();
+      $("#msg").html("Info : " + "Added GEOJSON to map").removeClass().addClass("notice success");
    };
    //console.log("Overpass query:\n" + query);
    req.open("GET", overpassapi + encodeURIComponent(query), true);
    req.send(null);
-}
-
-function getdetails(attributes) {
-   var response = "<dl>";
-       $.each(attributes, function(i, item) {
-            //var option = '<option value="'+ item.groupid +'">'+ imag + item.groupdesc +'</option>';
-            // item.groupdesc, item.groupid));
-            //$('#selgroupid').append(option);
-            if ( strcmp ('way', i) !== 0 && item.length !== 0 && strcmp ('z_order', i) !== 0 && strcmp ('way_area', i) !== 0) {
-               response += "<dt>" + i +"</dt><dd>" + item + "</dd>";
-               //console.log(response);
-            }
-        });
-     response += "</dl>";
-     return response;
 }
 
 $( document ).ready(function() {

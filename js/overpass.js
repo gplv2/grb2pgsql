@@ -33,7 +33,7 @@ function filterForJosm() {
                   //console.log(item);
                   //console.log(feature.attributes);
                   if(item.attributes.tags['source:geometry:oidn'] === feature.attributes['source:geometry:oidn']) {
-                     console.log("found match: " + item.attributes.tags['source:geometry:oidn']);
+                     //console.log("found match: " + item.attributes.tags['source:geometry:oidn']);
                      ret = false;
                   }
                });

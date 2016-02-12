@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>GRB Preview</title>
+    <title>GRB data to OSM - Merge and Check</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/openlayers/2.12/theme/default/style.css" media="all" />
+    <!-- jQuery UI styles -->
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/dark-hive/jquery-ui.css" id="theme">
     <link rel="stylesheet" type="text/css" media="screen" href="themes/snowball/jquery-ui-custom_dt.css" />
     <link rel="stylesheet" href="style.css" media="all" />
     <script src="//maps.google.com/maps/api/js?v=3.5&amp;sensor=false"></script>
@@ -18,11 +20,21 @@
     <script src="js/osm_geojson.js" charset="utf-8"></script>
   </head>
   <body onload="initmap();">
-    <h1 id="title" >GRB/OSM Merge</h1>
-      <p id="shortdesc">GRB geojson vector data toolset</p>
-   <div id="search" style="margin-top: 10px;">
+    <ul class="navigation">
+        <li><h3><a href="/">Map</a></h3></li>
+        <li><a href="/up/"> Upload GRB data</a></li>
+    </ul>
+      <blockquote>
+      <p>GRB geojson vector data toolset.<br>
+       You can you use the search below to focus on an area.  Good search strings are "Streetname, City", with the semicolon. This helps geocoding.<br>
+       First zoom to your area of interest, the source layer (=GRB vector layer) will load with the bounding box limits. Once you have zoomed in on<br>
+       your area of intereset, you can load the overpass data.  This will match on source:geometry:oidn. You should hit the Filter button now before exporting<br>
+       this to JOSM.  Try to keep the areas small, there is a max size limit a request for JOSM can have.
+      </p>
+      </blockquote>
+   <div id="search" style="margin-top: 10px;"></div>
    <fieldset>
-      <legend>Zoeken</legend>
+      <legend>Search</legend>
       <div id="geosearch" class="filterclass ui-widget">
          <label for="address" style="padding-right: 7px;">Op straatnaam/gemeente</label>
          <input id="address" type="text" style="width : 550px;" class="ui-autocomplete-input" autocomplete="off">
@@ -32,11 +44,10 @@
          </div>
       </div>
    </fieldset>
-   </div>
    <div id="mapcontrols">
      <button id="opass" >Load Overpass layer</button>
      <button id="fpass" >Filter GRB Layer</button>
-     <button id="loadgrb">Exportt GRB layer</button>
+     <button id="loadgrb">Export GRB layer</button>
      <div id="msg" class="notice info"><p>...</p></div>
      <div id="idtag"></div>
     </div>
