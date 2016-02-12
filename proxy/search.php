@@ -31,7 +31,8 @@ $findme='GoogleEarth';
 $pos = strpos($headers['User-Agent'], $findme);
 // It's google Earth, so validate
 
-$proxy = new CrossProxy(array('http://nm1.bitless.be/','search.php'));
+//$proxy = new CrossProxy(array('http://nm1.bitless.be/','search.php'));
+$proxy = new CrossProxy(array('https://nominatim.openstreetmap.org/','search.php'));
 
 class CrossProxy {
 
