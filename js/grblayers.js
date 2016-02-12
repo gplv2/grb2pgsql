@@ -655,10 +655,11 @@ function getOsmInfo() {
       }
       $("#msg").html("Info : " + "Parsing OK").removeClass().addClass("notice success");
       //$("#msg").html("Info : " + "Parsing JSON").removeClass().addClass("notice info");
-      osmInfo=osmtogeojson(data);
       console.log(data);
-      // console.log(test); addOverpassLayer();
-      $("#msg").html("Info : " + "Added GEOJSON to map").removeClass().addClass("notice success");
+      osmInfo=osmtogeojson(data);
+      // console.log(test); 
+      addOverpassLayer();
+      //$("#msg").html("Info : " + "Added GEOJSON to map").removeClass().addClass("notice success");
    }
    //console.log("Overpass query:\n" + query);
    req.open("GET", overpassapi + encodeURIComponent(query), true);
