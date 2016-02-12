@@ -189,10 +189,6 @@ while ($row = pg_fetch_assoc($rs)) {
         if ($key == 'id') {
             $id .= ',"id":"' . escapeJsonString($val) . '"';
         }
-        if ($key == 'osm_id') {
-	  continue;
-		// do nothing
-	}
     }
     
     $rowOutput .= $props . '}';

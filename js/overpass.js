@@ -46,30 +46,44 @@ function filterForJosm() {
 }
 
 function openInJosm() {
-   var geodetic     = new OpenLayers.Projection("EPSG:4326");
+   $.ajax({
+      url: "//localhost:8111/version",
+      dataType: "json",
+      timeout: 5000 // 5 second wait
+   }).done(function (data) {
+      var version = data.protocolversion;
+      if (version.minor < 6) {
+         $('#msg').removeClass().addClass("notice error").html("Your JOSM installation does not yet support load_data requests. Please update JOSM to version 7643 or newer");
+      } else {
+         $('#msg').removeClass().addClass("notice success").html("JOSM is running");
+         var geodetic = new OpenLayers.Projection("EPSG:4326");
 
-   var url =  "http://localhost:8111/load_data?new_layer=true&layer_name="+newlayername+"&data=";
+         var myurl =  "http://localhost:8111/load_data?new_layer=true&layer_name="+newlayername+"&data=";
 
-   var geoJSON = new OpenLayers.Format.GeoJSON({
-      internalProjection: map.getProjectionObject(),
-      externalProjection: geodetic
+         var geoJSON = new OpenLayers.Format.GeoJSON({
+            internalProjection: map.getProjectionObject(),
+            externalProjection: geodetic
+         });
+
+         var mylayers = map.getLayersByName('GRB - Vector Source');
+         var json = geoJSON.write( mylayers[0].features );
+         var mylayers = null;
+         var xml =  osm_geojson.geojson2osm(json);
+         var json = null;
+         var req = new XMLHttpRequest();
+         req.onreadystatechange = function()
+         {
+            if (req.readyState == 4 && req.status == 400)
+               // something went wrong. Alert the user with appropriate messages
+               testJosmVersion();
+         };
+         req.open("GET", myurl + encodeURIComponent(xml), true);
+         req.send(null);
+      }
+   }).fail(function (jqXHR, textStatus, errorThrown) {
+           $('#msg').removeClass().addClass("notice error").html("Fail to get JOSM version using remote control, is it running ?");
+         //console.log(errorThrown);
    });
-
-   var mylayers = map.getLayersByName('GRB - Vector Source');
-   var json = geoJSON.write( mylayers[0].features );
-   var mylayers = null;
-   var xml =  osm_geojson.geojson2osm(json);
-   var json = null;
-
-   var req = new XMLHttpRequest();
-   req.onreadystatechange = function()
-   {
-      if (req.readyState == 4 && req.status == 400)
-         // something went wrong. Alert the user with appropriate messages
-         testJosmVersion();
-   };
-   req.open("GET", url + encodeURIComponent(xml), true);
-   req.send(null);
 }
 
 function openStreetInJosm(streetNumber)
