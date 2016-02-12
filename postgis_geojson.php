@@ -105,7 +105,7 @@ if (!defined('STDIN')) {
    list($bbox_west, $bbox_south, $bbox_east, $bbox_north) = preg_split("/,/", $bbox);
    //list($bbox['south'], $bbox['west'], $bbox['east'], $bbox['north']) = preg_split("/,/", $bbox['full']); // west, south, east, north
 }
-$fields = "osm_id, \"addr:housename\", \"addr:housenumber\", \"addr:interpolation\", \"addr:street\", \"addr:flats\", building, \"source:geometry:date\", \"source:geometry:oidn\", \"source:geometry\", source";
+$fields = "\"addr:housename\", \"addr:housenumber\", \"addr:interpolation\", \"addr:street\", \"addr:flats\", building, \"source:geometry:date\", \"source:geometry:oidn\", \"source:geometry\", source";
 
 # Build SQL SELECT statement and return the geometry as a GeoJSON element in EPSG: 4326
 $sql  = "SELECT " . pg_escape_string($fields) . ", st_asgeojson(ST_Transform(" . pg_escape_string($geomfield) . ",$srid)) AS geojson FROM " . pg_escape_string($geotable);
