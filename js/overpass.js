@@ -6,7 +6,9 @@
 var streets = []; // list of streets with the addresses divided in several categories + extra info
 
 // REMOTECONTROL BINDINGS
-function filterForJosm() {
+function filterForJosm() {    
+   filterStrategy.setFilter(null);
+   mergeStrategy.setFilter(null);
    // var webmercator  = new OpenLayers.Projection("EPSG:3857");
    var geodetic     = new OpenLayers.Projection("EPSG:4326");
    // var mercator     = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
@@ -55,7 +57,7 @@ function openInJosm() {
       if (version.minor < 6) {
          $('#msg').removeClass().addClass("notice error").html("Your JOSM installation does not yet support load_data requests. Please update JOSM to version 7643 or newer");
       } else {
-         $('#msg').removeClass().addClass("notice success").html("JOSM is running");
+         $('#msg').removeClass().addClass("notice success").html("JOSM is ready");
          var geodetic = new OpenLayers.Projection("EPSG:4326");
 
          var myurl =  "http://localhost:8111/load_data?new_layer=true&layer_name="+newlayername+"&data=";
@@ -67,6 +69,7 @@ function openInJosm() {
 
          var mylayers = map.getLayersByName('GRB - Vector Source');
          var json = geoJSON.write( mylayers[0].features );
+console.log(json);
          var mylayers = null;
          var xml =  osm_geojson.geojson2osm(json);
          var json = null;
@@ -77,6 +80,7 @@ function openInJosm() {
                // something went wrong. Alert the user with appropriate messages
                testJosmVersion();
          };
+         $('#msg').removeClass().addClass("notice info").html("Exporting XML to JOSM");
          req.open("GET", myurl + encodeURIComponent(xml), true);
          req.send(null);
       }

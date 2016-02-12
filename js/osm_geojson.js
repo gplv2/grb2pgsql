@@ -132,8 +132,10 @@ osm_geojson.geojson2osm = function(geo, changeset, osmChange) {
     function propertiesToTags(properties) {
         var tags = '';
         for (var tag in properties) {
-            if (properties[tag] !== null) {
+            if (tag !== 'osm_id') {
+               if (properties[tag] !== null) {
                 tags += '<tag k="' + tag + '" v="' + properties[tag] + '"/>';
+               }
             }
         }
         return tags;

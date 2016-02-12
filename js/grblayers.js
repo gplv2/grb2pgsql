@@ -684,7 +684,7 @@ $( document ).ready(function() {
         });
 
         $( "#fpass" ).button().click(function( event ) {
-            $('#msg').removeClass().addClass("notice info").html("Action: Filtering GRV vector layer (overpass data / BBOX)");
+            $('#msg').removeClass().addClass("notice info").html("Action: Filtering GRB vector layer (overpass data / BBOX)");
             $('body').css('cursor', 'wait');
             filterForJosm();
             $('body').css('cursor', 'default');
