@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GRB data to OSM - About</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/openlayers/2.12/theme/default/style.css" media="all" />
+    <!-- jQuery UI styles -->
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/dark-hive/jquery-ui.css" id="theme">
+    <link rel="stylesheet" type="text/css" media="screen" href="../themes/snowball/jquery-ui-custom_dt.css" />
+    <link rel="stylesheet" href="../style.css" media="all" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  </head>
+  <body>
+    <ul class="navigation">
+        <li><h3><a href="/">Map</a></h3></li>
+        <li><a href="/up/"> Upload GRB data</a></li>
+        <li><a href="/docs/"> about</a></li>
+    </ul>
+      <blockquote>
+      <p>GRB geojson vector data toolset.<br>
+       You can you use the search below to focus on an area.  Good search strings are "Streetname, City", with the semicolon. This helps geocoding.<br>
+       First zoom to your area of interest, the source layer (=GRB vector layer) will load with the bounding box limits. Once you have zoomed in on<br>
+       your area of intereset, you can load the overpass data.  This will match on source:geometry:oidn. You should hit the Filter button now before exporting<br>
+       this to JOSM.  Try to keep the areas small, there is a max size limit a request for JOSM can have.
+      </p>
+      </blockquote>
+  </body>
+</html>
