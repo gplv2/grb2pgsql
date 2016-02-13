@@ -23,28 +23,23 @@
     <ul class="navigation">
         <li><h3><a href="/">Map</a></h3></li>
         <li><a href="/up/"> Upload GRB data</a></li>
-    </ul>
-      <blockquote>
-      <p>GRB geojson vector data toolset.<br>
-       You can you use the search below to focus on an area.  Good search strings are "Streetname, City", with the semicolon. This helps geocoding.<br>
-       First zoom to your area of interest, the source layer (=GRB vector layer) will load with the bounding box limits. Once you have zoomed in on<br>
-       your area of intereset, you can load the overpass data.  This will match on source:geometry:oidn. You should hit the Filter button now before exporting<br>
-       this to JOSM.  Try to keep the areas small, there is a max size limit a request for JOSM can have.
+        <li><a href="/docs/"> About</a></li>
+    </ul><p>
       </p>
-      </blockquote>
-   <div id="search" style="margin-top: 10px;"></div>
+      <div id="search" style="margin-top: 10px;">
       <fieldset>
-      <legend>Search</legend>
+      <legend>Search nominatim</legend>
       <div id="geosearch" class="filterclass ui-widget">
-         <label for="address" style="padding-right: 7px;">Op straatnaam/gemeente</label>
-         <input id="address" type="text" style="width : 550px;" class="ui-autocomplete-input" autocomplete="off">
+         <input id="address" type="text" style="width : 550px;" class="ui-autocomplete-input" autocomplete="off" title="Zoek via nominatim">
          <div id="radio">
             <input type="radio" name="radio" id="sosm" checked><label for="sosm">OSM</label>
             <input type="radio" name="radio" id="sgoogle"><label for="sgoogle">Google</label>
          </div>
       </div>
       </fieldset>
+</div>
       <div id="layerboxes">
+<!--
        <fieldset id="fset" style="width: 380px; float: right; height: 56px;">
          <legend>Filter:</legend>
          <div id="mapfilter" class="filterclass ui-widget-content"><input type="search" id="searchfilter">
@@ -52,11 +47,16 @@
              <input class="ui-button ui-state-default" type="button" name="lstreset" value="Reset filter" id="resfilt" title="Reset de filter" />
          </div>
         </fieldset>
+-->
+      </div>
+      <div id="contentfilters">
       </div>
    <div id="mapcontrols">
      <button id="opass" >Load Overpass layer</button>
      <button id="fpass" >Filter GRB Layer</button>
-     <button id="loadgrb">Export GRB layer</button>
+     <button id="loadgrb">Export GRB layer in JOSM</button>
+     <button id="loadarea">Open Area in JOSM</button>
+     <input type="checkbox" name="popupsw" id="popupswitch"><label id="lbl_popupswitch" for="popupswitch">Enable Popups</label>
      <div id="msg" class="notice info"><p>...</p></div>
      <div id="idtag"></div>
     </div>

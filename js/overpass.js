@@ -69,7 +69,7 @@ function openInJosm() {
 
          var mylayers = map.getLayersByName('GRB - Vector Source');
          var json = geoJSON.write( mylayers[0].features );
-console.log(json);
+         //console.log(json);
          var mylayers = null;
          var xml =  osm_geojson.geojson2osm(json);
          var json = null;
@@ -90,19 +90,46 @@ console.log(json);
    });
 }
 
-function openStreetInJosm(streetNumber)
-{
-   var street = streets[streetNumber];
-   // Get the BBOX of the addresses in the street, and add some margins
-   var link = "http://localhost:8111/load_and_zoom"+
-      "?left=" + (street.l - 0.001) +
-      "&right=" + (street.r + 0.001) +
-      "&top=" + (street.t + 0.0005) +
-      "&bottom=" + (street.b - 0.0005);
+function openAreaInJosm() {
+   $.ajax({
+      url: "//localhost:8111/version",
+      dataType: "json",
+      timeout: 5000 // 5 second wait
+   }).done(function (data) {
+      var version = data.protocolversion;
+      if (version.minor < 6) {
+         $('#msg').removeClass().addClass("notice error").html("Your JOSM installation does not yet support load_data requests. Please update JOSM to version 7643 or newer");
+      } else {
+         $('#msg').removeClass().addClass("notice success").html("JOSM is ready");
+         var geodetic = new OpenLayers.Projection("EPSG:4326");
 
-   var req = new XMLHttpRequest();
-   req.open("GET", link, true);
-   req.send(null);
+         function generateId(len) {
+            var arr = new Uint8Array((len || 40) / 2);
+            window.crypto.getRandomValues(arr);
+            return [].map.call(arr, function(n) { return n.toString(16); }).join("");
+         }
+
+         var bounds = map.getExtent();
+         bounds.transform(map.getProjectionObject(), geodetic);
+         var myurl = "http://localhost:8111/load_and_zoom?new_layer=true&layer_name=" + generateId(10) + "&" + "left=" + bounds.left + "&right=" + bounds.right + "&top=" + bounds.top + "&bottom=" + bounds.bottom;
+         console.log(myurl);
+
+         var req = new XMLHttpRequest();
+         req.onreadystatechange = function()
+         {
+            if (req.readyState == 4 && req.status == 400)
+               // something went wrong. Alert the user with appropriate messages
+               testJosmVersion();
+         };
+         $('#msg').removeClass().addClass("notice info").html("Opening area in JOSM");
+         var req = new XMLHttpRequest();
+         req.open("GET", myurl, true);
+         req.send(null);
+      }
+   }).fail(function (jqXHR, textStatus, errorThrown) {
+           $('#msg').removeClass().addClass("notice error").html("Fail to get JOSM version using remote control, is it running ?");
+         //console.log(errorThrown);
+   });
 }
 
 function testJosmVersion() {

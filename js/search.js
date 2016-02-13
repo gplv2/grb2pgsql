@@ -33,9 +33,11 @@ $(document).ready(function () {
     });
 
     $( "#rstfilter" ).click(function( event ) {
-       $('#msg').removeClass().addClass("notice success").html("Action: Reset filter");
+       $('#msg').removeClass().addClass("notice success").html("Action: Reset all filters");
        filterStrategy.setFilter(null);
        mergeStrategy.setFilter(null);
+       streetStrategy.setFilter(null);
+       buildingStrategy.setFilter(null);
        event.preventDefault();
        return false;
     });
@@ -63,7 +65,8 @@ $(document).ready(function () {
         var lat = $('#idtaglat').val();
         var lon = $('#idtaglon').val();
         var address = $('#idtagadd').val();
-        var url = 'http://nm1.bitless.be/reverse.php?format=json&lon='+ lon + '&lat=' + lat + '&zoom=18&addressdetails=1&accept-language=nl,en;q=0.8,fr;q=0.5';
+        //var url = 'http://nm1.bitless.be/reverse.php?format=json&lon='+ lon + '&lat=' + lat + '&zoom=18&addressdetails=1&accept-language=nl,en;q=0.8,fr;q=0.5';
+        var url = 'http://nominatim.openstreetmap.org/reverse.php?format=json&lon='+ lon + '&lat=' + lat + '&zoom=18&addressdetails=1&accept-language=nl,en;q=0.8,fr;q=0.5';
         
         if (( lat !== null && lat !== undefined && lat != 0) && ( lon !== null && lon !== undefined && lon != 0)) {
             if(address.length <= 0) {
@@ -71,7 +74,7 @@ $(document).ready(function () {
                 var geocode = (function () {
                     var geocode = null;
                     $.ajax({
-                        'async': false,
+                        'async': true,
                         'global': false,
                         'url': url,
                         'dataType': "json",

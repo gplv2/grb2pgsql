@@ -9,11 +9,14 @@ var overpass_layer;
 var agiv_layer;
 var osmInfo;
 var filterStrategy;
+var streetStrategy;
+var buildingStrategy;
 var mergeStrategy;
 var parentFilter;
 var newlayername='source-layer';
 var isvecup = null;
 var stuff = null;
+var streetextents = null;
 
 var overpassapi = "http://overpass-api.de/api/interpreter?data=";
 
@@ -34,7 +37,7 @@ function initmap() {
         $('#map').css("width",canvaswidth);
     });
 
-     $("#msg").html("\t,start init()");
+     $("#msg").html("start init()");
        var layerswitcher = new OpenLayers.Control.LayerSwitcher();
 
        map = new OpenLayers.Map({
@@ -77,6 +80,8 @@ function initmap() {
         });
 
       map.events.register('zoomend', this, function (event) {
+         streetStrategy.setFilter(null);
+         buildingStrategy.setFilter(null);
          $('#msg').html("Scale: " + map.getScale() + " / ZoomLevel: " + map.getZoom() + " / Resolution: " + map.getResolution());
     /*
     var x = map.getZoom();
@@ -98,9 +103,11 @@ function initmap() {
 
         filterStrategy = new OpenLayers.Strategy.Filter();
         mergeStrategy = new OpenLayers.Strategy.Filter();
+        streetStrategy = new OpenLayers.Strategy.Filter();
+        buildingStrategy = new OpenLayers.Strategy.Filter();
 
          vector_layer = new OpenLayers.Layer.Vector('GRB - Vector Source', {
-            strategies: [ filterStrategy, mergeStrategy, boxStrategy, refresh ], 
+            strategies: [ streetStrategy, buildingStrategy, filterStrategy, mergeStrategy, boxStrategy, refresh ], 
             //maxResolution: map.getResolutionForZoom(15),
             //zoomOffset: 9, resolutions: [152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
             //zoomOffset: 10, resolutions: [76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
@@ -281,7 +288,7 @@ function initmap() {
          notice: function (bounds) {
             // OpenLayers.Console.userError(bounds);
             // bounds.transform(map.getProjectionObject(), new OpenLayers.Projection(mercator));
-            console.log(bounds);
+            //console.log(bounds);
             $('#msg').removeClass().addClass("notice info").html("Bounding box: " + bounds.toBBOX() );
          }
    });
@@ -338,6 +345,10 @@ function initmap() {
 
       function onFeatureSelect(event) {
          destroyPopups(event);
+         if ( !$( "#popupswitch" ).prop( "checked" ) ) {
+            return true;
+         }
+
          var feature = event.feature;
          if ( strcmp ('GRB - Vector Source', feature.layer.name) !== 0 ) {
            // Don't work on other layers
@@ -585,27 +596,50 @@ function initmap() {
    map.setLayerIndex(overpass_layer, 0);
 
    function onloadvectorend(evt) {
+         // isvecup = null; Always do this now
+       isvecup = null;
        if(isvecup == null || isvecup == undefined) {
-            if(stuff !== null && stuff !== undefined) {
-       //console.log(poilayer);
-       $('#cntain').css("width", 'auto');
-       $('#layerboxes').append('<fieldset id="pset" style="width: 160px; display: inline-block; height: 56px;">');
-       $('#pset').append('<legend>Streetfilter</legend>');
-       $('#pset').append('<select id="seltagid" name="tagid" style="width:100%;">');
-       $('#seltagid').append(new Option('*','None'));
-       // console.log(poilayer.features);
+          // if(stuff !== null && stuff !== undefined) 
+          // console.log(poilayer);
+          $('#cntain').css("width", 'auto');
+          $('#contentfilters').empty();
+          $('#contentfilters').css("float", 'right');
+          $('#contentfilters').append('<fieldset id="pset" style="width: 160px; display: inline-block; height: 56px;">');
+          $('#pset').append('<legend class="fright">Street filter</legend>');
+          $('#pset').append('<select id="seltagid" name="tagid" style="width:100%;">');
+          $('#seltagid').append(new Option('*','None'));
+          //stuff = vector_layer.features;
+          //addr:street
+          var streets = {} ;
 
-       $.each(stuff, function(i, item) {
-                console.log(item);
-               $('#seltagid').append(new Option(item.peopleName, item.peopleName ));
-       });
-       // $('#pset').append('<div id="gicon"></div>');
-       $('#layerboxes').append('</fieldset>');
+          $.each(vector_layer.features, function(i, item) {
+               if ( item.attributes['addr:street']) {
+                  streets[item.attributes['addr:street']] = 1;
+               }
+          });
 
-       $('#seltagid').change(function() {
+          var keys = [];
+            for (var key in streets) {
+               if (streets.hasOwnProperty(key)) {
+               keys.push(key);
+               }
+            }
+          keys.sort ();
+
+          //console.log(keys);
+          $.each(keys, function(i, item) {
+               //$('#seltagid').append(new Option(item.['addr:street'], item.asdfsadf ));
+               $('#seltagid').append(new Option(item, item));
+          });
+          // $('#pset').append('<div id="gicon"></div>');
+
+          $('#contentfilters').append('</fieldset>');
+
+          $('#seltagid').change(function() {
+               //streetStrategy.setFilter(null);
                // vector_layer.refresh();
                var filterstring=$('#seltagid').val();
-               var propertysearch='name';
+               var propertysearch='addr:street';
 
                if (filterstring == 'None') {
                     filterstring = ''
@@ -618,26 +652,92 @@ function initmap() {
                     value: filterstring
                });
 
-               var mybounds = null;
                 //console.log(filterstring);
                if (filterstring.length<=0) {
-                    filterStrategy['tags'].setFilter(null);
+                    streetStrategy.setFilter(null);
                } else {
-                    filterStrategy['tags'].setFilter(myfilter);
+                    streetStrategy.setFilter(myfilter);
                }
+               vector_layer.refresh();
 
-               var bounds = dotlayer.getDataExtent();
+               var bounds = vector_layer.getDataExtent();
+               //map.getZoom()
 
                if(bounds !== null && bounds !== undefined) {
                     map.panTo(bounds.getCenterLonLat());
-                    map.zoomToExtent(bounds, true);
+                    //map.zoomToExtent(bounds, true);
+               }
+         });
+
+         // The building filter
+         $('#contentfilters').append('<fieldset id="bset" style="width: 160px; display: inline-block; height: 56px;">');
+         $('#bset').append('<legend class="fright">Building filter</legend>');
+         $('#bset').append('<select id="selbtype" name="tagid" style="width:100%;">');
+         $('#selbtype').append(new Option('*','None'));
+         //stuff = vector_layer.features;
+         //addr:street
+         var buildings = {} ;
+
+         $.each(vector_layer.features, function(i, item) {
+               //console.log(item.attributes['building']);
+               if ( item.attributes['building']) {
+                  buildings[item.attributes['building']] = item.attributes['building'];
+               }
+         });
+
+         var keys = [];
+         for (var key in buildings) {
+               if (buildings.hasOwnProperty(key)) {
+                  keys.push(key);
+               }
+         }
+         keys.sort ();
+
+         // console.log(keys);
+         $.each(keys, function(i, item) {
+               //$('#selbtype').append(new Option(item.['addr:street'], item.asdfsadf ));
+               $('#selbtype').append(new Option(item, item));
+         });
+         // $('#bset').append('<div id="gicon"></div>');
+   
+         $('#contentfilters').append('</fieldset>');
+
+         $('#selbtype').change(function() {
+               //buildingStrategy.setFilter(null);
+               // vector_layer.refresh();
+               var filterstring=$('#selbtype').val();
+               var propertysearch='building';
+
+               if (filterstring == 'None') {
+                    filterstring = ''
+               }
+
+               var myfilter = new OpenLayers.Filter.Comparison({
+                    type: OpenLayers.Filter.Comparison.LIKE,
+                    // property: "imei",
+                    property: propertysearch,
+                    value: filterstring
+               });
+
+                //console.log(filterstring);
+               if (filterstring.length<=0) {
+                    buildingStrategy.setFilter(null);
+               } else {
+                    buildingStrategy.setFilter(myfilter);
+               }
+               vector_layer.refresh();
+
+               var bounds = vector_layer.getDataExtent();
+
+               if(bounds !== null && bounds !== undefined) {
+                    map.panTo(bounds.getCenterLonLat());
+                    //map.zoomToExtent(bounds, true);
                }
         });
-       //console.log(poilayer.features);
-       isvecup = true;
-       }
-   };
-}
+         //console.log(poilayer.features);
+         isvecup = true;
+   }
+  }
 }
 
 /**
@@ -715,7 +815,7 @@ function getOsmInfo() {
       }
       $("#msg").html("Info : " + "Parsing OK").removeClass().addClass("notice success");
       //$("#msg").html("Info : " + "Parsing JSON").removeClass().addClass("notice info");
-      console.log(data);
+      //console.log(data);
       osmInfo=osmtogeojson(data);
       // console.log(test); 
       addOverpassLayer();
@@ -728,7 +828,7 @@ function getOsmInfo() {
 
 $( document ).ready(function() {
     $("#msg").html("Action: DocReady");
-    console.log( "docready!" );
+    //console.log( "docready!" );
 
     $(function() {
         $('#msg').removeClass().addClass("notice info");
@@ -739,8 +839,8 @@ $( document ).ready(function() {
             $('body').css('cursor', 'wait');
             getOsmInfo();
             $('body').css('cursor', 'default');
-            event.preventDefault();
-            return false; 
+            //event.preventDefault();
+            //return false; 
         });
 
         $( "#fpass" ).button().click(function( event ) {
@@ -748,9 +848,23 @@ $( document ).ready(function() {
             $('body').css('cursor', 'wait');
             filterForJosm();
             $('body').css('cursor', 'default');
-            event.preventDefault();
-            return false; 
+            //event.preventDefault();
+            //return false; 
         });
+
+        $( "#popupswitch" ).button().click(function( event ) {
+            if ( $( this ).prop( "checked" ) ) {
+               $('#msg').removeClass().addClass("notice info").html("Config: Popup autoloading enabled.");
+               $('#lbl_popupswitch > span').html("Disable Popups");
+            } else {
+               $('#msg').removeClass().addClass("notice info").html("Config: Popup autoloading disabled.");
+               $('#lbl_popupswitch > span').html("Enable Popups");
+               //$('body').css('cursor', 'wait');
+               //$('body').css('cursor', 'default');
+            }
+         return true; 
+        });
+
 
 /*
         $( "#refreshgrb" ).button().click(function( event ) {
@@ -762,16 +876,23 @@ $( document ).ready(function() {
         });
 */
         $( "#loadgrb" ).button().click(function( event ) {
-            $('#msg').removeClass().addClass("notice info").html("Action: Loading GRB data in new JOSM layer");
+            $('#msg').removeClass().addClass("notice info").html("Action: Loading vector GRB data in a new JOSM layer");
             $('body').css('cursor', 'wait');
             openInJosm();
             $('body').css('cursor', 'default');
             event.preventDefault();
             return false; 
         });
+        $( "#loadarea" ).button().click(function( event ) {
+            $('#msg').removeClass().addClass("notice info").html("Action: Opening area in JOSM");
+            $('body').css('cursor', 'wait');
+            openAreaInJosm();
+            $('body').css('cursor', 'default');
+            event.preventDefault();
+            return false; 
+        });
     });
-      $("#msg").html("Action: docReadydone");
-      console.log( "docreadydone!" );
+    $("#msg").html("Action: docReadydone");
 });
 
 jQuery.fn.encHTML = function () {
@@ -837,7 +958,7 @@ function strcmp (str1, str2) {
     stuff = (function () {
         var stuff = null;
         $.ajax({
-            'async': false,
+            'async': true,
             'global': false,
             'url': url,
             'dataType': "json",
