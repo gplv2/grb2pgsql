@@ -12,6 +12,8 @@ var filterStrategy;
 var mergeStrategy;
 var parentFilter;
 var newlayername='source-layer';
+var isvecup = null;
+var stuff = null;
 
 var overpassapi = "http://overpass-api.de/api/interpreter?data=";
 
@@ -389,6 +391,9 @@ function initmap() {
          }
       });
 
+      // create selection lists
+      vector_layer.events.register('loadend', this, onloadvectorend);
+
       map.addLayer(vector_layer);
       vector_layer.setVisibility(true);
       /* Enable highlighting  */
@@ -578,6 +583,61 @@ function initmap() {
 
    map.addLayer(overpass_layer);
    map.setLayerIndex(overpass_layer, 0);
+
+   function onloadvectorend(evt) {
+       if(isvecup == null || isvecup == undefined) {
+            if(stuff !== null && stuff !== undefined) {
+       //console.log(poilayer);
+       $('#cntain').css("width", 'auto');
+       $('#layerboxes').append('<fieldset id="pset" style="width: 160px; display: inline-block; height: 56px;">');
+       $('#pset').append('<legend>Streetfilter</legend>');
+       $('#pset').append('<select id="seltagid" name="tagid" style="width:100%;">');
+       $('#seltagid').append(new Option('*','None'));
+       // console.log(poilayer.features);
+
+       $.each(stuff, function(i, item) {
+                console.log(item);
+               $('#seltagid').append(new Option(item.peopleName, item.peopleName ));
+       });
+       // $('#pset').append('<div id="gicon"></div>');
+       $('#layerboxes').append('</fieldset>');
+
+       $('#seltagid').change(function() {
+               // vector_layer.refresh();
+               var filterstring=$('#seltagid').val();
+               var propertysearch='name';
+
+               if (filterstring == 'None') {
+                    filterstring = ''
+               }
+
+               var myfilter = new OpenLayers.Filter.Comparison({
+                    type: OpenLayers.Filter.Comparison.LIKE,
+                    // property: "imei",
+                    property: propertysearch,
+                    value: filterstring
+               });
+
+               var mybounds = null;
+                //console.log(filterstring);
+               if (filterstring.length<=0) {
+                    filterStrategy['tags'].setFilter(null);
+               } else {
+                    filterStrategy['tags'].setFilter(myfilter);
+               }
+
+               var bounds = dotlayer.getDataExtent();
+
+               if(bounds !== null && bounds !== undefined) {
+                    map.panTo(bounds.getCenterLonLat());
+                    map.zoomToExtent(bounds, true);
+               }
+        });
+       //console.log(poilayer.features);
+       isvecup = true;
+       }
+   };
+}
 }
 
 /**
@@ -769,3 +829,24 @@ function strcmp (str1, str2) {
    // *     returns 2: -1
    return ((str1 == str2) ? 0 : ((str1 > str2) ? 1 : -1));
 }
+
+/*
+
+  var url = "/stuff.php?account="+ accountname + "&r="+Math.random();
+
+    stuff = (function () {
+        var stuff = null;
+        $.ajax({
+            'async': false,
+            'global': false,
+            'url': url,
+            'dataType': "json",
+            'success': function (data) {
+            stuff = data;
+            }
+            });
+        //console.log(stuff);
+        return stuff;
+        })();
+
+*/

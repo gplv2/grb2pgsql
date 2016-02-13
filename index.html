@@ -33,7 +33,7 @@
       </p>
       </blockquote>
    <div id="search" style="margin-top: 10px;"></div>
-   <fieldset>
+      <fieldset>
       <legend>Search</legend>
       <div id="geosearch" class="filterclass ui-widget">
          <label for="address" style="padding-right: 7px;">Op straatnaam/gemeente</label>
@@ -43,7 +43,16 @@
             <input type="radio" name="radio" id="sgoogle"><label for="sgoogle">Google</label>
          </div>
       </div>
-   </fieldset>
+      </fieldset>
+      <div id="layerboxes">
+       <fieldset id="fset" style="width: 380px; float: right; height: 56px;">
+         <legend>Filter:</legend>
+         <div id="mapfilter" class="filterclass ui-widget-content"><input type="search" id="searchfilter">
+             <div id="cntain"> </div>
+             <input class="ui-button ui-state-default" type="button" name="lstreset" value="Reset filter" id="resfilt" title="Reset de filter" />
+         </div>
+        </fieldset>
+      </div>
    <div id="mapcontrols">
      <button id="opass" >Load Overpass layer</button>
      <button id="fpass" >Filter GRB Layer</button>
