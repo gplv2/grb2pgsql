@@ -18,10 +18,11 @@ do
 
  echo "OGR2OGR"
  echo "======="
- echo /usr/local/bin/ogr2ogr -t_srs EPSG:900913 -s_srs "ESRI::${dirname}/${filename}.prj" "${filename}_parsed" ${dirname}/${filename}.shp -overwrite
+ echo /usr/local/bin/ogr2ogr -s_srs "EPSG:31370" -t_srs "EPSG:4326" "${filename}_parsed" ${dirname}/${filename}.shp -overwrite
  #/usr/local/bin/ogr2ogr -overwrite -t_srs EPSG:3857 -s_srs "ESRI::${dirname}/${filename}.prj" "${filename}_parsed" ${dirname}/${filename}.shp
  #/usr/local/bin/ogr2ogr -overwrite -t_srs EPSG:900931 -s_srs "ESRI::${dirname}/${filename}.prj" "${filename}_parsed" ${dirname}/${filename}.shp
  #/usr/local/bin/ogr2ogr -overwrite -t_srs EPSG:900931 "${filename}_parsed" ${dirname}/${filename}.shp
+ #/usr/local/bin/ogr2ogr -s_srs "EPSG:31370" -t_srs "EPSG:4326" Gbg23096B500_parsed GRBgis_23096B500/Shapefile/Gbg23096B500.shp -overwrite
  
  #ogr2osm.py Gbg11024B500_parsed/Gbg11024B500.shp
 
@@ -29,6 +30,7 @@ do
  echo "OGR2OSM"
  echo "======="
  rm -f "${filename}.osm"
+ echo ogr2osm.py "${filename}_parsed/${filename}.shp"
  ogr2osm.py "${filename}_parsed/${filename}.shp"
  echo -n ""
 
@@ -45,6 +47,7 @@ do
  echo -n ""
  echo "IMPORT"
  echo "======"
+ echo osm2pgsql --slim --create --cache 1000 --number-processes 2 --hstore --style /usr/local/src/osm/openstreetmap-carto/openstreetmap-carto.style --multi-geometry -d grb -U grb-data "${filename}_addressed.osm"
  osm2pgsql --slim --create --cache 1000 --number-processes 2 --hstore --style /usr/local/src/osm/openstreetmap-carto/openstreetmap-carto.style --multi-geometry -d grb -U grb-data "${filename}_addressed.osm"
 
  echo -n ""
