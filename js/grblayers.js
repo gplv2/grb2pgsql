@@ -31,10 +31,10 @@ function initmap() {
 
     $(window).resize(function() {
         //$('#log').append('<div>Handler for .resize() called.</div>');
-        var canvasheight=$('#map').parent().css('height');
-        var canvaswidth=$('#map').parent().css('width');
-        $('#map').css("height",canvasheight);
-        $('#map').css("width",canvaswidth);
+        //var canvasheight=$('#map').parent().css('height');
+        //var canvaswidth=$('#map').parent().css('width');
+        //$('#map').css("height",canvasheight);
+        //$('#map').css("width",canvaswidth);
     });
 
      $("#msg").html("start init()");
@@ -108,6 +108,8 @@ function initmap() {
 
          vector_layer = new OpenLayers.Layer.Vector('GRB - Vector Source', {
             strategies: [ streetStrategy, buildingStrategy, filterStrategy, mergeStrategy, boxStrategy, refresh ], 
+            maxScale: 800,
+            minScale: 6771,
             //maxResolution: map.getResolutionForZoom(15),
             //zoomOffset: 9, resolutions: [152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
             //zoomOffset: 10, resolutions: [76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
