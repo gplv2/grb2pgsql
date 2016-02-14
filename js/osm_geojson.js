@@ -56,10 +56,10 @@ osm_geojson.geojson2osm = function(geo, changeset, osmChange) {
             relations += obj.relations;
         }
 
-        osm = '<?xml version="1.0" encoding="UTF-8"?><osm version="0.6" generator="github.com/aaronlidman/osm-and-geojson">' +
+        osm = '<?xml version="1.0" encoding="UTF-8"?><osm version="0.6" upload="no" generator="grbtiles.byteless.net">' +
         nodes + ways + relations + '</osm>';
         if (osmChange) {
-            osm = '<osmChange version="0.6" generator="github.com/aaronlidman/osm-and-geojson"><create>' +
+            osm = '<osmChange upload="no" version="0.6" generator="grbtiles.byteless.net"><create>' +
             nodes + ways + relations + '</create></osmChange>';
         }
 
@@ -188,8 +188,8 @@ osm_geojson.geojson2osm = function(geo, changeset, osmChange) {
             for (var i = 0; i < geo.features.length; i++){
                 obj.push(togeojson(geo.features[i].geometry, geo.features[i].properties));
             }
-            temp.osm = '<?xml version="1.0" encoding="UTF-8"?><osm version="0.6" generator="github.com/aaronlidman/osm-and-geojson">';
-            if (osmChange) temp.osm = '<osmChange version="0.6" generator="github.com/aaronlidman/osm-and-geojson"><create>';
+            temp.osm = '<?xml version="1.0" encoding="UTF-8"?><osm version="0.6" upload="no" generator="grbtiles.byteless.net">';
+            if (osmChange) temp.osm = '<osmChange version="0.6" upload="no" generator="grbtiles.byteless.net"><create>';
             for (var n = 0; n < obj.length; n++) {
                 temp.nodes += obj[n].nodes;
                 temp.ways += obj[n].ways;
@@ -282,7 +282,8 @@ osm_geojson.osm2geojson = function(osm, metaProperties) {
             setIf(element, 'id', props, 'osm_id');
             setIf(element, 'user', props, 'osm_lastEditor');
             setIf(element, 'version', props, 'osm_version', true);
-            //setIf(element, 'changeset', props, 'osm_lastChangeset', true);
+            // setIf(element, 'upload', props, 'no', true);
+            // setIf(element, 'changeset', props, 'osm_lastChangeset', true);
             setIf(element, 'timestamp', props, 'osm_lastEdited');
         }
 

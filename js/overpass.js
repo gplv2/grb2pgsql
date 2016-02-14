@@ -72,6 +72,7 @@ function openInJosm() {
          //console.log(json);
          var mylayers = null;
          var xml =  osm_geojson.geojson2osm(json);
+         //console.log(xml);
          var json = null;
          var req = new XMLHttpRequest();
          req.onreadystatechange = function()
