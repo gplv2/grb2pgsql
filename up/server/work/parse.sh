@@ -2,7 +2,8 @@
 echo "Reset counter $file"
 echo "2" > ogr2osm.id
 
-for file in G*/Shapefile/Gbg*.shp
+for file in GRBgis_10000/Shapefile/Gbg*.shp
+#for file in G*/Shapefile/Gbg*.shp
 #for file in G*/Shapefile/Gbg23096B500.shp
 
 do
@@ -50,6 +51,8 @@ do
  /usr/local/bin/ogr2osm/ogr2osm.py --idfile=ogr2osm.id --positive-id --saveid=ogr2osm.id "${filename}_parsed/${filename}.shp"
  echo ""
 
+# sed -e 's/LBLTYPE/building/g;s/OIDN/source:geometry:oidn/g;s/OPNDATUM/source:geometry:date/g;s/hoofdgebouw/house/g;s/bijgebouw/shed/g' -i "${filename}.osm"
+
  echo "GRB2OSM"
  echo "======="
  # addressing vectors
@@ -58,11 +61,12 @@ do
  echo /usr/local/bin/grb2osm/grb2osm.php -f "${dirname}/Tbl${startname}Adr${restname}.dbf" -i "${filename}.osm" -o "${filename}_addressed.osm"
  /usr/local/bin/grb2osm/grb2osm.php -f "${dirname}/Tbl${startname}Adr${restname}.dbf" -i "${filename}.osm" -o "${filename}_addressed.osm"
 
+#exit;
 
  echo "OSMOSIS MERGE"
  echo "============="
  rm -f merged.osm
- osmosis --rx Gbg11024B500_addressed.osm --rx Gbg12025B500_addressed.osm --rx Gbg23096B500_addressed.osm --rx Gbg46024B500_addressed.osm --merge --merge --merge --wx merged.osm
+ osmosis --rx Gbg11024B500_addressed.osm --rx Gbg12025B500_addressed.osm --rx Gbg23096B500_addressed.osm --rx Gbg46024B500_addressed.osm --rx Gbg23077B500_addressed.osm --merge --merge --merge --merge --wx merged.osm
 
  # echo -n $file
  # do something on $f

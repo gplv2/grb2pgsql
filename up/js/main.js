@@ -32,7 +32,7 @@ $(function () {
         )
     );
 
-    if (window.location.hostname === 'blueimp.github.io') {
+    if (window.location.hostname === 'neverdothis') {
         // Demo settings:
         $('#fileupload').fileupload('option', {
             url: '//jquery-file-upload.appspot.com/',
