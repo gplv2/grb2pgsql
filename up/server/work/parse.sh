@@ -1,9 +1,9 @@
 #!/bin/bash
 echo "Reset counter $file"
-echo "2" > ogr2osm.id
+#echo "2" > ogr2osm.id
 
-for file in GRBgis_10000/Shapefile/Gbg*.shp
-#for file in G*/Shapefile/Gbg*.shp
+#for file in GRBgis_10000/Shapefile/Gbg*.shp
+for file in G*/Shapefile/Gbg*.shp
 #for file in G*/Shapefile/Gbg23096B500.shp
 
 do
@@ -63,14 +63,26 @@ do
 
 #exit;
 
- echo "OSMOSIS MERGE"
- echo "============="
- rm -f merged.osm
- osmosis --rx Gbg11024B500_addressed.osm --rx Gbg12025B500_addressed.osm --rx Gbg23096B500_addressed.osm --rx Gbg46024B500_addressed.osm --rx Gbg23077B500_addressed.osm --merge --merge --merge --merge --wx merged.osm
-
  # echo -n $file
  # do something on $f
 done
+
+echo "OSMOSIS MERGE"
+echo "============="
+rm -f merged.osm
+osmosis --rx Gbg10000.osm --rx Gbg11024B500_addressed.osm --rx Gbg12025B500_addressed.osm --rx Gbg23096B500_addressed.osm --rx Gbg46024B500_addressed.osm --rx Gbg23077B500_addressed.osm --merge --merge --merge --merge --merge --wx merged.osm
+
+#  postgresql work
+
+
+CREATE INDEX planet_osm_source_index_p ON planet_osm_polygon USING btree ("source:geometry:oidn" COLLATE pg_catalog."default");
+CREATE INDEX planet_osm_source_index_o ON planet_osm_point USING btree ("source:geometry:oidn" COLLATE pg_catalog."default");
+CREATE INDEX planet_osm_source_index_n ON planet_osm_nodes USING btree ("source:geometry:oidn" COLLATE pg_catalog."default");
+CREATE INDEX planet_osm_source_index_l ON planet_osm_line USING btree ("source:geometry:oidn" COLLATE pg_catalog."default");
+CREATE INDEX planet_osm_source_index_r ON planet_osm_rels USING btree ("source:geometry:oidn" COLLATE pg_catalog."default");
+CREATE INDEX planet_osm_source_index_w ON planet_osm_ways USING btree ("source:geometry:oidn" COLLATE pg_catalog."default");
+
+
 
  echo ""
  echo "IMPORT"
