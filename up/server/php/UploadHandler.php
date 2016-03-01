@@ -303,12 +303,26 @@ class UploadHandler
     }
 
     protected function get_file_object($file_name) {
+        $fnames=array(
+         "GRBgis_10000.zip"=> "Antwerpen",
+         "GRBgis_04000.zip"=> "Brussel",
+         "GRBgis_70000.zip"=> "Limburg",
+         "GRBgis_40000.zip"=> "Oost-Vlaanderen",
+         "GRBgis_30000.zip"=> "West-Vlaanderen",
+         "GRBgis_20001.zip"=> "Vl-brabant"
+         );
+
         if ($this->is_valid_file_object($file_name)) {
             $file = new \stdClass();
             $file->name = $file_name;
             $file->size = $this->get_file_size(
                 $this->get_upload_path($file_name)
             );
+            if (key_exists($file_name, $fnames)) {
+               $file->area = $fnames[$file_name];
+            } else {
+               $file->area = '';
+            }  
             $file->url = $this->get_download_url($file->name);
             foreach($this->options['image_versions'] as $version => $options) {
                 if (!empty($version)) {
