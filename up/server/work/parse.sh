@@ -2,8 +2,8 @@
 echo "Reset counter $file"
 #echo "2" > ogr2osm.id
 
-#for file in GRBgis_10000/Shapefile/Gbg*.shp
-for file in G*/Shapefile/Gbg*.shp
+for file in GRBgis_20001/Shapefile/Gbg*.shp
+#for file in G*/Shapefile/Gbg*.shp
 #for file in G*/Shapefile/Gbg23096B500.shp
 
 do
@@ -16,7 +16,7 @@ do
  echo $dirname
  echo "Cleanup parsed"
  echo "=============="
- rm -Rf "*_parsed"
+##TEMP rm -Rf "*_parsed"
  echo "OGR FILE INFO"
  echo "============="
  /usr/local/bin/ogrinfo -al -so ${dirname}/${filename}.shp
@@ -46,20 +46,23 @@ do
 #parser.add_option("--positive-id", dest="positiveID", action="store_true",
 #                    help=optparse.SUPPRESS_HELP)
 
- rm -f "${filename}.osm"
+##TEMP rm -f "${filename}.osm"
  echo /usr/local/bin/ogr2osm/ogr2osm.py --idfile=ogr2osm.id --positive-id --saveid=ogr2osm.id "${filename}_parsed/${filename}.shp"
  /usr/local/bin/ogr2osm/ogr2osm.py --idfile=ogr2osm.id --positive-id --saveid=ogr2osm.id "${filename}_parsed/${filename}.shp"
  echo ""
 
-# sed -e 's/LBLTYPE/building/g;s/OIDN/source:geometry:oidn/g;s/OPNDATUM/source:geometry:date/g;s/hoofdgebouw/house/g;s/bijgebouw/shed/g' -i "${filename}.osm"
+exit;
 
- echo "GRB2OSM"
- echo "======="
- # addressing vectors
- startname=${filename:0:3}
- restname=${filename:3}
- echo /usr/local/bin/grb2osm/grb2osm.php -f "${dirname}/Tbl${startname}Adr${restname}.dbf" -i "${filename}.osm" -o "${filename}_addressed.osm"
- /usr/local/bin/grb2osm/grb2osm.php -f "${dirname}/Tbl${startname}Adr${restname}.dbf" -i "${filename}.osm" -o "${filename}_addressed.osm"
+sed -e 's/LBLTYPE/building/g;s/OIDN/source:geometry:oidn/g;s/OPNDATUM/source:geometry:date/g;s/hoofdgebouw/house/g;s/bijgebouw/shed/g' -i "${filename}.osm"
+sed -e 's/ visible="true"/ version="1" timestamp="1970-01-01T00:00:01Z" changeset="1" visible="true"/g' -i "${filename}.osm"
+
+# echo "GRB2OSM"
+# echo "======="
+# # addressing vectors
+# startname=${filename:0:3}
+# restname=${filename:3}
+# echo /usr/local/bin/grb2osm/grb2osm.php -f "${dirname}/Tbl${startname}Adr${restname}.dbf" -i "${filename}.osm" -o "${filename}_addressed.osm"
+# /usr/local/bin/grb2osm/grb2osm.php -f "${dirname}/Tbl${startname}Adr${restname}.dbf" -i "${filename}.osm" -o "${filename}_addressed.osm"
 
 #exit;
 
@@ -69,11 +72,10 @@ done
 
 echo "OSMOSIS MERGE"
 echo "============="
-rm -f merged.osm
-osmosis --rx Gbg10000.osm --rx Gbg11024B500_addressed.osm --rx Gbg12025B500_addressed.osm --rx Gbg23096B500_addressed.osm --rx Gbg46024B500_addressed.osm --rx Gbg23077B500_addressed.osm --merge --merge --merge --merge --merge --wx merged.osm
+##TEMPrm -f merged.osm
+osmosis --rx Gbg10000.osm --rx Gbg20001.osm --merge --wx merged.osm
 
 #  postgresql work
-
 
 CREATE INDEX planet_osm_source_index_p ON planet_osm_polygon USING btree ("source:geometry:oidn" COLLATE pg_catalog."default");
 CREATE INDEX planet_osm_source_index_o ON planet_osm_point USING btree ("source:geometry:oidn" COLLATE pg_catalog."default");
@@ -81,8 +83,6 @@ CREATE INDEX planet_osm_source_index_n ON planet_osm_nodes USING btree ("source:
 CREATE INDEX planet_osm_source_index_l ON planet_osm_line USING btree ("source:geometry:oidn" COLLATE pg_catalog."default");
 CREATE INDEX planet_osm_source_index_r ON planet_osm_rels USING btree ("source:geometry:oidn" COLLATE pg_catalog."default");
 CREATE INDEX planet_osm_source_index_w ON planet_osm_ways USING btree ("source:geometry:oidn" COLLATE pg_catalog."default");
-
-
 
  echo ""
  echo "IMPORT"

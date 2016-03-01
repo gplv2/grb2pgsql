@@ -63,5 +63,23 @@
     <div id="map" class="smallmap"></div>
     <script src="js/overpass.js"></script>
     <script src="js/search.js"></script>
-  </body>
+    <!-- Piwik -->
+    <script type="text/javascript">
+    var _paq = _paq || [];
+    _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+    _paq.push(["setCookieDomain", "*.grbtiles.byteless.net"]);
+    _paq.push(["setDomains", ["*.grbtiles.byteless.net"]]);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+     var u="//byte-consult.be/piwik/";
+     _paq.push(['setTrackerUrl', u+'piwik.php']);
+     _paq.push(['setSiteId', 13]);
+     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+     })();
+</script>
+<noscript><p><img src="//byte-consult.be/piwik/piwik.php?idsite=13" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+</body>
 </html>
