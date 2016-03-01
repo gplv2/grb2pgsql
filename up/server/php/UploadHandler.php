@@ -304,12 +304,16 @@ class UploadHandler
 
     protected function get_file_object($file_name) {
         $fnames=array(
-         "GRBgis_10000.zip"=> "Antwerpen",
-         "GRBgis_04000.zip"=> "Brussel",
-         "GRBgis_70000.zip"=> "Limburg",
-         "GRBgis_40000.zip"=> "Oost-Vlaanderen",
-         "GRBgis_30000.zip"=> "West-Vlaanderen",
-         "GRBgis_20001.zip"=> "Vl-brabant"
+         "GRBgis_10000.zip"=> "Antwerpen ; Provincie met inbegrip van Brussels Gewest",
+         "GRBgis_04000.zip"=> "Brussel ; Brussels Hoofdstedelijk Gewest",
+         "GRBgis_70000.zip"=> "Limburg ; Provincie met inbegrip van Brussels Gewest",
+         "GRBgis_40000.zip"=> "Oost-Vlaanderen ; Provincie met inbegrip van Brussels Gewest",
+         "GRBgis_30000.zip"=> "West-Vlaanderen ; Provincie met inbegrip van Brussels Gewest",
+         "GRBgis_20001.zip"=> "Vl-brabant ; Provincie met inbegrip van Brussels Gewest",
+         "GRBgis_12025B500.zip" => "Mechelen ; Gemeente (500m buffer)",
+         "GRBgis_46024B500.zip" => "Stekene ; Gemeente (500m buffer)",
+         "GRBgis_11024B500.zip" => "Kontich; Gemeente (500m buffer)",
+         "GRBgis_23096B500.zip" => "Zemst; Gemeente (500m buffer)",
          );
 
         if ($this->is_valid_file_object($file_name)) {
@@ -318,10 +322,12 @@ class UploadHandler
             $file->size = $this->get_file_size(
                 $this->get_upload_path($file_name)
             );
+
             if (key_exists($file_name, $fnames)) {
-               $file->area = $fnames[$file_name];
+               list($file->area , $file->desc) = preg_split("/;/", $fnames[$file_name]);
             } else {
                $file->area = '';
+               $file->desc = '';
             }  
             $file->url = $this->get_download_url($file->name);
             foreach($this->options['image_versions'] as $version => $options) {
