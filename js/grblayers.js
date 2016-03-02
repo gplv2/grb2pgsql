@@ -875,6 +875,20 @@ $( document ).ready(function() {
          return true; 
         });
 
+        $( "#labelswitch" ).button().click(function( event ) {
+            if ( $( this ).prop( "checked" ) ) {
+               $('#msg').removeClass().addClass("notice info").html("Config: Labels enabled.");
+               $('#lbl_labelswitch > span').html("Labels off");
+            } else {
+               $('#msg').removeClass().addClass("notice info").html("Config: Labels disabled.");
+               $('#lbl_labelswitch > span').html("Labels On");
+               //$('body').css('cursor', 'wait');
+               //$('body').css('cursor', 'default');
+            }
+         return true; 
+        });
+
+
 
 /*
         $( "#refreshgrb" ).button().click(function( event ) {
