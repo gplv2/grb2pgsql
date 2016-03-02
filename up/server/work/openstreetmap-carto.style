@@ -64,6 +64,8 @@ node,way   sport        text         polygon
 node,way   surface      text         linear
 way   source:geometry:date	text	linear
 way   source:geometry:oidn	text	linear
+way   source:geometry:uidn	text	linear
+way   source:geometry:entity	text	linear
 way   source:geometry	text	linear
 node,way   toll         text         linear
 node,way   tourism      text         polygon
@@ -98,8 +100,8 @@ way         area:highway            text    phstore
 # They aren't very useful for rendering. (but usefull for what we want to do with it)
 node,way    LENGTE                  text    delete
 node,way    OPPERVL                 text    delete
-node,way    TYPE                    text    delete
-node,way    UIDN                    text    delete
+#node,way    TYPE                    text    delete
+#node,way    UIDN                    text    delete
 node,way    note                    text    delete
 node,way    note:*                  text    delete
 node,way    source                  text    linear
