@@ -358,7 +358,14 @@ function initmap() {
          }
 
          // var content = "<h2>"+encHTML(feature.attributes.building) + "</h2>" + encHTML(feature.attributes.source);
-         var content = '<div id="plopper"><fieldset>' + "<legend>"+encHTML(feature.attributes.building) + '</legend>' +
+	 var featid='';
+	 if (feature.attributes.building) {
+		featid=feature.attributes.building;	
+	 } else {
+		featid=feature.attributes.highway;	
+		console.log(feature);
+	 }
+         var content = '<div id="plopper"><fieldset>' + "<legend>"+encHTML(featid) + '</legend>' +
             // '<li>' + encHTML(feature.attributes.description) 
             //+ "<li>Building : "+ feature.attributes.building +"</li>"
             //+ "<li>Source    : "+ feature.attributes.source +"</li>"
@@ -590,7 +597,7 @@ function initmap() {
          format: geojson_format,
          isBaseLayer: false,
          visibility: false,
-         extractStyles: true,
+         extractStyles: false,
          extractAttributes: true
    }); 
 

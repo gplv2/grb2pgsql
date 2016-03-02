@@ -2,7 +2,10 @@
 echo "Reset counter $file"
 #echo "2" > ogr2osm.id
 
-for file in GRBgis_20001/Shapefile/Gbg*.shp
+#for file in GRBgis_20001/Shapefile/Gbg*.shp
+#for file in GRBgis_20001/Shapefile/Gba20001.shp
+for file in GRBgis_10000/Shapefile/Gba10000.shp
+
 #for file in G*/Shapefile/Gbg*.shp
 #for file in G*/Shapefile/Gbg23096B500.shp
 
@@ -53,7 +56,12 @@ do
 
 exit;
 
+# GBG
 sed -e 's/LBLTYPE/building/g;s/OIDN/source:geometry:oidn/g;s/OPNDATUM/source:geometry:date/g;s/hoofdgebouw/house/g;s/bijgebouw/shed/g' -i "${filename}.osm"
+sed -e 's/ visible="true"/ version="1" timestamp="1970-01-01T00:00:01Z" changeset="1" visible="true"/g' -i "${filename}.osm"
+
+# GBA
+sed -e 's/LBLTYPE/building/g;s/OIDN/source:geometry:oidn/g;s/OPNDATUM/source:geometry:date/g;s/\"afdak\"/\"roof\"/g;s/\"ingezonken garagetoegang\"/\"garage3\"/g;s/\"verheven garagetoegang\"/\"garage4\"/g' -i "${filename}.osm"
 sed -e 's/ visible="true"/ version="1" timestamp="1970-01-01T00:00:01Z" changeset="1" visible="true"/g' -i "${filename}.osm"
 
 # echo "GRB2OSM"
@@ -73,7 +81,7 @@ done
 echo "OSMOSIS MERGE"
 echo "============="
 ##TEMPrm -f merged.osm
-osmosis --rx Gbg10000.osm --rx Gbg20001.osm --merge --wx merged.osm
+osmosis --rx Gbg10000.osm --rx Gbg20001.osm --rx Gba10000.osm --rx Gba20001.osm --merge --merge --merge --wx merged.osm
 
 #  postgresql work
 
