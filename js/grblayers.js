@@ -107,6 +107,7 @@ function initmap() {
         buildingStrategy = new OpenLayers.Strategy.Filter();
 
          vector_layer = new OpenLayers.Layer.Vector('GRB - Vector Source', {
+            styleMap: vectorlayer_style,
             strategies: [ streetStrategy, buildingStrategy, filterStrategy, mergeStrategy, boxStrategy, refresh ], 
             maxScale: 800,
             minScale: 6771,
