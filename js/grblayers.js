@@ -363,7 +363,7 @@ function initmap() {
 		featid=feature.attributes.building;	
 	 } else {
 		featid=feature.attributes.highway;	
-		console.log(feature);
+		//console.log(feature);
 	 }
          var content = '<div id="plopper"><fieldset>' + "<legend>"+encHTML(featid) + '</legend>' +
             // '<li>' + encHTML(feature.attributes.description) 
