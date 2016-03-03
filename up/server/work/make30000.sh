@@ -5,12 +5,16 @@ echo "Reset counter $file"
 # fuse-zip -o ro ../php/files/GRBgis_40000.zip GRBgis_40000
 # fusermount -u GRBgis_40000
 
-#for file in GRBgis_20001/Shapefile/Gbg*.shp
-#for file in GRBgis_20001/Shapefile/Gba20001.shp GRBgis_10000/Shapefile/Gba10000.shp GRBgis_30000/Shapefile/Gba30000.shp
-#for file in GRBgis_30000/Shapefile/Gbg30000.shp GRBgis_30000/Shapefile/Gba30000.shp
-#for file in GRBgis_30000/Shapefile/Gbg30000.shp 
-#for file in GRBgis_30000/Shapefile/Gba30000.shp
-for file in GRBgis_*/Shapefile/Gba*.shp
+#fuse-zip -o ro ../php/files/GRBgis_10000.zip GRBgis_10000
+#fuse-zip -o ro ../php/files/GRBgis_20001.zip GRBgis_20001
+#fuse-zip -o ro ../php/files/GRBgis_30000.zip GRBgis_30000
+#fuse-zip -o ro ../php/files/GRBgis_40000.zip GRBgis_40000
+#fuse-zip -o ro ../php/files/GRBgis_70000.zip GRBgis_70000
+#fuse-zip -o ro ../php/files/GRBgis_04000.zip GRBgis_04000
+
+#for file in GRBgis_*/Shapefile/Gba*.shp
+for file in GRBgis_40000/Shapefile/Gbg*.shp GRBgis_04000/Shapefile/Gbg*.shp GRBgis_70000/Shapefile/Gbg*.shp GRBgis_40000/Shapefile/Gba*.shp GRBgis_04000/Shapefile/Gba*.shp GRBgis_70000/Shapefile/Gba*.shp
+# /var/www/geo/up/server/work/GRBgis_40000 /var/www/geo/up/server/work/GRBgis_04000 /var/www/geo/up/server/work/GRBgis_70000
 
 do
  echo "Processing $file"
@@ -70,6 +74,8 @@ do
  # echo -n $file
  # do something on $f
 done
+
+exit
 
 echo "OSMOSIS MERGE"
 echo "============="

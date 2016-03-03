@@ -5,6 +5,7 @@ var lat = 50.97485;
 var zoom = 18;
 var map;
 var vector_layer;
+var event_layer;
 var overpass_layer;
 var agiv_layer;
 var osmInfo;
@@ -147,6 +148,25 @@ function initmap() {
             //displayProjection: mercator
             isBaseLayer: false
          });
+
+         event_layer = new OpenLayers.Layer.Vector('BXL - Traffic events/works', {
+            strategies: [ boxStrategy, refresh ], 
+            //maxScale: 800,
+            //minScale: 6772,
+            //maxResolution: map.getResolutionForZoom(15),
+            //zoomOffset: 9, resolutions: [152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
+            //zoomOffset: 10, resolutions: [76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
+            protocol: new OpenLayers.Protocol.HTTP({
+                   url: "http://grbtiles.byteless.net/proxy/traffic.php?",
+                   format: new OpenLayers.Format.GeoJSON({ 
+                     extractAttributes: true
+                })
+            }),
+            projection: mercator,
+            //displayProjection: mercator
+            isBaseLayer: false
+         });
+        map.addLayer(event_layer);
 
 /*
 	var draw = new OpenLayers.Control.DrawFeature(vector_layer, OpenLayers.Handler.Polygon);
