@@ -22,6 +22,29 @@ var overpassapi = "http://overpass-api.de/api/interpreter?data=";
 
 function initmap() {
     $('body').css('cursor', 'wait');
+
+/*
+    $(function() {
+      // setup graphic EQ
+      $( "#master" ).slider({
+        value: 100,
+        orientation: "horizontal",
+        range: "min",
+        animate: true,
+	min: 0,
+        max: 100,
+        //values: [ 75, 300 ],
+        slide: function( event, ui ) {
+          $('#msg').removeClass().addClass("notice info").html(" Info: Vector opacity: " + ui.value/100);
+          // console.log(ui.value);
+	  vector_layer.setOpacity(ui.value/100);
+          vector_layer.refresh();
+        }
+      })
+      $( "#master > div" ).removeClass('ui-widget-header');
+    });
+*/
+    
     // pink tile avoidance
     OpenLayers.IMAGE_RELOAD_ATTEMPTS = 2;
 

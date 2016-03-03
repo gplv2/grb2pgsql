@@ -98,6 +98,7 @@ p {
   padding: 1em 1em 1em 2em;
   border-left: 4px solid #DDD;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.125);
+  width: 65%;
 }
 
 .notice:before {
@@ -273,3 +274,11 @@ legend {
     margin: 1.2em !important;
 }
 
+#master {
+    height:10px; float:right; margin:15px; width: 10px;
+}
+
+#msg {
+   display:block;
+   float: 350px;
+}
