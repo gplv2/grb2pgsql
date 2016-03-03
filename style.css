@@ -264,3 +264,12 @@ legend {
    height:35px;
 }
 
+#layerswitcher.olControlLayerSwitcher {
+/*font-size:14px !important;*/
+}
+
+.olControlLayerSwitcher .layersDiv {
+    /*background-color:red !important;*/
+    margin: 1.2em !important;
+}
+

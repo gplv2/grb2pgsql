@@ -125,8 +125,8 @@ $(document).ready(function () {
     // $('#sgoogle').button();
     $("#radio" ).buttonset();
     $('#geosearch').append('<input class="ui-button ui-state-default ColVis_Button" type="button" name="clearsearch" value="X" id="clssearch" title="Wissen zoekbox" />');
-    $('#geosearch').append('<div style="margin-left: 10px; font-size: 1.0em;" class="postit" id="geolog"></div>');
-    $('#geolog').empty();
+    //$('#geosearch').append('<div style="margin-left: 10px; font-size: 1.0em;" class="postit" id="geolog"></div>');
+    //$('#geolog').empty();
 
     $("#address").autocomplete({
        source: function ( request, response ) {
@@ -152,7 +152,8 @@ $(document).ready(function () {
                  } else {
                     // console.log(status);
                     if ( status == 'ZERO_RESULTS' ) {
-                        $('#geolog').html("Geen resultaten gevonden met deze zoekopties.");
+       			$('#msg').removeClass().addClass("notice info").html("Result: No results found with these search options");
+                        // $('#geolog').html("Geen resultaten gevonden met deze zoekopties.");
                     }
                     return [];
                  }
@@ -168,7 +169,8 @@ $(document).ready(function () {
                       $('#address').removeClass('ui-autocomplete-loading');
                       // console.log(data);
                       if (data.length<=0) { 
-                        $('#geolog').html("Geen resultaten gevonden met deze zoekopties.");
+       			$('#msg').removeClass().addClass("notice info").html("Result: No results found with these search options");
+                        //$('#geolog').html("Geen resultaten gevonden met deze zoekopties.");
                       }
                       response ( $.map( data, function( item ) {
                           return  {
@@ -181,7 +183,8 @@ $(document).ready(function () {
                       },
                   statusCode: {
                      404: function() {
-                            $('#geolog').html("Probleem met externe geocoder dienst.");
+       			    $('#msg').removeClass().addClass("notice error").html("Error: Problem with external geocoding service");
+                            //$('#geolog').html("Probleem met externe geocoder dienst.");
                         }
                     }
                   });
@@ -265,7 +268,7 @@ $(document).ready(function () {
    });
     $('#clssearch').click(function () {
         $('#address').removeClass('ui-autocomplete-loading');
-        $('#geolog').empty();
+        //$('#geolog').empty();
         $('#address').val('');
         return true;
     });

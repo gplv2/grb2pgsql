@@ -27,18 +27,6 @@
         <li><a href="/docs/"> About</a></li>
     </ul><p>
       </p>
-      <div id="search" style="margin-top: 10px;">
-      <fieldset>
-      <legend>Search nominatim</legend>
-      <div id="geosearch" class="filterclass ui-widget">
-         <input id="address" type="text" style="width : 550px;" class="ui-autocomplete-input" autocomplete="off" title="Zoek via nominatim">
-         <div id="radio">
-            <input type="radio" name="radio" id="sosm" checked><label for="sosm">OSM</label>
-            <input type="radio" name="radio" id="sgoogle"><label for="sgoogle">Google</label>
-         </div>
-      </div>
-      </fieldset>
-</div>
       <div id="layerboxes">
 <!--
        <fieldset id="fset" style="width: 380px; float: right; height: 56px;">
@@ -63,6 +51,20 @@
      <div id="idtag"></div>
     </div>
     <div id="map" class="smallmap"></div>
+      <div id="search" style="float: right" >
+<!--
+      <fieldset>
+      <legend>Search nominatim</legend>
+-->
+      <div id="geosearch" class="filterclass ui-widget">
+         <input id="address" type="text" style="width : 550px;" class="ui-autocomplete-input" autocomplete="off" title="Zoek via nominatim">
+         <div id="radio">
+            <input type="radio" name="radio" id="sosm" checked><label for="sosm">OSM</label>
+            <input type="radio" name="radio" id="sgoogle"><label for="sgoogle">Google</label>
+         </div>
+      </div>
+  <!--    </fieldset>-->
+	</div>
     <script src="js/overpass.js"></script>
     <script src="js/search.js"></script>
     <!-- Piwik -->

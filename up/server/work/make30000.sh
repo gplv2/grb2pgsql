@@ -108,11 +108,11 @@ osmosis --rx Gbg10000.osm --rx Gbg20001.osm --rx Gba10000.osm --rx Gba20001.osm 
 #  postgresql work
 
 CREATE INDEX planet_osm_source_index_p ON planet_osm_polygon USING btree ("source:geometry:oidn" COLLATE pg_catalog."default");
-CREATE INDEX planet_osm_source_index_o ON planet_osm_point USING btree ("source:geometry:oidn" COLLATE pg_catalog."default");
-CREATE INDEX planet_osm_source_index_n ON planet_osm_nodes USING btree ("source:geometry:oidn" COLLATE pg_catalog."default");
-CREATE INDEX planet_osm_source_index_l ON planet_osm_line USING btree ("source:geometry:oidn" COLLATE pg_catalog."default");
-CREATE INDEX planet_osm_source_index_r ON planet_osm_rels USING btree ("source:geometry:oidn" COLLATE pg_catalog."default");
-CREATE INDEX planet_osm_source_index_w ON planet_osm_ways USING btree ("source:geometry:oidn" COLLATE pg_catalog."default");
+CREATE INDEX planet_osm_source_ent_p ON planet_osm_polygon USING btree ("source:geometry:entity" COLLATE pg_catalog."default");
+UPDATE planet_osm_polygon SET "source" = 'GRB';
+CREATE INDEX planet_osm_src_index_p ON planet_osm_polygon USING btree ("source" COLLATE pg_catalog."default");
+#select count(*) from planet_osm_polygon where "source" <> 'GRB';
+update planet_osm_polygon set highway='steps', building='' where building='trap';
 
  echo ""
  echo "IMPORT"
