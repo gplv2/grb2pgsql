@@ -2,7 +2,7 @@
 "use strict";
 var lon = 4.46795;
 var lat = 50.97485;
-var zoom = 18;
+var zoom = 9;
 var map;
 var vector_layer;
 var event_layer;
@@ -52,6 +52,8 @@ function initmap() {
     var webmercator  = new OpenLayers.Projection("EPSG:3857");
     var geodetic     = new OpenLayers.Projection("EPSG:4326");
     var mercator     = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+    var lambert     = new OpenLayers.Projection("EPSG:31370"); // to Spherical Mercator Projection
+    //projection: "EPSG:31370",
 
     $(window).resize(function() {
         //$('#log').append('<div>Handler for .resize() called.</div>');
@@ -107,6 +109,13 @@ function initmap() {
          streetStrategy.setFilter(null);
          buildingStrategy.setFilter(null);
          $('#msg').html("Scale: " + map.getScale() + " / ZoomLevel: " + map.getZoom() + " / Resolution: " + map.getResolution());
+         var bounds = map.getExtent();
+         bounds.transform(map.getProjectionObject(), geodetic);
+         var center = bounds.getCenterLonLat();
+         var setObject = { 'lat': center.lat, 'lon': center.lon, 'zoom':  map.getZoom() };
+         localStorage.setItem('defaultlocation', JSON.stringify(setObject) );
+         //var retrievedObject = JSON.parse(localStorage.getItem('defaultlocation'));
+         //console.log(retrievedObject);
     /*
     var x = map.getZoom();
 
@@ -123,6 +132,7 @@ function initmap() {
        // http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?request=getcapabilities&service=wms
 
         var refresh = new OpenLayers.Strategy.Refresh({force: true, active: true});
+        var rrefresh = new OpenLayers.Strategy.Refresh({force: true, active: true});
         var boxStrategy = new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 2});
 
         filterStrategy = new OpenLayers.Strategy.Filter();
@@ -148,25 +158,6 @@ function initmap() {
             //displayProjection: mercator
             isBaseLayer: false
          });
-
-         event_layer = new OpenLayers.Layer.Vector('BXL - Traffic events/works', {
-            strategies: [ boxStrategy, refresh ], 
-            //maxScale: 800,
-            //minScale: 6772,
-            //maxResolution: map.getResolutionForZoom(15),
-            //zoomOffset: 9, resolutions: [152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
-            //zoomOffset: 10, resolutions: [76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
-            protocol: new OpenLayers.Protocol.HTTP({
-                   url: "http://grbtiles.byteless.net/proxy/traffic.php?",
-                   format: new OpenLayers.Format.GeoJSON({ 
-                     extractAttributes: true
-                })
-            }),
-            projection: mercator,
-            //displayProjection: mercator
-            isBaseLayer: false
-         });
-        map.addLayer(event_layer);
 
 /*
 	var draw = new OpenLayers.Control.DrawFeature(vector_layer, OpenLayers.Handler.Polygon);
@@ -464,8 +455,18 @@ function initmap() {
       map.addControl(highlightvector);
       highlightvector.activate();
 
-      var lonLat = new OpenLayers.LonLat(lon, lat).transform(geodetic, map.getProjectionObject());
-      map.setCenter (lonLat, zoom);
+      // lon + lat + zoom 
+      var retrievedObject = JSON.parse(localStorage.getItem('defaultlocation'));
+      if ( retrievedObject ) {
+         // var setObject = { 'lat': center.lat, 'lon': center.lon, 'zoom':  map.getZoom() };
+         // localStorage.setItem('defaultlocation', JSON.stringify(setObject) );
+         var lonLat = new OpenLayers.LonLat(retrievedObject.lon, retrievedObject.lat).transform(geodetic, map.getProjectionObject());
+         map.setCenter (lonLat, retrievedObject.zoom);
+
+      } else {
+         var lonLat = new OpenLayers.LonLat(lon, lat).transform(geodetic, map.getProjectionObject());
+         map.setCenter (lonLat, zoom);
+      }
 
       /* remove existing overpass layer 
       var layers = map.getLayersByName('OverPass');
@@ -647,6 +648,49 @@ function initmap() {
 
    map.addLayer(overpass_layer);
    map.setLayerIndex(overpass_layer, 0);
+
+   //overpass_layer.destroyFeatures();
+   //overpass_layer.addFeatures(geojson_format.read(osmInfo));
+   //map.addLayer(overpass_layer);
+   //overpass_layer.setVisibility(true);
+   //overpass_layer.refresh();
+   //console.log(overpass_layer);
+
+
+//console.log(eventlayer_style);
+/*
+         event_layer = new OpenLayers.Layer.Vector('BXL - Traffic events/works', {
+            styleMap: eventlayer_style,
+            strategies: [new OpenLayers.Strategy.BBOX(), rrefresh ], 
+            // projection: new OpenLayers.Projection("EPSG:31370"),
+            // projection: geodetic,
+            displayProjection: geodetic,
+            //maxScale: 800,
+            //minScale: 6772,
+            //maxResolution: map.getResolutionForZoom(15),
+            //zoomOffset: 9, resolutions: [152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
+            //zoomOffset: 10, resolutions: [76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
+            protocol: new OpenLayers.Protocol.HTTP({
+                   url: "http://grbtiles.byteless.net/proxy/traffic.php?",
+                   format: new OpenLayers.Format.GeoJSON({ 
+                        internalProjection: map.getProjectionObject(),
+                        externalProjection: lambert,
+                     })
+                }),
+            extractStyles: false,
+            extractAttributes: true,
+            //format: geojson_format,
+            //displayProjection: mercator,
+            isBaseLayer: false
+         });
+
+      event_layer.setVisibility(true);
+      event_layer.refresh();
+      map.addLayer(event_layer);
+
+*/
+      //var feature = event_layer.features;
+//console.log(event_layer);
 
    function onloadvectorend(evt) {
          // isvecup = null; Always do this now
