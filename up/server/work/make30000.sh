@@ -13,7 +13,9 @@ echo "Reset counter $file"
 #fuse-zip -o ro ../php/files/GRBgis_04000.zip GRBgis_04000
 
 #for file in GRBgis_*/Shapefile/Gba*.shp
-for file in GRBgis_40000/Shapefile/Gbg*.shp GRBgis_04000/Shapefile/Gbg*.shp GRBgis_70000/Shapefile/Gbg*.shp GRBgis_40000/Shapefile/Gba*.shp GRBgis_04000/Shapefile/Gba*.shp GRBgis_70000/Shapefile/Gba*.shp
+#for file in GRBgis_40000/Shapefile/Gbg*.shp GRBgis_04000/Shapefile/Gbg*.shp GRBgis_70000/Shapefile/Gbg*.shp GRBgis_40000/Shapefile/Gba*.shp GRBgis_04000/Shapefile/Gba*.shp GRBgis_70000/Shapefile/Gba*.shp
+#for file in GRBgis_40000/Shapefile/Knw*.shp GRBgis_04000/Shapefile/Knw*.shp GRBgis_70000/Shapefile/Knw*.shp GRBgis_40000/Shapefile/Gba*.shp GRBgis_04000/Shapefile/Gba*.shp GRBgis_70000/Shapefile/Gba*.shp
+for file in GRBgis_*/Shapefile/Knw*.shp
 # /var/www/geo/up/server/work/GRBgis_40000 /var/www/geo/up/server/work/GRBgis_04000 /var/www/geo/up/server/work/GRBgis_70000
 
 do
@@ -54,6 +56,14 @@ do
  	sed -e 's/ visible="true"/ version="1" timestamp="1970-01-01T00:00:01Z" changeset="1" visible="true"/g' -i "${filename}.osm"
  fi
 
+# GBG
+ if [ $entity == 'Knw' ] 
+    then
+    echo "running gbg sed\n"
+ 	sed -e 's/LBLTYPE/building/g;s/OIDN/source:geometry:oidn/g;s/UIDN/source:geometry:uidn/g;s/OPNDATUM/source:geometry:date/g;s/hoofdgebouw/house/g;s/bijgebouw/shed/g;s/tag k=\"TYPE\"\sv=\"[0-9]\+\"/tag k="source:geometry:entity" v="Knw"/g' -i "${filename}.osm"
+ 	sed -e 's/ visible="true"/ version="1" timestamp="1970-01-01T00:00:01Z" changeset="1" visible="true"/g' -i "${filename}.osm"
+ fi
+
 # GBA
  if [ $entity == 'Gba' ] 
     then
@@ -82,14 +92,15 @@ echo "============="
 ##TEMPrm -f merged.osm
 #osmosis --rx Gbg10000.osm --rx Gbg20001.osm --rx Gbg30000.osm --rx Gba10000.osm --rx Gba20001.osm --rx Gba30000.osm --merge --merge --merge --merge --merge --wx merged.osm
 #osmosis --rx Gbg10000.osm --rx Gbg20001.osm --rx Gba10000.osm --rx Gba20001.osm --merge --merge --merge --wx merged.osm
-osmosis --rx Gbg04000.osm --rx Gbg10000.osm --rx Gbg20001.osm --rx Gbg30000.osm --rx Gbg40000.osm --rx Gbg70000.osm --rx Gba04000.osm --rx Gba10000.osm --rx Gba20001.osm --rx Gba30000.osm --rx Gba40000.osm --rx Gba70000.osm --merge --merge --merge --merge --merge --merge --merge --merge --merge --merge --merge --wx merged.osm
+
+#osmosis --rx Gbg04000.osm --rx Gbg10000.osm --rx Gbg20001.osm --rx Gbg30000.osm --rx Gbg40000.osm --rx Gbg70000.osm --rx Gba04000.osm --rx Gba10000.osm --rx Gba20001.osm --rx Gba30000.osm --rx Gba40000.osm --rx Gba70000.osm --merge --merge --merge --merge --merge --merge --merge --merge --merge --merge --merge --wx merged.osm
 
 #  postgresql work
 
  echo ""
  echo "IMPORT"
  echo "======"
-/usr/bin/osm2pgsql --slim --create --cache 1000 --number-processes 2 --hstore --style /usr/local/src/osm/openstreetmap-carto/openstreetmap-carto.style --multi-geometry -d grb -U grb-data merged.osm
+#/usr/bin/osm2pgsql --slim --create --cache 1000 --number-processes 2 --hstore --style /usr/local/src/osm/openstreetmap-carto/openstreetmap-carto.style --multi-geometry -d grb -U grb-data merged.osm
 
 # echo /usr/bin/osm2pgsql --slim --create --cache 1000 --number-processes 2 --hstore --style /usr/local/src/osm/openstreetmap-carto/openstreetmap-carto.style --multi-geometry -d grb -U grb-data "${filename}_addressed.osm"
 # /usr/bin/osm2pgsql --slim --create --cache 1000 --number-processes 2 --hstore --style /usr/local/src/osm/openstreetmap-carto/openstreetmap-carto.style --multi-geometry -d grb -U grb-data "${filename}_addressed.osm"
@@ -107,6 +118,26 @@ echo 'CREATE INDEX planet_osm_src_index_p ON planet_osm_polygon USING btree ("so
 echo "UPDATE planet_osm_polygon set highway='steps', building='' where building='trap';" | psql -U grb-data grb
 
 exit;
+
+# to change:
+
+    <tag k="building" v="cabine"/>
+    <tag k="building" v="chemische installatie"/>
+    <tag k="building" v="cultuur-historisch monument"/>
+    <tag k="building" v="golfbreker, strandhoofd en lage havendam"/>
+    <tag k="building" v="havendam"/>
+    <tag k="building" v="hoogspanningsmast / openbare TV mast"/>
+    <tag k="building" v="koeltoren"/>
+    <tag k="building" v="overbrugging"/>
+    <tag k="building" v="pijler"/>
+    <tag k="building" v="rooster"/>
+    <tag k="building" v="schoorsteen"/>
+    <tag k="building" v="silo, opslagtank"/>
+    <tag k="building" v="staketsel"/>
+    <tag k="building" v="tunnelmond"/>
+    <tag k="building" v="waterbouwkundig constructie"/>
+    <tag k="building" v="watertoren"/>
+
 
 #/usr/local/bin/grb2osm/grb2osm.php -f GRBgis_20001/Shapefile/TblGbgAdr20001.dbf,GRBgis_10000/Shapefile/TblGbgAdr10000.dbf,GRBgis_30000/Shapefile/TblGbgAdr30000.dbf
 /usr/local/bin/grb2osm/grb2osm.php -f GRBgis_20001/Shapefile/TblGbgAdr20001.dbf

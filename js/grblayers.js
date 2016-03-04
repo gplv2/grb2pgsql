@@ -396,8 +396,12 @@ function initmap() {
 	 var featid='';
 	 if (feature.attributes.building) {
 		featid=feature.attributes.building;	
-	 } else {
+	 } else if (feature.attributes.highway) {
 		featid=feature.attributes.highway;	
+	 } else if (feature.attributes.man_made) {
+		featid=feature.attributes.man_made;	
+	 } else {
+		featid=feature.attributes.oidn;	
 		//console.log(feature);
 	 }
          var content = '<div id="plopper"><fieldset>' + "<legend>"+encHTML(featid) + '</legend>' +

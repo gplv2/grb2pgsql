@@ -34,8 +34,10 @@
                   return "brown";
                } else if (feature.attributes['highway'] == 'steps') {
                   return "yellow";
-               } else {
+               } else if (feature.attributes['man_made']) {
                   return "green";
+               } else {
+                  return "purple";
                }  
          },
 /*
@@ -51,6 +53,8 @@
                   return feature.attributes["building"];
                } else if (feature.attributes['highway']) {
                   return feature.attributes["highway"];
+               } else if (feature.attributes['man_made']) {
+                  return feature.attributes["man_made"];
                } else {
                   return "?";
                }

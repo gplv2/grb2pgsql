@@ -102,6 +102,8 @@ node,way    LENGTE                  text    delete
 node,way    OPPERVL                 text    delete
 #node,way    TYPE                    text    delete
 #node,way    UIDN                    text    delete
+node,way    LBLVORM                    text    delete
+node,way    VORM                    text    delete
 node,way    note                    text    delete
 node,way    note:*                  text    delete
 node,way    source                  text    linear

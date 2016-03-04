@@ -1,11 +1,26 @@
 #!/bin/bash
+#sed -e 's/LBLTYPE/building/g;s/OIDN/source:geometry:oidn/g;s/UIDN/source:geometry:uidn/g;s/OPNDATUM/source:geometry:date/g;s/hoofdgebouw/house/g;s/bijgebouw/shed/g;s/tag k="TYPE"\sv="[0-9]\+"/tag k="source:geometry:entity" v="Knw"/g' -i "${filename}.osm"
 
-# $search  = array('LBLTYPE', 'OIDN', 'OPNDATUM', 'hoofdgebouw','bijgebouw','afdak','ingezonken garagetoegang','verheven garagetoegang');
-# $replace = array('building', 'source:geometry:oidn', 'source:geometry:date','house','shed','roof','garage1','garage2');
+sed -e '
+s/tag k=\"building\" v=\"schoorsteen\"/tag k=\"man_made\" v=\"chimney\"/g;s/tag k=\"building\" v=\"overbrugging\"/tag k=\"man_made\" v=\"bridge\"/g;s/tag k=\"building\" v=\"koeltoren\"/tag k=\"man_made\" v=\"tower\"\/><tag k=\"tower:type\" v=\"cooling\"/g;s/tag k=\"building\" v=\"silo, opslagtank\"/tag k=\"man_made\" v=\"storage_tank\"/g;s/tag k=\"building\" v=\"hoogspanningsmast \/ openbare TV mast\"/tag k=\"man_made\" v=\"mast\"\/><tag k=\"power\" v=\"tower\"/g;s/tag k=\"building\" v=\"watertoren\"/tag k=\"man_made\" v=\"watertower\"/g;s/tag k=\"building\" v=\"havendam\"/tag k=\"man_made\" v=\"breakwater\"/g;s/tag k=\"building\" v=\"golfbreker, strandhoofd en lage havendam\"/tag k=\"man_made\" v=\"groyne\"/g;s/tag k=\"building\" v=\"staketsel\"/tag k=\"man_made\" v=\"pier\"/g' knwmerged.osm 
 
-# sed -e 's/Find/Replace/g;s/Find/Replace/g;[....];/Find/Replace/g'
+    #<tag k="building" v="golfbreker, strandhoofd en lage havendam"/>
+    #<tag k="building" v="havendam"/>
+    #<tag k="building" v="hoogspanningsmast / openbare TV mast"/>
+    #<tag k="building" v="koeltoren"/>
+    ##<tag k="building" v="overbrugging"/>
+    #<tag k="building" v="schoorsteen"/>
+    #<tag k="building" v="silo, opslagtank"/>
+    #<tag k="building" v="staketsel"/>
+    #<tag k="building" v="watertoren"/>
 
--e 's/LBLTYPE/building/g;s/OIDN/source:geometry:oidn/g;s/OPNDATUM/source:geometry:date/g;s/hoofdgebouw/house/g;s/bijgebouw/shed/g'
+#delete:
+#
+    #<tag k="building" v="waterbouwkundig constructie"/>
+    #<tag k="building" v="cultuur-historisch monument"/>
+    #<tag k="building" v="pijler"/>
+    #<tag k="building" v="rooster"/>
+    #<tag k="building" v="tunnelmond"/>
+    #<tag k="building" v="cabine"/>
+    #<tag k="building" v="chemische installatie"/>
 
-
--e 's/ visible="true"/ version="1" timestamp="1970-01-01T00:00:01Z" changeset="1" visible="true"/g'
