@@ -101,11 +101,64 @@ function initmap() {
             layers: [
                 new OpenLayers.Layer.OSM("OpenStreetMap", null, {
                   numZoomLevels: 20
-                })
-                ]
+                }),
+                new OpenLayers.Layer.Google(
+                   "Google Physical",
+                   {type: google.maps.MapTypeId.TERRAIN}
+                ),
+                new OpenLayers.Layer.Google(
+                   "Google Streets", // the default
+                   {numZoomLevels: 20}
+                ),
+                new OpenLayers.Layer.Google(
+                   "Google Hybrid",
+                   {type: google.maps.MapTypeId.HYBRID, numZoomLevels: 20}
+                ),
+                new OpenLayers.Layer.Google(
+                   "Google Satellite",
+                   {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22}
+                )
+            ]
         });
+      OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {                
+         defaultHandlerOptions: {
+            'single': true,
+            'double': false,
+            'pixelTolerance': 0,
+            'stopSingle': false,
+            'stopDouble': false
+         },
+      initialize: function(options) {
+         this.handlerOptions = OpenLayers.Util.extend(
+            {}, this.defaultHandlerOptions
+         );
+         OpenLayers.Control.prototype.initialize.apply(
+            this, arguments
+         ); 
+      this.handler = new OpenLayers.Handler.Click(
+         this, {
+            'click': this.trigger
+           }, this.handlerOptions
+            );
+       }, 
+       trigger: function(e) {
+         var webmercator  = new OpenLayers.Projection("EPSG:3857");
+         var geodetic     = new OpenLayers.Projection("EPSG:4326");
+         var mercator     = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+         var lonlat = map.getLonLatFromPixel(e.xy);
+         lonlat.transform(map.getProjectionObject(), geodetic);
+         $("#msg").html("Info : "+ toFixed(lonlat.lat,6) + " N, " + toFixed(lonlat.lon,6) + " E").removeClass().addClass("notice success");
+         lon=toFixed(lonlat.lon,6);
+         lat=toFixed(lonlat.lat,6);
+      }
+    });
 
-      map.events.register('zoomend', this, function (event) {
+   var click = new OpenLayers.Control.Click();
+   map.addControl(click);
+   click.activate();
+
+
+         map.events.register('zoomend', this, function (event) {
          streetStrategy.setFilter(null);
          buildingStrategy.setFilter(null);
          $('#msg').html("Scale: " + map.getScale() + " / ZoomLevel: " + map.getZoom() + " / Resolution: " + map.getResolution());
@@ -187,6 +240,7 @@ function initmap() {
         );
 
         map.addLayer(grb_wms);
+        map.setLayerIndex(grb_wms, 1);
 
         var grb_wbn = new OpenLayers.Layer.WMS(
             "GRB - WBN+ Weg/water/..",
@@ -308,6 +362,7 @@ function initmap() {
         );
 
         map.addLayer(grb_ortho);
+        map.setLayerIndex(grb_ortho, 1);
 
     /* shift-mouse1 Easily get bbox string (screen relative) */
     var boxcontrol = new OpenLayers.Control();
@@ -979,6 +1034,12 @@ $( document ).ready(function() {
          return true; 
         });
 
+        $( "#testswitch" ).button().click(function( event ) {
+           openStreetview(lat,lon);
+           return true; 
+        });
+
+
 
 
 /*
@@ -1008,6 +1069,24 @@ $( document ).ready(function() {
         });
     });
     $("#msg").html("Action: docReadydone");
+
+    function openStreetview(lat,lon){
+       var dataUrl = 'http://cbk0.google.com/cbk?output=json&ll=' + lat + ',' + lon + '&';
+       $.ajax({
+         url: dataUrl,
+         dataType: 'jsonp',
+         data: {}
+       }).done(function (data) {
+          if(data && data.Location && data.Location.panoId){
+             var url = 'http://maps.google.com/maps?layer=c&cbp=0,,,,30&panoid=' + data.Location.panoId;
+             window.open(url, '_blank');
+          } else {
+             $("#msg").html("Warning : "+ "Street View could not allocate position.").removeClass().addClass("notice warning");
+          }
+       }).fail(function (jqXHR, textStatus, errorThrown) {
+          $("#msg").html('Error : ' + 'Street View - fail(): textStatus: ' + textStatus + ' / errorThrown: ' + errorThrown ).removeClass().addClass("notice error");
+       });
+    }
 });
 
 jQuery.fn.encHTML = function () {
@@ -1064,6 +1143,11 @@ function strcmp (str1, str2) {
    // *     example 2: strcmp( 'owald', 'waldo' );
    // *     returns 2: -1
    return ((str1 == str2) ? 0 : ((str1 > str2) ? 1 : -1));
+}
+
+function toFixed(value, precision) {
+    var power = Math.pow(10, precision || 0);
+    return String(Math.round(value * power) / power);
 }
 
 /*
