@@ -32,18 +32,27 @@ function filterForJosm() {
                var ret = true;
                $.each(overpass_layer.features, function(i, item) {
                   //console.log("testing " + feature.attributes['source:geometry:oidn']);
-                  //console.log(item);
+                  //console.log(item)k;
                   //console.log(feature.attributes);
-                  if(item.attributes.tags['source:geometry:oidn'] === feature.attributes['source:geometry:oidn']) {
-                     //console.log("found match: " + item.attributes.tags['source:geometry:oidn']);
-                     ret = false;
+                  if(!item.attributes.tags['source:geometry:entity']) {
+                     $("#msg").html("Warning : "+ "The features from overpass are missing the entity tag, add the entity (Gbg, Knw ..) , this will improve and correct the filtering.").removeClass().addClass("notice warn");
+                        // Entity is missing, probably a legacy test import
+                     if(item.attributes.tags['source:geometry:oidn'] === feature.attributes['source:geometry:oidn']) {
+                        //console.log("found match: " + item.attributes.tags['source:geometry:oidn']);
+                        ret = false;
+                     }
+                  } else {
+                     if(item.attributes.tags['source:geometry:oidn'] === feature.attributes['source:geometry:oidn'] &&
+                        item.attributes.tags['source:geometry:entity'] === feature.attributes['source:geometry:entity']) {
+                        ret = false;
+                     }
                   }
                });
             return ret;
         }
     });
     mergeStrategy.setFilter(overpassfilter);
-   $("#msg").html("Info : "+ "Filtered vector layer GRB with overpass data").removeClass().addClass("notice success");
+   $("#msg").append("<br/>Info : "+ "Filtered vector layer GRB with overpass data").removeClass().addClass("notice success");
    //return true;
 }
 
