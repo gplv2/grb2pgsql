@@ -48,6 +48,7 @@ function escapeJsonString($value) { # list from www.json.org: (\b backspace, \f 
 $geotable = 'planet_osm_polygon';
 $geomfield = 'way';
 $srid = '900913';
+$use_redis = FALSE;
 
 
 /* test if we are called from the CLI */
@@ -115,6 +116,7 @@ $sql .= sprintf(" WHERE " . pg_escape_string("way") . " && ST_SetSRID('BOX3D(%s 
 
 //if (strlen(trim($parameters)) == 0) {
 //$sql .= " WHERE " . pg_escape_string($parameters); }
+    //$sql .= " GROUP BY " . (sprintf(pg_escape_string($fields),'"building:levels", "building:min_level"')) . " ";
 
 if (!empty($orderby)){
     $sql .= " ORDER BY " . pg_escape_string($orderby) . " " . $sort;
@@ -127,10 +129,13 @@ if (!empty($offset)){
     $sql .= " OFFSET " . pg_escape_string($offset);
 }
 
-// echo $sql;
+//echo $sql;exit;
 
-$redis = new Redis();
-$redis->connect('127.0.0.1'); // port 6379 by default
+$redis = NULL;
+if($use_redis) {
+   $redis = new Redis();
+   $redis->connect('127.0.0.1'); // port 6379 by default
+}
 
 // Sometimes a layer doesn't refresh in openlayers, I noticed that the only difference is that the difference between a good
 // and a bad request is the header 'Vary: Accept-Encoding'
@@ -139,20 +144,24 @@ $redis->connect('127.0.0.1'); // port 6379 by default
 
 // $redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);  // use built-in serialize/unserialize
 
-$redis->setOption(Redis::OPT_PREFIX, 'grb:');   // use custom prefix on all keys
+if($redis){
+    $redis->setOption(Redis::OPT_PREFIX, 'grb:');   // use custom prefix on all keys
+}
 
 $cachekey=md5($sql);
 
-if($redis->exists($cachekey)) {
-   header("X-Redis-Cached: true");
-   $result = $redis->get($cachekey);
-   $uncompressed = @gzuncompress($result);
-   if ($uncompressed !== false) {
-      echo $uncompressed;
-   } else {
-      echo $result;
-   }
-   exit;
+if ($redis) {
+    if($redis->exists($cachekey)) {
+        header("X-Redis-Cached: true");
+        $result = $redis->get($cachekey);
+        $uncompressed = @gzuncompress($result);
+        if ($uncompressed !== false) {
+            echo $uncompressed;
+        } else {
+            echo $result;
+        }
+        exit;
+    }
 }
 
 # Connect to PostgreSQL database
@@ -202,8 +211,12 @@ while ($row = pg_fetch_assoc($rs)) {
 
 $output = '{ "type": "FeatureCollection", "features": [ ' . $output . ' ]}';
 if ($rec_count) {
-   $compressed = gzcompress($output, 9);
-   $redis->set($cachekey, $compressed);
+    if ($redis) {
+        $compressed = gzcompress($output, 9);
+        $redis->set($cachekey, $compressed);
+   }
 }
-echo $output;
+// echo $output;
+$json_string = json_encode(json_decode($output), JSON_PRETTY_PRINT);
+echo $json_string;
 ?>
