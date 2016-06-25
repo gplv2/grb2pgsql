@@ -80,7 +80,16 @@ function openInJosm() {
          var json = geoJSON.write( mylayers[0].features );
          //console.log(json);
          var mylayers = null;
-         var xml =  osm_geojson.geojson2osm(json);
+
+         //var xml =  osm_geojson.geojson2osm(json);
+	      // Using a different lib that supports node refs
+	      //var xml = geojsontoosm(json);
+
+         // From npm module
+         // console.log(json);
+         console.log("parsing json");
+	      var xml = geos(JSON.parse(json));
+
          //console.log(xml);
          var json = null;
          var req = new XMLHttpRequest();

@@ -90,7 +90,7 @@ function initmap() {
             units: 'm',
             allOverlays: false,
             //fractionalZoom: true,
-            numZoomLevels: 20,
+            numZoomLevels: 21,
 /*
             eventListeners: {
                "featuresadded": function() {
@@ -108,15 +108,15 @@ function initmap() {
                 ),
                 new OpenLayers.Layer.Google(
                    "Google Streets", // the default
-                   {numZoomLevels: 20}
+                   {numZoomLevels: 21}
                 ),
                 new OpenLayers.Layer.Google(
                    "Google Hybrid",
-                   {type: google.maps.MapTypeId.HYBRID, numZoomLevels: 20}
+                   {type: google.maps.MapTypeId.HYBRID, numZoomLevels: 21}
                 ),
                 new OpenLayers.Layer.Google(
                    "Google Satellite",
-                   {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22}
+                   {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 21}
                 )
             ]
         });
@@ -196,8 +196,9 @@ function initmap() {
          vector_layer = new OpenLayers.Layer.Vector('GRB - Vector Source', {
             styleMap: vectorlayer_style,
             strategies: [ streetStrategy, buildingStrategy, filterStrategy, mergeStrategy, boxStrategy, refresh ], 
-            maxScale: 800,
-            minScale: 6772,
+            maxScale: 420,
+            //minScale: 6772,
+            minScale: 3000,
             //maxResolution: map.getResolutionForZoom(15),
             //zoomOffset: 9, resolutions: [152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
             //zoomOffset: 10, resolutions: [76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135],
@@ -501,7 +502,7 @@ function initmap() {
          "featureselected": onFeatureSelect,
          "featureunselected": onFeatureUnselect,
          "featuresadded": function() {
-            $("#msg").html("Info : "+ "Loaded GRB import layer").removeClass().addClass("notice success");
+            // $("#msg").html("Info : "+ "Loaded GRB import layer").removeClass().addClass("notice success");
          }
       });
 
