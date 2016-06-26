@@ -34,6 +34,12 @@
       highway=footway , tunnel=building_passage.  This will fix the validator warnings you will get.
       </p>
       </blockquote>
+      <h3>Excess node removal</h3>
+      <blockquote>
+      <p>
+       The server returns a simplified version of the vector, the following postgis function is used <strong>ST_SimplifyPreserveTopology($geomfield, 0.2)</strong>.  It seems to be good enough to keep nice round shapes while lowering the overnoding.
+      </p>
+      </blockquote>
       <h1>Key/Tag details</h1>
       <h3>man_made = bridge</h3>
       <blockquote>
