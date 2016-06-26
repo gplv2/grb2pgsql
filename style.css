@@ -3,11 +3,10 @@ body {
   /*color: #34495e;*/
   background-color: #C0C0C0;
   -webkit-font-smoothing: antialiased;
-  line-height: 1.6em;
   margin: 0 auto;
-  padding: 1em;
+  padding: .5em;
   font-size: 1em;
-  line-height: 1.4em;
+  line-height: 1.1em;
   background: #222;
   color: #fff;
   -webkit-text-size-adjust: 100%;
@@ -224,10 +223,9 @@ a[rel="footnote"] {
 #mapcontrols {
     margin-right: 5px;
     margin-left: 5px;
-    margin-top: 10px;
+    margin-top: 2px;
     margin-bottom: 10px;
     padding: 3px 5px;
-    //height: 30px;
     width:98%;
 }
 

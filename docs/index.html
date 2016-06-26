@@ -16,30 +16,35 @@
   <body>
     <ul class="navigation">
         <li><h3><a href="/">Map</a></h3></li>
+        <li><a href="/docs/"> Doc</a></li>
+        <li><a href="/src/"> About</a></li>
         <li><a href="/up/"> Upload GRB data</a></li>
-        <li><a href="/docs/"> About</a></li>
-        <li><a href="/src/"> Components</a></li>
     </ul>
+      <h1>Manual</h1>
       <blockquote>
       <h3>GRB geojson vector data toolset.</h3>
-       You can you use the search below to focus on an area.  Good search strings are "Streetname, City", with the semicolon. This helps geocoding.<br>
-       First zoom to your area of interest, the source layer (=GRB vector layer) will load with the bounding box limits. Once you have zoomed in on<br>
-       your area of intereset, you can load the overpass data.  This will match on source:geometry:oidn. You should hit the Filter button now before exporting<br>
+      <p>
+       You can you use the search below to focus on an area.  Good search strings are "Streetname, City", with the semicolon. This helps geocoding.  First zoom to your area of interest, the source layer (=GRB vector layer) will load with the bounding box limits. Once you have zoomed in on</p><br>
+       your area of intereset, you can load the overpass data.  This will match on source:geometry:oidn and  source:geometry:entity (oidn is only unique per entity layer). You should hit the Filter button now before exporting<br>
        this to JOSM.  Try to keep the areas small, there is a max size limit a request for JOSM can have.
       </p>
+      </br>
       <p>
       Change 'verdieping' to building, there is usually a way underneath this building , make sure to connect this way on the sides of the building and split the interior part off, tag this way with for example:
       highway=footway , tunnel=building_passage.  This will fix the validator warnings you will get.
       </p>
       </blockquote>
+      <h1>Key/Tag details</h1>
       <blockquote>
       <h3>man_made = bridge</h3>
+      <p>
       The GRB database contains the outlines of the bridge.  In OSM we can use man_made = bridge for this.  Please check the <a href="http://wiki.openstreetmap.org/wiki/Tag:man_made%3Dbridge">wiki rules</a> on completing the area around these structures.  You need to do some connecting work.
       </p>
       </blockquote>
       <blockquote>
       <h3>building = house</h3>
-       in GRB there is a difference between 2 distinct type of buildings.  The big divider is usually having an address or not.  Type-1 buildings from GRB translate to building = house.  You need to use AGIV background to make sure of that as the bigger buildings tend to be hangars, churches or greenhouse's from time to time.  That's why you need to merge the data with OSM instead of just replacing buildings.   The combination of both DB's make it better.   Type=2 buildings are now translated to 'shed'.  There the general rule is that you also need AGIV background to check if they are garages.  GRB makes no difference.  Usually shed is ok, but you often can tell it's a garage.  Sometimes larger buildings are marked as shed as well.  Usually it's also safe to mark those 'hangar'.  The main difference there is that they don't have a specific address attached using current matching rules.
+      <p>
+       in GRB there is a difference between 2 distinct type of buildings.  The big divider is usually having an address or not.  Type-1 buildings from GRB translate to building = house.  You need to use AGIV background to make sure of that as the bigger buildings tend to be hangars, churches or greenhouse's from time to time.  That's why you need to merge the data with OSM instead of just replacing buildings.   The combination of both DB's make it better.   </p></br><p>Type=2 buildings are now translated to 'shed'.  There the general rule is that you also need AGIV background to check if they are garages.  GRB makes no difference.  Usually shed is ok, but you often can tell it's a garage.  Sometimes larger buildings are marked as shed as well.  Usually it's also safe to mark those 'hangar'.  The main difference there is that they don't have a specific address attached using current matching rules.
       </p>
       </blockquote>
       <!-- Piwik -->
