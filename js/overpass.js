@@ -87,7 +87,7 @@ function openInJosm() {
 
          // From npm module
          // console.log(json);
-         console.log("parsing json");
+         //console.log("parsing json");
 	      var xml = geos(JSON.parse(json));
 
          //console.log(xml);

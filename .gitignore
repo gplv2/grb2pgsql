@@ -1,3 +1,4 @@
 php_errors.log
 *.zip
 up/server/work/*.osm
+node_modules/

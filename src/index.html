@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GRB data to OSM - components</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/openlayers/2.12/theme/default/style.css" media="all" />
+    <!-- jQuery UI styles -->
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/dark-hive/jquery-ui.css" id="theme">
+    <link rel="stylesheet" type="text/css" media="screen" href="../themes/snowball/jquery-ui-custom_dt.css" />
+    <link rel="stylesheet" href="../style.css" media="all" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  </head>
+  <body>
+    <ul class="navigation">
+        <li><h3><a href="/">Map</a></h3></li>
+        <li><a href="/up/"> Upload GRB data</a></li>
+        <li><a href="/docs/"> About</a></li>
+        <li><a href="/src/"> Components</a></li>
+    </ul>
+      <blockquote>
+      <h3>Finishing tools</h3>
+      This tool skips problematic addresses, duplicate streets etc.  verify and fix completeness using the crab toolset and plug the holes we leave behind intentionally.  Solve addressing on the corners:
+      <ul>
+        <li>Use the crab toolset : <a href="http://crab-import.osm.be/import.html">Crab OSM import</a> or here  <a href="http://aptum.bitless.be/">Aptum Bitless import</a> ( mirror site ).</li>
+      </ul>
+      </blockquote>
+      <blockquote>
+      <h3>Data sources</h3>
+      <ul>
+        <li>GRB TILE layers courtesy: informatievlaanderen.be (AGIV): <a href="http://geoservices.informatievlaanderen.be/raadpleegdiensten">http://geoservices.informatievlaanderen.be/raadpleegdiensten</a></li>
+        <li>Overpass API : <a href="http://overpass-api.de">http://overpass-api.de</a></li>
+        <li>Local postgis database of GRB entities layers ( <a href="/up/">source datafiles</a> )</li>
+        <li>GRB Download ( <a href="https://download.agiv.be/Producten/Detail?id=1&title=GRBgis">https://download.agiv.be/Producten/Detail?id=1&title=GRBgis</a> )</li>
+        <li>Also see : <a href="http://wiki.openstreetmap.org/wiki/WikiProject_Belgium/Using_AGIV_Crab_data/AGIV_Website_as_Reference">http://wiki.openstreetmap.org/wiki/WikiProject_Belgium/Using_AGIV_Crab_data/AGIV_Website_as_Reference</a></li>
+      </ul>
+      </blockquote>
+      <blockquote>
+      <h3>Software frontend</h3>
+      <ul>
+        <li>bootstrap</li>
+        <li>jquery/jquery-ui</li>
+        <li>openlayers 2.12</li>
+        <li>node/npm</li>
+      </ul>
+      </blockquote>
+      <blockquote>
+      <h3>Software backend tools</h3>
+        <li>Forked version of (overpass lib): <a href="https://github.com/gplv2/geojsontoosm">geojsontoosm</a></li>
+        <li>Websites/data repo: <a href="https://github.com/gplv2/grb2pgsql">grb2pgsql</a></li>
+        <li>Grb2osm tool : <a href="https://github.com/gplv2/grb2osm">grb2osm</a></li>
+      </ul>
+      </blockquote>
+      <blockquote>
+      <h3>Software backend</h3>
+      <ul>
+        <li>nginx</li>
+        <li>postgresql/postgis</li>
+        <li>redis</li>
+        <li>php</li>
+        <li>ogr2ogr</li>
+        <li>ogr2osm.py</li>
+        <li>sed</li>
+        <li>osmosis</li>
+        <li>osm2pgsql</li>
+        <li>grb2osm.php</li>
+      </ul>
+      </blockquote>
+      <!-- Piwik -->
+      <script type="text/javascript">
+      var _paq = _paq || [];
+      _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+      _paq.push(["setCookieDomain", "*.grbtiles.byteless.net"]);
+      _paq.push(["setDomains", ["*.grbtiles.byteless.net"]]);
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+       var u="//byte-consult.be/piwik/";
+       _paq.push(['setTrackerUrl', u+'piwik.php']);
+       _paq.push(['setSiteId', 13]);
+       var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+       g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+       })();
+	</script>
+	<noscript><p><img src="//byte-consult.be/piwik/piwik.php?idsite=13" style="border:0;" alt="" /></p></noscript>
+	<!-- End Piwik Code -->
+  </body>
+</html>

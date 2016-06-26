@@ -221,13 +221,18 @@ function initmap() {
             var extent = vector_layer.getDataExtent().toBBOX().replace(/,/g,", ");
             $("#msg").html("GRB source dataExtent:"+ extent).removeClass().addClass("notice info");
         });
+
+http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB-basiskaart/wms?FORMAT=image/jpeg&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetMap&LAYERS=GRB_BSK&STYLES=&SRS=EPSG:3857&WIDTH=512&HEIGHT=512&BBOX=497451.2975108,6616695.4932892,497604.1715608,6616848.3673392
+
 */
 
         var grb_wms = new OpenLayers.Layer.WMS(
             "GRB Basiskaart",
-            "http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB-basiskaart/wmsgr?",
+            //"http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB-basiskaart/wmsgr?",
+            "http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB-basiskaart/wms?",
             {
-                LAYERS: 'GRB_BASISKAART',
+                //LAYERS: 'GRB_BASISKAART',
+                LAYERS: 'GRB_BSK',
                 transparent: "false",
                 //format: "image/png"
             },
@@ -245,9 +250,9 @@ function initmap() {
 
         var grb_wbn = new OpenLayers.Layer.WMS(
             "GRB - WBN+ Weg/water/..",
-            "http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?",
+            "http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB/wms?",
             {
-                LAYERS: 'GRB_WBN,GRB_WVB,GRB_SBN,GRB_WTZ,GRB_WLAS,GRB_WGR,GRB_WGO,GRB_WRL,GRB_WKN,GRB_SNM,GRB_SNM_Links,GRB_SNM_Rechts',
+                LAYERS: 'GRB_WBN,GRB_WVB,GRB_SBN,GRB_WTZ,GRB_WLAS,GRB_WGR,GRB_WGO,GRB_WRL,GRB_WKN,GRB_SNM,GRB_SNM_LINKS,GRB_SNM_RECHTS',
                 transparent: "true",
                 //format: "image/png"
             },
@@ -264,9 +269,10 @@ function initmap() {
 
         var grb_gem = new OpenLayers.Layer.WMS(
             "GRB - Gemeentegrenzen",
-            "http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?",
+            //"http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?",
+            "http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB/wms?",
             {
-                LAYERS: 'GEM_Grens',
+                LAYERS: 'GEM_GRENS',
                 transparent: "true",
                 //format: "image/png"
             },
@@ -275,7 +281,7 @@ function initmap() {
                 tiled: true,
                 isBaseLayer: false,
                 projection: mercator,
-                visibility: false
+                visibility: true
             }
         );
 
@@ -283,7 +289,8 @@ function initmap() {
 
         var grb_knw = new OpenLayers.Layer.WMS(
             "GRB - KNW",
-            "http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?",
+            //"http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?",
+            "http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB-basiskaart/wms?",
             {
                 LAYERS: 'GRB_KNW',
                 transparent: "true",
@@ -302,7 +309,8 @@ function initmap() {
 
         var grb_gbg = new OpenLayers.Layer.WMS(
             "GRB - GBG Gebouw a/d grond",
-            "http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?",
+            //"http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?",
+            "http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB-basiskaart/wms?",
             {
                 LAYERS: 'GRB_GBG',
                 transparent: "true",
@@ -320,7 +328,8 @@ function initmap() {
 
         var grb_gba = new OpenLayers.Layer.WMS(
             "GRB - GBA Gebouwaanhorigheid",
-            "http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?",
+            //"http://grb.agiv.be/geodiensten/raadpleegdiensten/GRB/wms?",
+            "http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB-basiskaart/wms?",
             {
                 LAYERS: 'GRB_GBA',
                 transparent: "true",
