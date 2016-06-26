@@ -21,6 +21,11 @@
         <li><a href="/up/"> Upload GRB data</a></li>
     </ul>
       <h1>Manual</h1>
+      <blockquote>
+	<ul>
+        <li>Also see information in wiki : <a href="http://wiki.openstreetmap.org/wiki/WikiProject_Belgium/GRB">WikiProject GRB</a></li>
+	</ul>
+      </blockquote>
       <h3>GRB geojson vector data toolset.</h3>
       <blockquote>
       <p>
@@ -31,7 +36,7 @@
       </br>
       <p>
       Change 'verdieping' to building, there is usually a way underneath this building , make sure to connect this way on the sides of the building and split the interior part off, tag this way with for example:
-      highway=footway , tunnel=building_passage.  This will fix the validator warnings you will get.
+      <a href="http://wiki.openstreetmap.org/wiki/Tag:highway%3Dfootway"/>highway=footway</a> , <a href="http://wiki.openstreetmap.org/wiki/Tag:tunnel%3Dbuilding_passage"/>tunnel=building_passage</a>.  This will fix the validator warnings you will get.
       </p>
       </blockquote>
       <h3>Excess node removal (disabled)</h3>
@@ -46,6 +51,11 @@
       <blockquote>
       <p>
       The GRB database contains the outlines of the bridge.  In OSM we can use man_made = bridge for this.  Please check the <a href="http://wiki.openstreetmap.org/wiki/Tag:man_made%3Dbridge">wiki rules</a> on completing the area around these structures.  You need to do some connecting work.
+      </p>
+      </blockquote>
+      <h3>man_made = mast</h3>
+      <blockquote>
+      <p> man_made = mast is a hard one.  In GRB they outlines are described using a way, that information is quite exact in fact.  The issue here transforming this to OSM is that we use a single node there.  It would be easy to reduce the way to a node in order to facilitate merging.  At the moment I keep the ways, so you need to search in JOSM for these type of ways to verify if a node exists.
       </p>
       </blockquote>
       <h3>building = house</h3>
