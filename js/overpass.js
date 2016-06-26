@@ -77,30 +77,18 @@ function openInJosm() {
          });
 
          var mylayers = map.getLayersByName('GRB - Vector Source');
-      console.log(mylayers[0].features);
+      //console.log(mylayers[0].features);
 /*
                $.each(mylayers.features, function(i, item) {
-                  console.log("simplifying ways " + feature.attributes['source:geometry:oidn']);
                   if(!item.attributes.tags['source:geometry:entity']) {
-                     $("#msg").html("Warning : "+ "The features from overpass are missing the entity tag, add the entity (Gbg, Knw ..) , this will improve and correct the filtering.").removeClass().addClass("notice warn");
-                        // Entity is missing, probably a legacy test import
-                     if(item.attributes.tags['source:geometry:oidn'] === feature.attributes['source:geometry:oidn']) {
-                        //console.log("found match: " + item.attributes.tags['source:geometry:oidn']);
                         ret = false;
-                     }
-                  } else {
-                     if(item.attributes.tags['source:geometry:oidn'] === feature.attributes['source:geometry:oidn'] &&
-                        item.attributes.tags['source:geometry:entity'] === feature.attributes['source:geometry:entity']) {
-                        ret = false;
-                     }
                   }
                });
-            return ret;
 */
 
       
          var json = geoJSON.write( mylayers[0].features );
-         console.log(json);
+         //console.log(json);
          var mylayers = null;
 
          // From npm module

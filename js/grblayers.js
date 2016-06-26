@@ -281,7 +281,7 @@ http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB-basiskaart/wms?
                 tiled: true,
                 isBaseLayer: false,
                 projection: mercator,
-                visibility: true
+                visibility: false
             }
         );
 
