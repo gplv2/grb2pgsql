@@ -110,7 +110,7 @@ $fields = "osm_id, \"addr:housename\", \"addr:housenumber\", \"addr:interpolatio
 $tags="tags -> 'building:levels' AS \"building:levels\" , tags -> 'building:min_level' AS \"building:min_level\"";
 
 # Build SQL SELECT statement and return the geometry as a GeoJSON element in EPSG: 4326
-$sql  = "SELECT " . sprintf(pg_escape_string($fields), $tags) . ", ST_AsGeoJSON(ST_Transform(" . pg_escape_string($geomfield) . ",$srid),15,4) AS geojson FROM " . pg_escape_string($geotable);
+$sql  = "SELECT " . sprintf(pg_escape_string($fields), $tags) . ", ST_AsGeoJSON(ST_Transform(ST_SimplifyPreserveTopology(" . pg_escape_string($geomfield) . ", 0.2),$srid),15,4) AS geojson FROM " . pg_escape_string($geotable);
 $sql .= sprintf(" WHERE " . pg_escape_string("way") . " && ST_SetSRID('BOX3D(%s %s, %s %s)'::box3d, %s)", $bbox_west, $bbox_south, $bbox_east, $bbox_north, $srid);
 //$sql .= sprintf(" WHERE \"source:geometry:entity\"= 'Gba' AND \"source:geometry:oidn\"='67064' AND " . pg_escape_string("way") . " && ST_SetSRID('BOX3D(%s %s, %s %s)'::box3d, %s)", $bbox_west, $bbox_south, $bbox_east, $bbox_north, $srid);
 

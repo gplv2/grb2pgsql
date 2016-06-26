@@ -52,7 +52,7 @@ function filterForJosm() {
         }
     });
     mergeStrategy.setFilter(overpassfilter);
-   $("#msg").append("<br/>Info : "+ "Filtered vector layer GRB with overpass data").removeClass().addClass("notice success");
+   $("#msg").html("<br/>Info : "+ "Filtered vector layer GRB with overpass data").removeClass().addClass("notice success");
    //return true;
 }
 
@@ -77,17 +77,35 @@ function openInJosm() {
          });
 
          var mylayers = map.getLayersByName('GRB - Vector Source');
-         var json = geoJSON.write( mylayers[0].features );
-         //console.log(json);
-         var mylayers = null;
+      console.log(mylayers[0].features);
+/*
+               $.each(mylayers.features, function(i, item) {
+                  console.log("simplifying ways " + feature.attributes['source:geometry:oidn']);
+                  if(!item.attributes.tags['source:geometry:entity']) {
+                     $("#msg").html("Warning : "+ "The features from overpass are missing the entity tag, add the entity (Gbg, Knw ..) , this will improve and correct the filtering.").removeClass().addClass("notice warn");
+                        // Entity is missing, probably a legacy test import
+                     if(item.attributes.tags['source:geometry:oidn'] === feature.attributes['source:geometry:oidn']) {
+                        //console.log("found match: " + item.attributes.tags['source:geometry:oidn']);
+                        ret = false;
+                     }
+                  } else {
+                     if(item.attributes.tags['source:geometry:oidn'] === feature.attributes['source:geometry:oidn'] &&
+                        item.attributes.tags['source:geometry:entity'] === feature.attributes['source:geometry:entity']) {
+                        ret = false;
+                     }
+                  }
+               });
+            return ret;
+*/
 
-         //var xml =  osm_geojson.geojson2osm(json);
-	      // Using a different lib that supports node refs
-	      //var xml = geojsontoosm(json);
+      
+         var json = geoJSON.write( mylayers[0].features );
+         console.log(json);
+         var mylayers = null;
 
          // From npm module
          // console.log(json);
-         //console.log("parsing json");
+         // console.log("parsing json");
 	      var xml = geos(JSON.parse(json));
 
          //console.log(xml);
