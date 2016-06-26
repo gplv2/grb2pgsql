@@ -75,11 +75,72 @@
       <p> man_made = mast is a hard one.  In GRB they outlines are described using a way, that information is quite exact in fact.  The issue here transforming this to OSM is that we use a single node there.  It would be easy to reduce the way to a node in order to facilitate merging.  At the moment I keep the ways, so you need to search in JOSM for these type of ways to verify if a node exists.
       </p>
       </blockquote>
-      <h3>building = house</h3>
+
+      <h3>man_made = *</h3>
       <blockquote>
+      <p> These are the counts for the rest of the man_made object.  GRB and OSM matching for these structures is fairly straightforward.
+<pre>
+ count |   man_made   
+-------+--------------
+    41 | pier
+   127 | breakwater
+ 44385 | storage_tank
+  1232 | works
+   648 | chimney
+   738 | watertower
+   169 | groyne
+    63 | tower
+ 10037 | mast
+  4892 | bridge
+</pre>
+      </p>
+      </blockquote>
+      <h3>building = house or shed</h3>
+      <blockquote>
+      <p>
+       In short: rule of thumb: used a simple convertion using hoofdgebouw/house and bijgebouw/shed.  GRB makes no significant deeper differentiation. Bigger structures will usually need adjusting, when merging you should get notified.  In JOSM you can search for big buildings using area queries.  It's very powerful, then you zoom too the bigger buildings and merge down.
+      </p>
+      </br>
       <p>
        in GRB there is a difference between 2 distinct type of buildings.  The big divider is usually having an address or not.  Type-1 buildings from GRB translate to building = house.  You need to use AGIV background to make sure of that as the bigger buildings tend to be hangars, churches or greenhouse's from time to time.  That's why you need to merge the data with OSM instead of just replacing buildings.   The combination of both DB's make it better.   </p></br><p>Type=2 buildings are now translated to 'shed'.  There the general rule is that you also need AGIV background to check if they are garages.  GRB makes no difference.  Usually shed is ok, but you often can tell it's a garage.  Sometimes larger buildings are marked as shed as well.  Usually it's also safe to mark those 'hangar'.  The main difference there is that they don't have a specific address attached using current matching rules.
       </p>
+      </blockquote>
+      <h3>building = 'gebouw afgezoomd met virtuele gevels'</h3>
+      <blockquote>
+      <p>
+      We delete these virtual buildings from the database.   
+      </p>
+      </blockquote>
+
+      <h3>building = *</h3>
+      These are the different types of buildings after import, note that these are changed (and some get extra tags) using database queries.  Some of them probably need to be purged.
+      <blockquote>
+<pre>
+ done |   count  |               building               
+------+----------+--------------------------------------
+OK    |  2113333 | shed
+OK    |  2490213 | house
+NO    |    93334 | garage
+NO    |    51183 | verdieping
+OK    |   213350 | roof
+NO    |       57 | tunnelmond
+DEL   |      854 | gebouw afgezoomd met virtuele gevels
+OK    |    18631 | industrial
+NO    |     6246 | pijler
+NO    |      218 | rooster
+NO    |      542 | loopbrug
+NO    |      993 | uitbreiding
+</pre>
+      </blockquote>
+      <h3>highway = steps</h3>
+      <blockquote>
+      <p>Again, this needs attention.  in GRB it represents the outlines of a step.  In OSM we actually use a way to tag steps.  <a href="http://wiki.openstreetmap.org/wiki/Tag:highway%3Dsteps">highway = steps can't be an area according to the wiki</a>.  You will have to manually replace those with way's as far as I know.  I believe it's better to keep this data in the database so the editor can draw the steps better.
+</p>
+<pre>
+ count | highway 
+-------+---------
+ 23291 | steps
+</pre>
       </blockquote>
       <!-- Piwik -->
       <script type="text/javascript">

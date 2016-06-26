@@ -73,7 +73,7 @@ $(document).ready(function () {
         if (( lat !== null && lat !== undefined && lat != 0) && ( lon !== null && lon !== undefined && lon != 0)) {
             if(address.length <= 0) {
                 // console.log(event);
-                var geocode = (function () {
+                geocode = (function () {
                     var geocode = null;
                     $.ajax({
                         'async': true,
@@ -122,7 +122,7 @@ $(document).ready(function () {
 
    $(function() {
     var geoCodeURL = "proxy/search.php?format=json&accept-language=nl,en;q=0.8,fr;q=0.5";
-    var data = null;
+    // var data = null;
 
     // $('#sgoogle').button();
     $("#radio" ).buttonset();
@@ -199,7 +199,7 @@ $(document).ready(function () {
            // console.log(ui.item);
            // console.log(event);
             var epsg4326 = new OpenLayers.Projection('EPSG:4326');
-            var epsg900913 = new OpenLayers.Projection('EPSG:900913');
+            //var epsg900913 = new OpenLayers.Projection('EPSG:900913');
 
             var layer_style = OpenLayers.Util.extend({}, OpenLayers.Feature.Vector.style['default']);
             var style_blue;
@@ -276,7 +276,7 @@ $(document).ready(function () {
     });
    });
 
-   var bounds = new OpenLayers.Bounds (3.54635, 49.94169, 5.47995, 51.53569);
+   //var bounds = new OpenLayers.Bounds (3.54635, 49.94169, 5.47995, 51.53569);
    geocoder = new google.maps.Geocoder();
 
    // map.addControl(geocoder);

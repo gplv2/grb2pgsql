@@ -119,27 +119,29 @@ echo "UPDATE planet_osm_polygon set highway='steps', building='' where building=
 
 exit;
 
-# to change:
+# more to change using queries :
 
-    <tag k="building" v="cabine"/>
-    <tag k="building" v="chemische installatie"/>
-    <tag k="building" v="cultuur-historisch monument"/>
-    <tag k="building" v="golfbreker, strandhoofd en lage havendam"/>
-    <tag k="building" v="havendam"/>
-    <tag k="building" v="hoogspanningsmast / openbare TV mast"/>
-    <tag k="building" v="koeltoren"/>
-    <tag k="building" v="overbrugging"/>
-    <tag k="building" v="pijler"/>
-    <tag k="building" v="rooster"/>
-    <tag k="building" v="schoorsteen"/>
-    <tag k="building" v="silo, opslagtank"/>
-    <tag k="building" v="staketsel"/>
-    <tag k="building" v="tunnelmond"/>
-    <tag k="building" v="waterbouwkundig constructie"/>
-    <tag k="building" v="watertoren"/>
+#    <tag k="building" v="cabine"/>
+#    <tag k="building" v="chemische installatie"/>
+#    <tag k="building" v="cultuur-historisch monument"/>
+#    <tag k="building" v="golfbreker, strandhoofd en lage havendam"/>
+#    <tag k="building" v="havendam"/>
+#    <tag k="building" v="hoogspanningsmast / openbare TV mast"/>
+#    <tag k="building" v="koeltoren"/>
+#    <tag k="building" v="overbrugging"/>
+#    <tag k="building" v="pijler"/>
+#    <tag k="building" v="rooster"/>
+#    <tag k="building" v="schoorsteen"/>
+#    <tag k="building" v="silo, opslagtank"/>
+#    <tag k="building" v="staketsel"/>
+#    <tag k="building" v="tunnelmond"/>
+#    <tag k="building" v="waterbouwkundig constructie"/>
+#    <tag k="building" v="watertoren"/>
 
 
 #/usr/local/bin/grb2osm/grb2osm.php -f GRBgis_20001/Shapefile/TblGbgAdr20001.dbf,GRBgis_10000/Shapefile/TblGbgAdr10000.dbf,GRBgis_30000/Shapefile/TblGbgAdr30000.dbf
+
+# address directly in the database
 /usr/local/bin/grb2osm/grb2osm.php -f GRBgis_20001/Shapefile/TblGbgAdr20001.dbf
 /usr/local/bin/grb2osm/grb2osm.php -f GRBgis_10000/Shapefile/TblGbgAdr10000.dbf
 /usr/local/bin/grb2osm/grb2osm.php -f GRBgis_30000/Shapefile/TblGbgAdr30000.dbf
@@ -149,7 +151,6 @@ exit;
  echo "==========="
  # flush redish cache
 echo "flushall" | redis-cli 
- 
 
 exit;
 
