@@ -6,8 +6,7 @@
   "dependencies": {
     "geojson-validation": "^0.1.6",
     "geojsontoosm": "^0.0.2",
-    "jxon": "^2.0.0-beta.2",
-    "simplify-js": "^1.2.1"
+    "jxon": "^2.0.0-beta.2"
   },
   "devDependencies": {},
   "scripts": {
