@@ -37,7 +37,8 @@
       <h3>Excess node removal (disabled)</h3>
       <blockquote>
       <p>
-       The server returns a simplified version of the vector, the following postgis function is used <strong>ST_SimplifyPreserveTopology($geomfield, 0.2)</strong>.  It seems to be good enough to keep nice round shapes while lowering the overnoding.   It turned out that doing this should happen in JOSM, when structures are attached to one another.  Doing so here will prevent geojsontoosm from combining nodes as references.  It does a good job connecting everyting that it exports within boundaries, but it will not attach a node to a way, it only joins adjacant nodes within a certain margin.  In JOSM you do: <strong>CTRL+y</strong>
+       The server returns a simplified version of the vector, the following postgis function is used <strong>ST_SimplifyPreserveTopology($geomfield, 0.2)</strong>.  It seems to be good enough to keep nice round shapes while lowering the overnoding.</p></br><p>
+   It turned out that doing this should happen in JOSM, when structures are attached to one another.  Doing so here will prevent geojsontoosm from combining nodes as references.  It does a good job connecting everyting that it exports within boundaries, but it will not attach a node to a way, it only joins adjacant nodes within a certain margin.  In JOSM you do: <strong>CTRL+y</strong>
       </p>
       </blockquote>
       <h1>Key/Tag details</h1>
