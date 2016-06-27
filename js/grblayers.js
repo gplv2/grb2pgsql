@@ -479,6 +479,9 @@ http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB-basiskaart/wms?
             "</ul></fieldset></div>";
          //console.log(content);
 
+         $('#bottom').html(getdetails(feature.attributes));
+
+/*
          var popup = new OpenLayers.Popup.FramedCloud("chicken",
             feature.geometry.getBounds().getCenterLonLat(),
             new OpenLayers.Size(200,200),
@@ -488,8 +491,9 @@ http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB-basiskaart/wms?
          feature.popup = popup;
          popup.closeOnMove = false;
 
-         /* TODO disable flickering */
          map.addPopup(popup);
+*/
+         /* TODO disable flickering */
       }
 
       function onFeatureUnselect(event) {
@@ -1011,9 +1015,11 @@ $( document ).ready(function() {
 
     $('#bottom').css("height",newh);
     $('#bottom').css("margin-top",newh);
-    $('#bottom').css("width",'240px');
-    $('#bottom').css("opacity",'0.2');
+    $('#bottom').css("width",'440px');
+    $('#bottom').css("opacity",'0.8');
     $("#msg").html("Action: Bottom resized");
+    $('#bottom').append("<div/>");
+    $('#bottom').hide();
 
     $(function() {
         $('#msg').removeClass().addClass("notice info");
@@ -1040,10 +1046,12 @@ $( document ).ready(function() {
         $( "#popupswitch" ).button().click(function( event ) {
             if ( $( this ).prop( "checked" ) ) {
                $('#msg').removeClass().addClass("notice info").html("Config: Popup autoloading enabled.");
-               $('#lbl_popupswitch > span').html("Disable Popups");
+               $('#lbl_popupswitch > span').html("Disable Info window");
+               $('#bottom').show();
             } else {
                $('#msg').removeClass().addClass("notice info").html("Config: Popup autoloading disabled.");
-               $('#lbl_popupswitch > span').html("Enable Popups");
+               $('#lbl_popupswitch > span').html("Enable Info window");
+               $('#bottom').hide();
                //$('body').css('cursor', 'wait');
                //$('body').css('cursor', 'default');
             }
