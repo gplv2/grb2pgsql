@@ -402,10 +402,10 @@ http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB-basiskaart/wms?
       );
 
       var highlightvector = new OpenLayers.Control.SelectFeature(vector_layer, {
-         hover: false,
+         hover: true,
          highlightOnly: true,
          //autoActivate:true,
-         toggle: true,
+         toggle: false,
          renderIntent: "temporary",
          eventListeners: {
             // featurehighlighted: report
@@ -446,7 +446,6 @@ http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB-basiskaart/wms?
       }
 
       function onFeatureSelect(event) {
-         destroyPopups(event);
          if ( !$( "#popupswitch" ).prop( "checked" ) ) {
             return true;
          }
@@ -457,18 +456,20 @@ http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB-basiskaart/wms?
            return true;
          }
 
+         destroyPopups(event);
+
          // var content = "<h2>"+encHTML(feature.attributes.building) + "</h2>" + encHTML(feature.attributes.source);
-	 var featid='';
-	 if (feature.attributes.building) {
-		featid=feature.attributes.building;	
-	 } else if (feature.attributes.highway) {
-		featid=feature.attributes.highway;	
-	 } else if (feature.attributes.man_made) {
-		featid=feature.attributes.man_made;	
-	 } else {
-		featid=feature.attributes.oidn;	
-		//console.log(feature);
-	 }
+	      var featid='';
+	      if (feature.attributes.building) {
+		      featid=feature.attributes.building;	
+	      } else if (feature.attributes.highway) {
+		      featid=feature.attributes.highway;	
+	      } else if (feature.attributes.man_made) {
+		      featid=feature.attributes.man_made;	
+	      } else {
+		      featid=feature.attributes.oidn;	
+		      //console.log(feature);
+	      }
          var content = '<div id="plopper"><fieldset>' + "<legend>"+encHTML(featid) + '</legend>' +
             // '<li>' + encHTML(feature.attributes.description) 
             //+ "<li>Building : "+ feature.attributes.building +"</li>"
@@ -999,7 +1000,20 @@ function getOsmInfo() {
 
 $( document ).ready(function() {
     $("#msg").html("Action: DocReady");
+
+    /* Setup the information pane left bottom */
     //console.log( "docready!" );
+    //$('#log').append('<div> bottom resize().</div>');
+    var canvasheight=$('#map').css('height');
+    var canvaswidth=$('#map').css('width');
+    var newh = (parseInt(canvasheight, 10)/2) + 'px';
+    // var newm =$('#map').css('margin-top');
+
+    $('#bottom').css("height",newh);
+    $('#bottom').css("margin-top",newh);
+    $('#bottom').css("width",'240px');
+    $('#bottom').css("opacity",'0.2');
+    $("#msg").html("Action: Bottom resized");
 
     $(function() {
         $('#msg').removeClass().addClass("notice info");
