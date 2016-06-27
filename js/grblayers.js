@@ -402,7 +402,7 @@ http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB-basiskaart/wms?
       );
 
       var highlightvector = new OpenLayers.Control.SelectFeature(vector_layer, {
-         hover: true,
+         hover: false,
          highlightOnly: true,
          //autoActivate:true,
          toggle: true,
