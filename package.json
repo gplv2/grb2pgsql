@@ -10,9 +10,15 @@
     "jxon": "^2.0.0-beta.2",
     "mapshaper": "^0.3.26"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "browserify": "latest",
+    "uglify-js": "latest"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:ms": "browserify js/mapshaper.js --s mapshaper | uglifyjs > dist/mapshaper.js",
+    "build:pz": "browserify node_modules/geojsontoosm/index.js --s geos  > dist/pizza.js",
+    "build": "npm run build:ms && npm run build:pz"
   },
   "author": "Glenn Plas",
   "license": "GPL-3.0+"

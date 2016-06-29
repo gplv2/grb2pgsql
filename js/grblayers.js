@@ -1008,7 +1008,7 @@ $( document ).ready(function() {
     $(function() {
       $( "#dpslider" ).slider({
          max: 100,
-         value: 75,
+         value: 82,
          min: 1,
       slide: function( event, ui ) {
         $( "#percentage" ).val( ui.value + "%");
