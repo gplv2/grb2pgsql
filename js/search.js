@@ -13,6 +13,7 @@ $(document).ready(function () {
     //$('#mapcontrols').css("position" , "relative");
     //$('#mapcontrols').css("float" , "right");
     $('#mapcontrols').append('<input class="ui-button ui-state-default ColVis_Button" type="button" name="zoom" value="Zoom to vector" id="zoompoi" title=""/>');
+    $('#mapcontrols').append('<input class="ui-button ui-state-default ColVis_Button" type="button" name="rstselection" value="Reset selection" id="rstsel" title=""/>');
     $('#mapcontrols').append('<input class="ui-button ui-state-default ColVis_Button" type="button" name="clearpopups" value="Clear popups" id="clrpopups" title=""/>');
     $('#mapcontrols').append('<input class="ui-button ui-state-default ColVis_Button" type="button" name="vrfyjosm" value="Check JOSM" id="vrfyjosm" title=""/>');
     $('#mapcontrols').append('<input class="ui-button ui-state-default ColVis_Button" type="button" name="rstfilter" value="Reset filter" id="rstfilter" title=""/>');

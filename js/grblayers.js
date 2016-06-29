@@ -372,7 +372,152 @@ http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB-basiskaart/wms?
         );
 
         map.addLayer(grb_ortho);
-        map.setLayerIndex(grb_ortho, 1);
+        map.setLayerIndex(grb_ortho, 2);
+
+        var wr_combo = new OpenLayers.Layer.WMS(
+            "Nat. WegenRegister Base",
+            //"http://geo.agiv.be/ogc/wms/omkl?VERSION=1.1.1&",
+            "http://geoservices.informatievlaanderen.be/raadpleegdiensten/Wegenregister/wms?",
+            {
+                WIDTH: 512,
+                HEIGHT: 512,
+                VERSION: '1.1.1',
+                LAYERS: 'LABELS,AARDEWEG,WANDFIETS,PLLWEG,VENTWEG,OPAFGGKR,OPAFOGKR,VERKPLEIN,SPECSIT,ROT,DIENSTWEG,WEGEEN,WEGGESCH,AUTOSWEG',
+                transparent: "false",
+                FORMAT: "image/png"
+            },
+            {
+                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 2})], 
+                tiled: true,
+                isBaseLayer: true,
+                projection: 'EPSG:3857',
+                visibility: false
+            }
+        );
+
+        map.addLayer(wr_combo);
+        map.setLayerIndex(wr_combo, 3);
+
+/*
+         var get_my_url = function (bounds) {
+            var res = map.getResolution();
+            var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
+            var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
+            var z = this.map.getZoom();
+         if(!x || !y || !z) {
+            console.log(x + ' / ' + y + ' / ' + z);
+         }
+          // var bounds = map.getExtent();
+          // bounds.transform(map.getProjectionObject(), geodetic);
+
+
+          //var path = 'tile_' + z + "_" + x + "-" + y + "." + this.type; 
+          var path = z + "/" + x + "/" + y + "." + this.type;
+          //console.log(path);
+          var url = this.url;
+          if (url instanceof Array) {
+             url = this.selectUrl(path, url);
+          }
+          return url + path;
+       }
+*/
+
+
+        var wr_combo_trans = new OpenLayers.Layer.WMS(
+            "Nat. WegenRegister Overlay",
+            //"http://geo.agiv.be/ogc/wms/omkl?VERSION=1.1.1&",
+            "http://geoservices.informatievlaanderen.be/raadpleegdiensten/Wegenregister/wms?",
+            {
+                WIDTH: 512,
+                HEIGHT: 512,
+                VERSION: '1.1.1',
+                LAYERS: 'LABELS,AARDEWEG,WANDFIETS,PLLWEG,VENTWEG,OPAFGGKR,OPAFOGKR,VERKPLEIN,SPECSIT,ROT,DIENSTWEG,WEGEEN,WEGGESCH,AUTOSWEG',
+                transparent: "true",
+                FORMAT: "image/png"
+            },
+            {
+                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 2})], 
+                tiled: true,
+                isBaseLayer: false,
+                projection: 'EPSG:3857',
+                visibility: false
+            }
+        );
+
+        map.addLayer(wr_combo_trans);
+        map.setLayerIndex(wr_combo_trans, 4);
+
+         var cdark_all = new OpenLayers.Layer.XYZ(
+            "Carto basemap Dark",
+            [
+            'http://1.basemaps.cartocdn.com/dark_all/${z}/${x}/${y}.png',
+            'http://2.basemaps.cartocdn.com/dark_all/${z}/${x}/${y}.png',
+            'http://3.basemaps.cartocdn.com/dark_all/${z}/${x}/${y}.png',
+            'http://4.basemaps.cartocdn.com/dark_all/${z}/${x}/${y}.png',
+            ],
+            {
+               attribution: "Tiles &copy; <a href='http://mapbox.com/'>MapBox</a> | " + 
+                           "Data &copy; <a href='http://www.openstreetmap.org/'>OpenStreetMap</a> " +
+                           "and contributors, CC-BY-SA",
+               sphericalMercator: true,
+               wrapDateLine: true,
+               transitionEffect: "resize",
+               buffer: 1,
+               type: 'png',
+               layername: 'dark_all',
+               //getURL: get_my_url,
+               transparent: "false",
+               numZoomLevels: 20,
+               //projection: geodetic,
+                //projection: 'EPSG:3857',
+               //displayProjection: mercator
+                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 2})], 
+                tiled: true,
+                isBaseLayer: true,
+                visibility: false
+            }
+        );
+
+         var clight_all = new OpenLayers.Layer.XYZ(
+            "Carto basemap Light",
+            [
+            'http://1.basemaps.cartocdn.com/light_all/${z}/${x}/${y}.png',
+            'http://2.basemaps.cartocdn.com/light_all/${z}/${x}/${y}.png',
+            'http://3.basemaps.cartocdn.com/light_all/${z}/${x}/${y}.png',
+            'http://4.basemaps.cartocdn.com/light_all/${z}/${x}/${y}.png',
+            ],
+            {
+               attribution: "Tiles &copy; <a href='http://mapbox.com/'>MapBox</a> | " + 
+                           "Data &copy; <a href='http://www.openstreetmap.org/'>OpenStreetMap</a> " +
+                           "and contributors, CC-BY-SA",
+               sphericalMercator: true,
+               wrapDateLine: true,
+               // transitionEffect: "resize",
+               // buffer: 1,
+               type: 'png',
+               layername: 'dark_all',
+               //getURL: get_my_url,
+               transparent: "false",
+               numZoomLevels: 20,
+               //projection: geodetic,
+                //projection: 'EPSG:3857',
+               //displayProjection: mercator
+                strategies: [ new OpenLayers.Strategy.BBOX({ratio: 2, resFactor: 2})], 
+                tiled: true,
+                isBaseLayer: true,
+                visibility: false
+            }
+        );
+        map.addLayer(clight_all);
+        map.setLayerIndex(clight_all, 5);
+
+        map.addLayer(cdark_all);
+        map.setLayerIndex(cdark_all, 6);
+
+
+    /* shift-mouse1 Easily get bbox string (screen relative) */
+    var boxcontrol = new OpenLayers.Control();
+
 
     /* shift-mouse1 Easily get bbox string (screen relative) */
     var boxcontrol = new OpenLayers.Control();
@@ -398,7 +543,14 @@ http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB-basiskaart/wms?
    map.addControl(boxcontrol);
 
       var selectCtrl = new OpenLayers.Control.SelectFeature(vector_layer,
-        { clickout: true }
+         {  
+            clickout: true ,
+            toggle: false,
+            multiple: true, hover: false,
+            //box: true,
+            toggleKey: "ctrlKey", // ctrl key removes from selection
+            multipleKey: "shiftKey" // shift key adds to selection
+         }
       );
 
       var highlightvector = new OpenLayers.Control.SelectFeature(vector_layer, {
