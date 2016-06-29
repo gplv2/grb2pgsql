@@ -17,6 +17,7 @@
 
     <link rel="stylesheet" href="style.css" media="all" />
     <script src="dist/pizza.js" charset="utf-8"></script>
+    <script src="dist/mapshaper.js" charset="utf-8"></script>
     <script src="//maps.google.com/maps/api/js?v=3.5&amp;sensor=false"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
@@ -51,24 +52,25 @@
       </p>
 -->
       </div>
+
+
       <div id="contentfilters" style="clear:both;"> </div>
-   <div id="mapcontrols">
-     <button id="opass" >Load Overpass layer</button>
-     <button id="fpass" >Filter GRB Layer</button>
-     <button id="loadgrb">Export GRB layer in JOSM</button>
-     <button id="loadarea">Open Area in JOSM</button>
-     <button id="testswitch">Streetview</button>
-     <input type="checkbox" name="popupsw" id="popupswitch"><label id="lbl_popupswitch" for="popupswitch">Enable Info window</label>
-     <input type="checkbox" name="labelsw" id="labelswitch"><label id="lbl_labelswitch" for="labelswitch">Labels On</label>
-     <div id="msg" class="notice info"><p>...</p></div>
-     <div id="idtag"></div>
-    </div>
-    <div id="map" class="smallmap"></div>
+      <div id="mapcontrols">
+         <button id="opass" >Load Overpass layer</button>
+         <button id="fpass" >Filter GRB Layer</button>
+         <button id="loadgrb">Export GRB layer in JOSM</button>
+         <button id="loadarea">Open Area in JOSM</button>
+         <button id="testswitch">Streetview</button>
+         <input type="checkbox" name="popupsw" id="popupswitch"><label id="lbl_popupswitch" for="popupswitch">Enable Info window</label>
+         <input type="checkbox" name="labelsw" id="labelswitch"><label id="lbl_labelswitch" for="labelswitch">Labels On</label>
+         <div id="msg" class="notice info"><p>...</p></div>
+         <div id="idtag"></div>
+         <div id="slider_container">
+            <label for="percentage">Simplify:</label>
+            <input type="text" id="percentage" style="width : 35px" readonly style="padding-top: 5px; color:black; font-weight:bold;">
+         <div id="dpslider"></div>
+      </div>
       <div id="search" style="float: right" >
-<!--
-      <fieldset>
-      <legend>Search nominatim</legend>
--->
       <div id="geosearch" class="filterclass ui-widget">
          <input id="address" type="text" style="width : 550px;" class="ui-autocomplete-input" autocomplete="off" title="Zoek via nominatim">
          <div id="radio">
@@ -76,9 +78,9 @@
             <input type="radio" name="radio" id="sgoogle"><label for="sgoogle">Google</label>
          </div>
       </div>
-  <!--    </fieldset>-->
-	</div>
-    <div id="bottom" style="float: left, bottom; background-color: white; display: inline-block; position: absolute;" ></div>
+      </div>
+      <div id="map" class="smallmap"></div>
+   <div id="bottom" style="float: left, bottom; background-color: white; display: inline-block; position: absolute;" ></div>
     <!-- Piwik -->
     <script type="text/javascript">
     var _paq = _paq || [];

@@ -1005,6 +1005,18 @@ function getOsmInfo() {
 $( document ).ready(function() {
     $("#msg").html("Action: DocReady");
 
+    $(function() {
+      $( "#dpslider" ).slider({
+         max: 100,
+         value: 75,
+         min: 1,
+      slide: function( event, ui ) {
+        $( "#percentage" ).val( ui.value + "%");
+      }
+      });
+    $( "#percentage" ).val( $( "#dpslider" ).slider( "value" ) + '%' );
+    });
+
     /* Setup the information pane left bottom */
     //console.log( "docready!" );
     //$('#log').append('<div> bottom resize().</div>');
@@ -1105,6 +1117,7 @@ $( document ).ready(function() {
             return false; 
         });
     });
+
     $("#msg").html("Action: docReadydone");
 
     function openStreetview(lat,lon){

@@ -88,13 +88,39 @@ function openInJosm() {
 
       
          var json = geoJSON.write( mylayers[0].features );
+
          //console.log(json);
          var mylayers = null;
 
          // From npm module
          // console.log(json);
          // console.log("parsing json");
-	      var xml = geos(JSON.parse(json));
+         // Command line simplify using mapshaper: 
+         // -simplify 85% dp keep-shapes stats -o format=geojson /home/glenn/out.geojson
+
+         var xml = '';
+         //var opts = { pct: 75 , method: 'dp', keep_shapes: true };
+         var threshhold = Number($( "#dpslider" ).slider( "value" ));
+         if (threshhold != 100 && threshhold) {
+            $('#msg').removeClass().addClass("notice info").html("Simplifying ways (overnode removal)...");
+            // console.log("simplifying");
+            var dataset = mapshaper.internal.importContent({json: {content: JSON.parse(json)}});
+
+            var opts = { pct: (threshhold/100) , method: 'dp', keep_shapes: true };
+
+            var ms = mapshaper.simplify(dataset, opts);
+
+            var output = mapshaper.internal.exportFileContent(dataset, {format: 'geojson'});
+
+            $('#msg').removeClass().addClass("notice info").html("export to OSM-XML format");
+
+            xml = geos(JSON.parse(output[0].content));
+            //var xml = geos(JSON.parse(json));
+         } else {
+            $('#msg').removeClass().addClass("notice info").html("Not simplifying.");
+            // console.log("Not simplifying");
+            xml = geos(JSON.parse(json));
+         }
 
          //console.log(xml);
          var json = null;

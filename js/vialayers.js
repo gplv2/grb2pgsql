@@ -172,7 +172,7 @@ function initmap() {
 
        pan1_layer= new OpenLayers.Layer.TMS(
                        "VIA Pandonia (gis2)",
-                       "https://tilesnew.byteless.net/bpan/" ,{
+                       "https://tilesnew.byteless.net/nld_temp/" ,{
                                 type: 'png',
                                 getURL: get_my_url,
                                 numZoomLevels: 20
@@ -184,7 +184,7 @@ function initmap() {
 
        pan2_layer= new OpenLayers.Layer.TMS(
                        "VIA Pandonia",
-                       "https://tilesnew.byteless.net/pan/" ,{
+                       "https://tilesnew.byteless.net/nld/" ,{
                                 type: 'png',
                                 getURL: get_my_url,
                                 numZoomLevels: 20
