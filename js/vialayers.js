@@ -107,22 +107,11 @@ function initmap() {
           }
           return url + path;
        }
-       via_layer= new OpenLayers.Layer.TMS(
-                       "VIA NL new (gis2)",
-                       "http://tilesnew.byteless.net/bosm/" ,{
-                                type: 'png',
-                                getURL: get_my_url,
-                                numZoomLevels: 20
-                                //projection: geodetic,
-                                //displayProjection: mercator
-                        }
-                       );
-      map.addLayer(via_layer);
 /*
       // via_layer.setVisibility(true);
 
        via2_layer= new OpenLayers.Layer.TMS(
-                       "VIA TMP NL",
+                       "Backup TMP NL",
                        "http://maps.via.nl/nld_temp/" ,{
                                 type: 'png',
                                 getURL: get_my_url,
@@ -133,9 +122,8 @@ function initmap() {
                        );
       map.addLayer(via2_layer);
       // via_layer.setVisibility(true);
-*/
        via2_layer= new OpenLayers.Layer.TMS(
-                       "VIA OSM NL old",
+                       "(deprecated) OSM NL old",
                        "http://tilesold.byteless.net/osm/" ,{
                                 type: 'png',
                                 getURL: get_my_url,
@@ -145,9 +133,22 @@ function initmap() {
                         }
                        );
       map.addLayer(via2_layer);
+*/
+
+       via_layer= new OpenLayers.Layer.TMS(
+                       "Carto OSM NL (gis2 DB)",
+                       "http://tilesnew.byteless.net/bosm/" ,{
+                                type: 'png',
+                                getURL: get_my_url,
+                                numZoomLevels: 20
+                                //projection: geodetic,
+                                //displayProjection: mercator
+                        }
+                       );
+      map.addLayer(via_layer);
 
        via3_layer= new OpenLayers.Layer.TMS(
-                       "VIA OSM NL new",
+                       "Carto OSM NL (gis1 DB)",
                        "http://tilesnew.byteless.net/osm/" ,{
                                 type: 'png',
                                 getURL: get_my_url,
@@ -158,8 +159,9 @@ function initmap() {
                        );
       map.addLayer(via3_layer);
 
+/*
        via1_layer= new OpenLayers.Layer.TMS(
-                       "VIA OSM NL new ssl",
+                       "Backup OSM NL new ssl",
                        "https://tilesnew.byteless.net/osm/" ,{
                                 type: 'png',
                                 getURL: get_my_url,
@@ -169,10 +171,11 @@ function initmap() {
                         }
                        );
        map.addLayer(via1_layer);
+*/
 
        pan1_layer= new OpenLayers.Layer.TMS(
-                       "VIA Pandonia (gis2)",
-                       "https://tilesnew.byteless.net/nld_temp/" ,{
+                       "Pandonia style (gis2 DB)",
+                       "http://tilesnew.byteless.net/nld_temp/" ,{
                                 type: 'png',
                                 getURL: get_my_url,
                                 numZoomLevels: 20
@@ -183,8 +186,8 @@ function initmap() {
       map.addLayer(pan1_layer);
 
        pan2_layer= new OpenLayers.Layer.TMS(
-                       "VIA Pandonia",
-                       "https://tilesnew.byteless.net/nld/" ,{
+                       "Pandonia style (gis1 DB)",
+                       "http://tilesnew.byteless.net/nld/" ,{
                                 type: 'png',
                                 getURL: get_my_url,
                                 numZoomLevels: 20
@@ -192,6 +195,7 @@ function initmap() {
                                 //displayProjection: mercator
                         }
                        );
+
       map.addLayer(pan2_layer);
 
        var lonLat = new OpenLayers.LonLat(lon, lat).transform(geodetic, map.getProjectionObject());

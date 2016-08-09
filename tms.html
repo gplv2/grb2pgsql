@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GRB data to OSM toolkit</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/openlayers/2.12/theme/default/style.css" media="all" />
+    <!-- jQuery UI s>tyles -->
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/overcast/jquery-ui.css" id="theme">
+    <link rel="stylesheet" type="text/css" media="screen" href="themes/overcast/jquery-ui.css" /> 
+    <link rel="stylesheet" href="style.css" media="all" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/openlayers/2.12/OpenLayers.js"></script>
+    <script src="js/vialayers.js" charset="utf-8"></script>
+  </head>
+  <body onload="initmap();">
+    <ul class="navigation">
+        <li><h3><a href="/">TMS tester</a></h3></li>
+    </ul><p>
+      </p>
+      <div id="layerboxes">
+<!--
+       <fieldset id="fset" style="width: 380px; float: right; height: 56px;">
+         <legend>Filter:</legend>
+         <div id="mapfilter" class="filterclass ui-widget-content"><input type="search" id="searchfilter">
+             <div id="cntain"> </div>
+             <input class="ui-button ui-state-default" type="button" name="lstreset" value="Reset filter" id="resfilt" title="Reset de filter" />
+         </div>
+        </fieldset>
+      <p class="ui-state-default ui-corner-all" style="padding:4px;margin-top:4em;">
+        <span class="ui-icon ui-icon-signal" style="float:right; margin:-2px 5px 0 0;"></span>
+        Graphic EQ
+      </p>
+-->
+      </div>
+      <div id="contentfilters" style="clear:both;"> </div>
+   <div id="mapcontrols">
+     <div id="msg" class="notice info"><p>...</p></div>
+     <div id="idtag"></div>
+    </div>
+    <div id="map" class="smallmap"></div>
+      <div id="search" style="float: right" >
+<!--
+      <fieldset>
+      <legend>Search nominatim</legend>
+      <div id="geosearch" class="filterclass ui-widget">
+         <input id="address" type="text" style="width : 550px;" class="ui-autocomplete-input" autocomplete="off" title="Zoek via nominatim">
+         <div id="radio">
+            <input type="radio" name="radio" id="sosm" checked><label for="sosm">OSM</label>
+            <input type="radio" name="radio" id="sgoogle"><label for="sgoogle">Google</label>
+         </div>
+      </div>
+-->
+  <!--    </fieldset>-->
+	</div>
+</body>
+</html>

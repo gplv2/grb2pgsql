@@ -518,10 +518,6 @@ http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB-basiskaart/wms?
     /* shift-mouse1 Easily get bbox string (screen relative) */
     var boxcontrol = new OpenLayers.Control();
 
-
-    /* shift-mouse1 Easily get bbox string (screen relative) */
-    var boxcontrol = new OpenLayers.Control();
-
     OpenLayers.Util.extend(boxcontrol, {
          draw: function () {
          // this Handler.Box will intercept the shift-mousedown
@@ -529,7 +525,7 @@ http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB-basiskaart/wms?
          this.box = new OpenLayers.Handler.Box( boxcontrol,
                   {"done": this.notice},
                   {keyMask: OpenLayers.Handler.MOD_SHIFT}
-                );
+                ); // console.log(this);
          this.box.activate();
          },
          notice: function (bounds) {
@@ -546,12 +542,52 @@ http://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB-basiskaart/wms?
          {  
             clickout: true ,
             toggle: false,
-            multiple: true, hover: false,
+            multiple: true, hover: true,
             //box: true,
             toggleKey: "ctrlKey", // ctrl key removes from selection
             multipleKey: "shiftKey" // shift key adds to selection
          }
       );
+
+   // vector_layer.events.register('boxselectionend', this, function (event) {
+   // console.log("box selection meme");
+  // });
+
+   function onbox(evt) {
+      console.log(evt);
+   }
+
+   vector_layer.events.register('boxselectionend', this, onbox);
+
+   vector_layer.events.on({
+         "boxselectionend": onbox,
+         "boxselectionstart": onbox
+         });
+
+ /* Enable events for the layers(this seems not to be needed ...)  
+   dotlayer.events.on({
+         "featureselected": report,
+         "featureunselected": report
+         });
+   vehiclelayer.events.on({
+         "beforefeaturehighlighted": destroyPopups,
+         "featureselected": onFeatureSelect,
+         "featureunselected": onFeatureUnselect
+         });
+
+ map.events.register('zoomend', this, function (event) {
+    displaymsg("Scale: " + map.getScale() + " / ZoomLevel: " + map.getZoom() + " / Resolution: " + map.getResolution());
+    // console.log("Scale: " + map.getScale() + " / ZoomLevel: " + map.getZoom() + " / Resolution: " + map.getResolution());
+    var x = map.getZoom();
+
+    if( x < 15) {
+         //map.zoomTo(15);
+    }
+  });
+
+dotlayer.events.register('loadend', this, onloaddotend);
+    */
+
 
       var highlightvector = new OpenLayers.Control.SelectFeature(vector_layer, {
          hover: true,
